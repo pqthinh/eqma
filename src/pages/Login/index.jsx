@@ -1,5 +1,6 @@
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Icon, Input } from 'antd'
 import React from 'react'
+import { FormItem, FormWrapper, Wrapper } from './styled'
 
 const Login = () => {
   const onFinish = values => {
@@ -11,70 +12,50 @@ const Login = () => {
   }
 
   return (
-    <Form
-      name='basic'
-      labelCol={{
-        span: 8
-      }}
-      wrapperCol={{
-        span: 16
-      }}
-      initialValues={{
-        remember: true
-      }}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete='off'
-    >
-      <p> Đăng nhập</p>
-      <Form.Item
-        label='Username'
-        name='username'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!'
-          }
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label='Password'
-        name='password'
-        rules={[
-          {
-            required: true,
-            message: 'Please input your password!'
-          }
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name='remember'
-        valuePropName='checked'
-        wrapperCol={{
-          offset: 8,
-          span: 16
+    <Wrapper>
+      <FormWrapper
+        layout='vertical'
+        initialValues={{
+          isEmployee: false,
+          email: '',
+          password: ''
         }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
       >
-        <Checkbox>Remember me</Checkbox>
-      </Form.Item>
-
-      <Form.Item
-        wrapperCol={{
-          offset: 8,
-          span: 16
-        }}
-      >
-        <Button type='primary' htmlType='submit'>
-          Submit
-        </Button>
-      </Form.Item>
-    </Form>
+        <FormItem
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+          <Input
+            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
+            placeholder='Username'
+          />
+        </FormItem>
+        <FormItem
+          rules={[{ required: true, message: 'Please input your Password!' }]}
+        >
+          <Input
+            prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
+            type='password'
+            placeholder='Password'
+          />
+        </FormItem>
+        <FormItem>
+          <Checkbox>Remember me</Checkbox>
+          <a className='login-form-forgot' href=''>
+            Forgot password
+          </a>
+          <Button
+            type='primary'
+            htmlType='submit'
+            className='login-form-button'
+          >
+            Log in
+          </Button>
+          Or <a href=''>register now!</a>
+        </FormItem>
+      </FormWrapper>
+    </Wrapper>
   )
 }
 
