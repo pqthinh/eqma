@@ -1,62 +1,117 @@
-import { Button, Checkbox, Icon, Input } from 'antd'
-import React from 'react'
-import { FormItem, FormWrapper, Wrapper } from './styled'
+import { EndPoint } from 'config/api'
+import { withBoolean, withEmpty } from 'exp-value'
+import { useRequestManager, useToken, useUser } from 'hooks'
+import { InputGroup } from 'molecules'
+import React, { useCallback, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { Routers } from 'utils'
+import { BaseCheckbox } from 'atoms'
+import {
+  Button,
+  ButtonToolbar,
+  ForgotButton,
+  Form,
+  Header,
+  Icon,
+  LayoutWrapper
+} from './styled'
+import { userModel } from './validation'
 
-const Login = () => {
-  const onFinish = values => {
-    console.log('Success:', values)
-  }
+const LoginPage = () => {
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+    isAdmin: true
+  })
 
-  const onFinishFailed = errorInfo => {
-    console.log('Failed:', errorInfo)
-  }
+  const [showPassword, setShowPassword] = useState(false)
+
+  const history = useHistory()
+  const { onPostExecute } = useRequestManager()
+  const { saveToken } = useToken()
+  const { saveUser } = useUser()
+
+  const onChange = useCallback(
+    (name, value) => setData(prev => ({ ...prev, [name]: value })),
+    [data]
+  )
+
+  const onSubmit = useCallback(() => {
+    async function execute(data) {
+      const result = await onPostExecute(
+        withBoolean('isAdmin', data)
+          ? EndPoint.LOGIN_ADMIN
+          : EndPoint.EMP_ADMIN,
+        data,
+        false
+      )
+      if (result) {
+        await saveToken(withEmpty('access_token', result))
+        saveUser({...withEmpty('user', result), role: withBoolean('isAdmin', data)? "Admin": "Employee"})
+        history.push('/')
+      }
+    }
+    execute(data)
+  })
+
+  const onShowPassword = useCallback(
+    () => setShowPassword(!showPassword),
+    [showPassword]
+  )
+  const onGotoForgotPassword = useCallback(
+    () => history.push(Routers.FORGOT_PASSWORD),
+    []
+  )
 
   return (
-    <Wrapper>
-      <FormWrapper
-        layout='vertical'
-        initialValues={{
-          isEmployee: false,
-          email: '',
-          password: ''
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-      >
-        <FormItem
-          rules={[{ required: true, message: 'Please input your username!' }]}
-        >
-          <Input
-            prefix={<Icon type='user' style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder='Username'
-          />
-        </FormItem>
-        <FormItem
-          rules={[{ required: true, message: 'Please input your Password!' }]}
-        >
-          <Input
-            prefix={<Icon type='lock' style={{ color: 'rgba(0,0,0,.25)' }} />}
-            type='password'
-            placeholder='Password'
-          />
-        </FormItem>
-        <FormItem>
-          <Checkbox>Remember me</Checkbox>
-          <a className='login-form-forgot' href=''>
-            Forgot password
-          </a>
-          <Button
-            type='primary'
-            htmlType='submit'
-            className='login-form-button'
-          >
-            Log in
-          </Button>
-          Or <a href=''>register now!</a>
-        </FormItem>
-      </FormWrapper>
-    </Wrapper>
+    <LayoutWrapper>
+      <Header
+        subTitle={
+          withBoolean('isAdmin', data) ? 'Đăng nhập Admin' : 'Đăng nhập NV'
+        }
+      />
+      <Form fluid model={userModel} onSubmit={onSubmit}>
+        <InputGroup
+          value={data.email}
+          onChange={e => onChange('email', e)}
+          placeholder={'Email'}
+          name={'email'}
+          leftIcon={<Icon name={'feather-user'} />}
+        />
+        <InputGroup
+          value={data.password}
+          onChange={e => onChange('password', e)}
+          placeholder={'Mật khẩu'}
+          name={'password'}
+          type={showPassword ? 'text' : 'password'}
+          leftIcon={<Icon name={'feather-lock'} />}
+          rightIcon={
+            <Icon
+              name={showPassword ? 'feather-eye-off' : 'feather-eye'}
+              background='true'
+              onClick={onShowPassword}
+            />
+          }
+        />
+
+        <BaseCheckbox
+          onChange={(_, checked) => {
+            console.log(checked)
+            onChange('isAdmin', checked)
+          }}
+          content={'Đăng nhập với quyền admin'}
+          id={'role'}
+          checked={withBoolean('isAdmin', data)}
+        />
+        <ButtonToolbar>
+          <ForgotButton appearance='link' onClick={onGotoForgotPassword}>
+            Quên mật khẩu?
+          </ForgotButton>
+          <Button type={'submit'}>ĐĂNG NHẬP</Button>
+        </ButtonToolbar>
+      </Form>
+    </LayoutWrapper>
   )
 }
 
-export default Login
+export default React.memo(LoginPage)

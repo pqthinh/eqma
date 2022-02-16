@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sidebar } from 'components'
+import { Sidebar } from 'molecules'
 import { Container } from './styled'
 import PropTypes from 'prop-types'
 

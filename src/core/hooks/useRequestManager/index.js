@@ -34,7 +34,7 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.message', error))
+          showError(withNull('response.message', error)|| "Có lỗi xuất hiện")
         }
       }
 
@@ -58,7 +58,7 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.data.message', error))
+          showError(withNull('response.data.message', error)|| "Có lỗi xuất hiện")
           clearToken()
         }
       }
@@ -78,7 +78,7 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.data.message', error))
+          showError(withNull('response.data.message', error)|| "Có lỗi xuất hiện")
         }
       }
       return execute()
@@ -97,7 +97,7 @@ const useRequestManager = () => {
           setLoading(false)
           return data
         } catch (error) {
-          setStatus(withNull('response.status', error))
+          setStatus(withNull('response.status', error)|| "Có lỗi xuất hiện")
           setLoading(false)
         }
       }
@@ -115,7 +115,7 @@ const useRequestManager = () => {
           setLoading(false)
           return data
         } catch (error) {
-          setStatus(withNull('response.status', error))
+          setStatus(withNull('response.status', error)|| "Có lỗi xuất hiện")
           setLoading(false)
         }
       }

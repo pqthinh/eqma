@@ -37,7 +37,9 @@ module.exports = {
       routes: path.resolve(BASE_DIR, 'src/routes'),
       config: path.resolve(BASE_DIR, 'src/config'),
       utils: path.resolve(BASE_DIR, 'src/utils'),
-      stores: path.resolve(BASE_DIR, 'src/stores')
+      stores: path.resolve(BASE_DIR, 'src/stores'),
+      atoms: path.resolve(BASE_DIR, 'src/components/atoms'),
+      molecules: path.resolve(BASE_DIR, 'src/components/molecules'),
     },
     extensions: ['.js', '.jsx', '*']
   },

@@ -1,63 +1,43 @@
+import {
+  BaseButton,
+  BaseForm,
+  BaseIcon,
+  BaseItemGrid,
+  BaseWrapper
+} from 'atoms'
+import { FormHeader } from 'molecules'
+import { Panel, Container } from 'rsuite'
 import styled from 'styled-components'
-import { Form, Input, Checkbox, Button } from 'antd'
 
-export const Wrapper = styled.div`
-  padding: 20px;
-  flex: 1;
+export const ButtonToolbar = styled.div`
   display: flex;
-  justify-content: center;
+  flex-flow: column;
   align-items: center;
-  height: 100vh;
-  margin: auto;
-  box-sizing: border-box;
+  margin: 10px 0;
 `
 
-export const FormWrapper = styled(Form)`
-  max-width: 480px;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
+export const Button = styled(BaseButton)``
+export const ForgotButton = styled(BaseButton)`
+  background-color: ${props => props.theme.colors.transparent};
+  border-radius: 4px;
+  color: ${props => props.theme.colors.gray[3]};
+  padding: 0 0 20px;
+`
+export const Header = styled(FormHeader)``
+
+export const Form = styled(BaseForm)``
+export const GridItem = styled(BaseItemGrid)``
+export const Wrapper = styled(BaseWrapper)``
+export const Icon = styled(BaseIcon)`
+  width: 20px;
+`
+
+export const PanelWrapper = styled(Panel)`
+  background: ${props => props.theme.colors.white};
+  height: auto;
+`
+export const LayoutWrapper = styled(Container)`
   flex-direction: column;
-  border: 1px solid ${props=>props.theme.colors.border};
-  align-items: center;
+  position: relative;
+  overflow: auto;
 `
-
-export const FormItem = styled(Form.Item)`
-  width: 100%;
-  margin-bottom: 15px;
-`
-
-export const RememberWrapper = styled(Form.Item)`
-  width: 100%;
-  margin-bottom: 15px;
-`
-
-export const Username = styled(Input)``
-export const Password = styled(Input.Password)``
-
-export const CheckboxItem = styled(Checkbox)``
-
-export const LoginButton = styled(Button)``
-
-export const styles = {
-  layout: {
-    labelCol: {
-      span: 8
-    },
-    wrapperCol: {
-      span: 16
-    }
-  },
-  tailLayout: {
-    wrapperCol: {
-      offset: 8,
-      span: 16
-    }
-  },
-  rememberLayout: {
-    wrapperCol: {
-      offset: 8,
-      span: 16
-    }
-  }
-}

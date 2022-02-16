@@ -1,5 +1,6 @@
 const EndPoint = {
-  LOGIN: 'admin/login',
+  LOGIN_ADMIN: '/admin/login',
+  EMP_ADMIN: '/employee/login',
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',
   STAFFS: 'staffs',
