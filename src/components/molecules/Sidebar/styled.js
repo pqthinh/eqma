@@ -18,22 +18,12 @@ export const WrapperContainer = styled.div`
   display: inline-table;
   position: relative;
   @media screen and (max-width: 480px) {
-    width: 100%;
-    display: block;
+    display: none;
   }
 `
 export const GridItem = styled(BaseItemGrid)`
   padding: 0;
   height: 100vh;
-  @media screen and (max-width: 480px) {
-    height: calc(100vh - 90px);
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    z-index: 100;
-    width: 100%;
-  }
   @media screen and (max-width: 1200px) and (min-width: 480px) {
     min-width: 56px;
   }
@@ -47,13 +37,6 @@ export const Header = styled.div`
     padding: 20px 5px;
     div {
       display: none;
-    }
-  }
-  @media screen and (max-width: 480px) {
-    width: 100%;
-    svg {
-      width: 30px;
-      margin: 10px;
     }
   }
 `

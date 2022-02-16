@@ -1,14 +1,15 @@
-import React from 'react'
 import { Sidebar } from 'molecules'
-import { Container } from './styled'
 import PropTypes from 'prop-types'
-
-function PrivateTemplate({ children }) {
+import React from 'react'
+import { BodyWrapper, Wrapper, LayoutWrapper } from './styled'
+function PrivateTemplate({ children, ...others }) {
   return (
-    <Container>
+    <Wrapper>
       <Sidebar />
-      {children}
-    </Container>
+      <LayoutWrapper>
+        <BodyWrapper {...others}>{children}</BodyWrapper>
+      </LayoutWrapper>
+    </Wrapper>
   )
 }
 

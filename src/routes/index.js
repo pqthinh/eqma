@@ -5,10 +5,11 @@ import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import { PrivateTemplate, PublicTemplate } from 'layout'
 import { Routers, Constants } from 'utils'
 
-const EmptyPage = lazy(() => import('pages/EmptyPage'))
+const EmptyPage = lazy(() => import('pages/NotFoundPage'))
 //  public page
 const LoginPage = lazy(() => import('pages/Login'))
-
+const ForgotPasswordPage = lazy(() => import('pages/ForgotPassword'))
+const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
 // private page
 const Dashboard = lazy(() => import('pages/Dashboard'))
 
@@ -17,12 +18,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
   const history = useHistory()
 
   const isPrivateRouter = useMemo(() => {
+    console.log( Constants.privateRouter)
     return (
       Constants.privateRouter.map(e => e.URL).indexOf(location.pathname) > -1
     )
   }, [location.pathname])
 
   const isPublicRouter = useMemo(() => {
+    console.log( Constants.publicRouter)
     return (
       Constants.publicRouter.map(e => e.URL).indexOf(location.pathname) > -1
     )
@@ -41,8 +44,7 @@ const Routes = ({ isLoggedIn, ...rest }) => {
       )
     }
     if (location.pathname == '/') {
-      if (isLoggedIn) history.push(Routers.SUPER_ADMIN.MENU[0].URL)
-      else history.push(Routers.LOGIN)
+      if (!isLoggedIn) history.push(Routers.LOGIN)
       return
     }
   }, [location.pathname, isLoggedIn])
@@ -76,6 +78,22 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={['/', Routers.LOGIN]}
           render={props => {
             return <LoginPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={Routers.FORGOT_PASSWORD}
+          render={props => {
+            return <ForgotPasswordPage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={Routers.RESET_PASSWORD}
+          render={props => {
+            return <ResetPasswordPage {...rest} {...props} />
           }}
         />
         {_handleBadRouter()}
