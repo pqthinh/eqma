@@ -1,13 +1,9 @@
-import { BaseButton, BaseForm, BaseIcon, BaseText } from 'atoms'
+import { BaseButton, BaseForm, BaseIcon } from 'atoms'
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
   margin: 10px;
   display: block;
-`
-
-export const Text = styled(BaseText)`
-  color: ${props => props.theme.colors.gray[1]};
 `
 export const Button = styled(BaseButton)`
   border-radius: 4px;

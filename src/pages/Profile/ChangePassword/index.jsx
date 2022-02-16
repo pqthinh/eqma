@@ -3,7 +3,7 @@ import { withEmpty } from 'exp-value'
 import { useAlert, useRequestManager } from 'hooks'
 import { InputGroup } from 'molecules'
 import React, { useCallback, useState } from 'react'
-import { Button, Form, Icon, Text, Wrapper } from './styled'
+import { Button, Form, Icon, Wrapper } from './styled'
 import { changePasswordModel } from './validation'
 
 const ProfileEdit = ({ ...others }) => {
