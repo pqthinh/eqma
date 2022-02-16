@@ -13,6 +13,11 @@ const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
 // private page
 const Dashboard = lazy(() => import('pages/Dashboard'))
 
+// 2 Profile
+const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
+const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
+const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
+
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
   const history = useHistory()
@@ -63,6 +68,30 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/'}
           render={props => {
             return <Dashboard {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/profile'}
+          render={props => {
+            return <ProfilePage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/profile/update'}
+          render={props => {
+            return <UpdateProfilePage {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/change-password'}
+          render={props => {
+            return <ChangePasswordPage {...rest} {...props} />
           }}
         />
       </PrivateTemplate>

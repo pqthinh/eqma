@@ -40,6 +40,7 @@ module.exports = {
       stores: path.resolve(BASE_DIR, 'src/stores'),
       atoms: path.resolve(BASE_DIR, 'src/components/atoms'),
       molecules: path.resolve(BASE_DIR, 'src/components/molecules'),
+      organisms: path.resolve(BASE_DIR, 'src/components/organisms'),
     },
     extensions: ['.js', '.jsx', '*']
   },
