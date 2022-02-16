@@ -1,5 +1,5 @@
 # Giới thiêu
-Admin wemarket
+eqma
 
 # Công nghệ
 Reactjs Nodejs
@@ -13,8 +13,14 @@ client: `yarn start`  ( chạy trên cổng 5000 )
 
 server: `yarn run server` ( chạy trên cổng 4000 )
 
-Tài khoản đăng nhập:
+Tài khoản đăng nhập admin:
 {
-    "email": "thinh@gmail.com",
+    "email": "t2Y6CdbLON@gmail.com",
+    "password": "passwords"
+}
+
+Tài khoản đăng nhập nhân viên:
+{
+    "email": "QGjyFStChB@gmail.com",
     "password": "thinhpq"
 }

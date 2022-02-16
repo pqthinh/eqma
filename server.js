@@ -46,8 +46,6 @@ app.post('/login', (req, res) => {
     res.status(200).json({ data: null, message: 'Sai mat khau' })
 
   const data = {
-    iss: 'https://securetoken.google.com/wemarket-a8540',
-    aud: 'wemarket-a8540',
     auth_time: 1635175478,
     iat: new Date().getTime(),
     exp: new Date().getTime() + 100000000,

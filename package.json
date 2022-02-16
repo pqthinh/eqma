@@ -112,7 +112,7 @@
   },
   "proxy": {
     "*": {
-      "target": "https://wemarket-api.herokuapp.com"
+      "target": "http://kltn-qltb.herokuapp.com"
     }
   }
 }
