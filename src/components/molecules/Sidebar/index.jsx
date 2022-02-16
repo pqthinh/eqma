@@ -1,6 +1,7 @@
 import { IMAGES } from 'assets'
+import { EndPoint } from 'config/api'
 import { withEmpty } from 'exp-value'
-import { useStorage, useToken, useUser } from 'hooks'
+import { useRequestManager, useStorage, useToken, useUser } from 'hooks'
 import React, { useCallback, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Whisper } from 'rsuite'
@@ -36,18 +37,20 @@ const Sidebar = props => {
   const { user } = useUser()
   const { reset } = useStorage()
   const { clearToken } = useToken()
+  const { onPostExecute } = useRequestManager()
 
   const onLogout = React.useCallback(() => {
-    const execute = async () => {
-      await reset()
-
-      clearToken()
-
-      history.push(Routers.SIGN_IN_PAGE)
+    async function execute(data) {
+      console.log(data)
+      const result = await onPostExecute(EndPoint.LOGOUT_ADMIN)
+      if (result) {
+        await reset()
+        clearToken()
+        history.push(Routers.SIGN_IN_PAGE)
+      }
     }
-
-    execute()
-  }, [])
+    execute(user)
+  }, [user])
 
   const goProfilePage = useCallback(() => {
     history.push(Routers.PROFILE)
@@ -113,7 +116,6 @@ const Sidebar = props => {
   }, [activeKey])
 
   const renderFooter = useCallback(user => {
-    console.log(user)
     return (
       <Footer>
         <Whisper

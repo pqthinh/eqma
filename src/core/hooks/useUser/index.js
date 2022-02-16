@@ -1,4 +1,3 @@
-import { withObject } from 'exp-value'
 import React from 'react'
 import useStorage from '../useStorage'
 
@@ -9,7 +8,7 @@ const useUser = () => {
   const onGetUser = React.useCallback(() => {
     async function getProfile() {
       const u = await getValue(process.env.SECRET_USER_KEY)
-      setUser(withObject('data.user', u))
+      setUser(u)
     }
     getProfile()
   }, [])

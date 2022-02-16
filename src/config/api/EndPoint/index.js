@@ -1,6 +1,8 @@
 const EndPoint = {
   LOGIN_ADMIN: '/admin/login',
   EMP_ADMIN: '/employee/login',
+  LOGOUT_ADMIN: '/admin/logout',
+
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',
   STAFFS: 'staffs',
@@ -14,7 +16,6 @@ const EndPoint = {
   GET_LIST_CATEGORY: 'common/subcategory',
   UPDATE_BANNER: 'admin/update-banner',
   CREATE_BANNER: 'admin/banner-create',
-  GET_LIST_NOTIFY: idAdmin => `/admin/get-notify/${idAdmin}`,
   READ_NOTIFY: 'admin/read-notify',
   ADMIN_ACTIVE_POST: 'admin/active-post',
   ADMIN_BAN_POST: 'admin/ban-post',
