@@ -16,7 +16,7 @@ const Constant = {
   ],
   contentPage: [
     {},
-    { title: 'Tổng quan', link: '/home' },
+    { title: 'Tổng quan', link: '/' },
     { title: 'Quản lý người dùng', link: '/users' },
     { title: 'Quản lý sản phẩm', link: '/products' },
     { title: 'Quản lý banner', link: '/banners' },
@@ -25,12 +25,36 @@ const Constant = {
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
   navigators: [
-    { key: '1', icon: 'feather-bar-chart-2', label: 'Tổng quan' },
-    { key: '2', icon: 'feather-user', label: 'Quản lý người dùng' },
-    { key: '3', icon: 'feather-airplay', label: 'Quản lý sản phẩm' },
-    { key: '4', icon: 'feather-layers', label: 'Quản lý banner' },
-    { key: '5', icon: 'feather-inbox', label: 'Quản lý comment' },
-    { key: '6', icon: 'feather-film', label: 'Quản lý danh mục' }
+    {
+      key: '1',
+      icon: 'feather-bar-chart-2',
+      label: 'Hệ thống',
+      child: [
+        { key: '2', label: 'Người mượn' },
+        { key: '3', label: 'Nhật ký' }
+      ]
+    },
+    {
+      key: '4',
+      icon: 'feather-user',
+      label: 'Khai báo',
+      child: [
+        { key: '4', label: 'Nhân viên' },
+        { key: '5', label: 'Danh mục' },
+        { key: '6', label: 'Phòng ban' }
+      ]
+    },
+    {
+      key: '7',
+      icon: 'feather-calendar',
+      label: 'Thiết bị',
+      child: [
+        { key: '7', label: 'Nhập thiết bị' },
+        { key: '8', label: 'Quản lý thiết bị' }
+      ]
+    },
+    { key: '9', icon: 'feather-shopping-bag', label: 'Mượn-trả' },
+    { key: '10', icon: 'feather-airplay', label: 'Tra cứu' }
   ],
   dataBanner: [
     { label: 'Banner home', value: 'Banner-home' },

@@ -33,6 +33,7 @@ export const Header = styled.div`
   justify-content: flex-start;
   align-items: center;
   padding: 10px 0 20px 10px;
+  cursor: pointer;
   @media screen and (max-width: 1200px) and (min-width: 480px) {
     padding: 20px 5px;
     div {

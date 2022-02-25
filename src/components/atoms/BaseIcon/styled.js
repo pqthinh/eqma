@@ -8,4 +8,6 @@ export const Wrapper = styled.div`
 `
 export const RSIcon = styled(Icon)`
     font-size: 16px;
+    width: 18px;
+    height: 18px;
 `

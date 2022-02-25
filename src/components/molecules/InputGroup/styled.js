@@ -4,6 +4,7 @@ import { BaseText } from 'atoms'
 
 export const Wrapper = styled(FormGroup)`
   margin: 10px 0;
+  font-size: 13px;
 `
 
 export const Label = styled(ControlLabel)`
@@ -12,16 +13,18 @@ export const Label = styled(ControlLabel)`
     `font-weight: 700 ;
     margin: 15px 0 ;`};
   display: flex !important;
+  font-size: 13px;
 `
 export const Control = styled(FormControl)`
   border-radius: 5px;
   height: max-content;
   align-item: center;
-  padding: 7px 4px;
+  padding: 4px;
   text-overflow: ellipsis; /* IE, Safari (WebKit) */
   overflow: hidden; /* don't show excess chars */
   white-space: nowrap;
   outline: none;
+  font-size: 12px;
   &.rs-input[disabled] {
     cursor: not-allowed;
     color: unset;
@@ -42,12 +45,17 @@ export const InputAddon = styled(Input.Addon)`
   align-items: center;
   width: max-content;
   margin: 0;
+  padding: 5px;
   border-radius: 4px;
   outline: none;
   background: ${props =>
     props.children.props.background
       ? props.children.props.background || props.theme.colors.background
       : props.theme.colors.transparent};
+  svg {
+    width: 18px;
+    height: 18px;
+  }
 `
 export const TextRequire = styled(BaseText)`
   color: ${props => props.theme.colors.red[0]};

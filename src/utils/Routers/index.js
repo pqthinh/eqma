@@ -7,16 +7,17 @@ const Routers = {
   NOT_FOUND: '/not-found',
   NAV_LINK: [
     '/',
-    '/users',
-    '/products',
-    '/banners',
-    '/comments',
-    '/categorys',
-    '/post/news',
-    '/post/video',
-    '/product',
-    '/review'
+    '/system/user',
+    '/system/log',
+    '/report/employee',
+    '/report/category',
+    '/report/department',
+    '/equipment/import',
+    '/equipment/list',
+    '/history',
+    '/search'
   ],
+  SYSTEM: 'sys/form',
   PROFILE: '/profile',
   CHANGE_PASSWORD: '/change-password',
   UPDATE_PROFILE: '/profile/update'

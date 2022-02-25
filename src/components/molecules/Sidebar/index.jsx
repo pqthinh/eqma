@@ -65,7 +65,7 @@ const Sidebar = props => {
   const renderHeaderSidebar = useCallback(() => {
     return !showHeaderMobile ? (
       <MenuHeader>
-        <Header>
+        <Header onClick={()=> history.push('/')}>
           <Image source={IMAGES.LOGO.default} />
           <TextLogo>eqma</TextLogo>
         </Header>
@@ -139,7 +139,7 @@ const Sidebar = props => {
         >
           <CardAvatar
             source={withEmpty('avatar_url', user) || IMAGES.AVATAR.default}
-            title={withEmpty('email', user)}
+            title={withEmpty('email', user).replace('@gmail.com', '')}
             subTitle={withEmpty('role', user) || 'Admin'}
             alt={withEmpty('name', user) || 'thinhpq'}
           />

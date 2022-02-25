@@ -34,7 +34,10 @@ export const Button = styled(BaseButton)`
     margin-left: 10px;
   }
 `
-export const Icon = styled(BaseIcon)``
+export const Icon = styled(BaseIcon)`
+  width: 18px;
+  height: 18px;
+`
 export const Form = styled(BaseForm)`
   min-width: 300px;
 `
@@ -45,7 +48,7 @@ export const AvatarImage = styled(BaseImage)`
   border-radius: 50%;
   object-fit: cover;
   padding: 5px;
-  border: 2px solid ${props => props.theme.colors.primary};
+  border: 1px solid ${props => props.theme.colors.primary};
 `
 export const FlexWrapper = styled.div`
   display: flex;
