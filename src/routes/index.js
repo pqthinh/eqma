@@ -18,6 +18,10 @@ const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
 const UpdateProfilePage = lazy(() => import('pages/Profile/ProfileEdit'))
 const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
 
+// Mục khai báo
+// 1: Ds nhân viên
+const EmployeeReport = lazy(() => import('pages/Report/Employee'))
+
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
   const history = useHistory()
@@ -94,6 +98,15 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             return <ChangePasswordPage {...rest} {...props} />
           }}
         />
+        <Route
+          {...rest}
+          exact
+          path={'/report/employee'}
+          render={props => {
+            return <EmployeeReport {...rest} {...props} />
+          }}
+        />
+        
       </PrivateTemplate>
     )
   }, [isLoggedIn, location.pathname])

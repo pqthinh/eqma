@@ -4,12 +4,20 @@ const Constant = {
     { URL: '/profile', name: 'Profile' },
     { URL: '/profile/update', name: 'Update profile' },
     { URL: '/change-password', name: 'Change password' },
-    { URL: '/products', name: 'Product management' },
-    { URL: '/users', name: 'User management' }
+    { URL: '/system/user', name: '' },
+    { URL: '/system/log', name: '' },
+    { URL: '/report/employee', name: '' },
+    { URL: '/report/category', name: '' },
+    { URL: '/report/department', name: '' },
+    { URL: '/equipment/import', name: '' },
+    { URL: '/equipment/list', name: '' },
+    { URL: '/history', name: '' },
+    { URL: '/search', name: '' },
+
   ],
   publicRouter: [
     { URL: '/', name: '' },
-    { URL: '/login', name: 'Login' },
+    { URL: '/login', name: 'login' },
     { URL: '/register', name: 'register' },
     { URL: '/reset-password/:token', name: 'reset-password' },
     { URL: '/forgot-password', name: 'forgot-password' }
@@ -17,11 +25,18 @@ const Constant = {
   contentPage: [
     {},
     { title: 'Tổng quan', link: '/' },
-    { title: 'Quản lý người dùng', link: '/users' },
-    { title: 'Quản lý sản phẩm', link: '/products' },
-    { title: 'Quản lý banner', link: '/banners' },
-    { title: 'Quản lý comment', link: '/comments' },
-    { title: 'Quản lý danh mục', link: '/categorys' },
+    { title: 'Danh sách người dùng', link: '/system/user' },
+    { title: 'Lịch sử mượn trả', link: '/system/log' },
+    { title: 'Nhân viên', link: '/report/employee' },
+    { title: 'Danh mục', link: '/report/category' },
+    { title: 'Phòng ban', link: '/report/department' },
+    { title: 'Nhập thiết bị', link: '/equipment/import' },
+    { title: 'Quản lý thiết bị', link: '/equipment/list' },
+    { title: 'Báo hỏng thiết bị', link: '/equipment/list/broken ' },
+    { title: 'Báo mất thiết bị', link: '/equipment/list/lost' },
+    { title: 'Báo sửa thiết bị', link: '/equipment/list/fix' },
+    { title: 'Mượn/trả thiết bị', link: '/history' },
+    { title: 'Tra cứu', link: '/search' },
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
   navigators: [
@@ -46,15 +61,15 @@ const Constant = {
     },
     {
       key: '7',
-      icon: 'feather-calendar',
+      icon: 'feather-briefcase',
       label: 'Thiết bị',
       child: [
         { key: '7', label: 'Nhập thiết bị' },
         { key: '8', label: 'Quản lý thiết bị' }
       ]
     },
-    { key: '9', icon: 'feather-shopping-bag', label: 'Mượn-trả' },
-    { key: '10', icon: 'feather-airplay', label: 'Tra cứu' }
+    { key: '9', icon: 'feather-alert-circle', label: 'Mượn-trả' },
+    { key: '10', icon: 'feather-search', label: 'Tra cứu' }
   ],
   dataBanner: [
     { label: 'Banner home', value: 'Banner-home' },

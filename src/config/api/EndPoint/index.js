@@ -1,7 +1,13 @@
 const EndPoint = {
   LOGIN_ADMIN: '/admin/login',
-  EMP_ADMIN: '/employee/login',
+  EMP_ADMIN: '/employee-api/login',
   LOGOUT_ADMIN: '/admin/logout',
+  LOGOUT_EMP: '/employee-api/logout',
+  ADMIN_DETAIL: '/admin/user-info',
+  EMP_DETAIL: '/employee-api/user-info',
+
+  // Muc khai bao
+  GET_LIST_EMP: '/employees',
 
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',
