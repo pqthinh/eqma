@@ -1,12 +1,12 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableCategory, WrapperContentBody } from 'organisms'
+import { TableEquipment, WrapperContentBody } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 import { withArray, withNumber } from 'exp-value'
 
-const Category = ({ ...others }) => {
-  const [listCate, setListCate] = useState([])
+const Equipment = ({ ...others }) => {
+  const [listEqu, setListEqu] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
@@ -25,8 +25,8 @@ const Category = ({ ...others }) => {
 
   const _renderTableEmp = useCallback(() => {
     return (
-      <TableCategory
-        expData={listCate}
+      <TableEquipment
+        expData={listEqu}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -36,16 +36,16 @@ const Category = ({ ...others }) => {
         setSort={setSort}
       />
     )
-  }, [listCate, page, totalRecord, sort, setSort])
+  }, [listEqu, page, totalRecord, sort, setSort])
 
-  const getListCate = useCallback(
+  const getListEqu = useCallback(
     params => {
       async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_CATE, {
+        const result = await onGetExecute(EndPoint.GET_LIST_EQU, {
           ...params
         })
         if (result) {
-          setListCate(withArray('data', result))
+          setListEqu(withArray('data', result))
           setTotalRecord(withNumber('meta.total', result) )
         }
       }
@@ -55,12 +55,12 @@ const Category = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListCate({ name: searchInput, page: page - 1 })
+    if (reload) getListEqu({ name: searchInput, page: page - 1 })
   }, [searchInput, page, reload])
 
   useEffect(() => {
     if (sort.key)
-      getListCate({
+      getListEqu({
         search: searchInput,
         offset: page - 1,
         sort: sort.key,
@@ -71,7 +71,7 @@ const Category = ({ ...others }) => {
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Danh mục'}
+      contentBody={'Quản lý thiết bị'}
       {...others}
     >
       {_renderTableEmp()}
@@ -79,4 +79,4 @@ const Category = ({ ...others }) => {
   )
 }
 
-export default React.memo(Category)
+export default React.memo(Equipment)

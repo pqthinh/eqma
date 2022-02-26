@@ -45,7 +45,6 @@ const Employee = ({ ...others }) => {
           ...params
         })
         if (result) {
-          console.log(result)
           setListEmp(withArray('data', result))
           setTotalRecord(withNumber('meta.total', result) )
         }
@@ -56,7 +55,7 @@ const Employee = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListEmp({ search: searchInput, page: page - 1 })
+    if (reload) getListEmp({ name: searchInput, page: page - 1 })
   }, [searchInput, page, reload])
 
   useEffect(() => {

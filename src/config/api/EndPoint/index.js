@@ -10,6 +10,7 @@ const EndPoint = {
   GET_LIST_EMP: '/employees',
   GET_LIST_CATE: '/categories',
   GET_LIST_DEPART: '/departments',
+  GET_LIST_EQU: '/equipments',
 
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',

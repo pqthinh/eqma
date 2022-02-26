@@ -24,6 +24,10 @@ const EmployeeReport = lazy(() => import('pages/Report/Employee'))
 const CategoryReport = lazy(() => import('pages/Report/Category'))
 const DepartmentReport = lazy(() => import('pages/Report/Department'))
 
+// Mục thiết bị
+// 1. Quản lý thiết bị
+const EquipmentList = lazy(() => import('pages/Equipment/Manager'))
+
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
   const history = useHistory()
@@ -120,6 +124,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/report/category'}
           render={props => {
             return <CategoryReport {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/equipment/list'}
+          render={props => {
+            return <EquipmentList {...rest} {...props} />
           }}
         />
         

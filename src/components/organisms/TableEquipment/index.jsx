@@ -2,25 +2,18 @@ import { BasePagination, TextCell } from 'atoms'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Notification, Table } from 'rsuite'
+import { Table } from 'rsuite'
 import {
-  ButtonNotification,
   Cell,
   Column,
   FormEdit,
   Header,
   Icon,
-  Modal,
-  TextNotification,
-  Toggle,
-  Toolbar,
-  Wrapper,
+  Modal, Wrapper,
   WrapperIcon,
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
-import { useRequestManager, useUser } from 'hooks'
-import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
@@ -54,78 +47,6 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   )
 }
 
-const ToggleCell = ({ rowData, setReload, ...props }) => {
-  const { onPostExecute } = useRequestManager()
-  const { user } = useUser()
-  const changeStatus = useCallback(
-    (id, status) => {
-      console.log(id, status, 'product')
-      async function execute(id, type) {
-        let endPoint =
-          type == 'active'
-            ? EndPoint.ADMIN_ACTIVE_POST
-            : EndPoint.ADMIN_BAN_POST
-        const result = await onPostExecute(endPoint, {
-          idProduct: id,
-          idAdmin: user?.id
-        })
-        if (result) {
-          setReload(true)
-        }
-      }
-      execute(id, status)
-    },
-    [user]
-  )
-
-  const handleActive = useCallback(
-    (id, status) => {
-      Notification['info']({
-        title: 'Kích hoạt sản phẩm',
-        duration: 10000,
-        description: (
-          <Wrapper>
-            <TextNotification>
-              Bạn muốn kích hoạt sản phẩm này ?
-            </TextNotification>
-            <Toolbar>
-              <ButtonNotification
-                onClick={() => {
-                  Notification.close()
-                  changeStatus(id, status)
-                }}
-                success
-              >
-                Xác nhận
-              </ButtonNotification>
-              <ButtonNotification onClick={() => Notification.close()}>
-                Hủy bỏ
-              </ButtonNotification>
-            </Toolbar>
-          </Wrapper>
-        )
-      })
-    },
-    [user]
-  )
-
-  return (
-    <Cell {...props}>
-      <Toggle
-        active={rowData['status'] === 'active'}
-        onChange={() =>
-          handleActive(
-            rowData['id'],
-            rowData['status'] === 'active' ? 'deactive' : 'active'
-          )
-        }
-        checkedChildren={<Icon name='feather-check' />}
-        unCheckedChildren={<Icon name='feather-x' />}
-      />
-    </Cell>
-  )
-}
-
 const TableEmployee = ({
   expData,
   totalRecord,
@@ -134,7 +55,7 @@ const TableEmployee = ({
   limit,
   sort,
   // setSort,
-  setReload,
+  // setReload,
   ...others
 }) => {
   const history = useHistory()
@@ -168,41 +89,29 @@ const TableEmployee = ({
             <Header>Ảnh</Header>
             <WrapperImageCell dataKey='image' />
           </Column>
-          <Column width={150}>
-            <Header>Tên</Header>
+          <Column width={250}>
+            <Header>Tên TB</Header>
             <TextCell dataKey='name' />
           </Column>
           <Column width={150}>
-            <Header>Phòng ban</Header>
-            <TextCell dataKey='department.name' />
+            <Header>Nguồn gốc</Header>
+            <TextCell dataKey='producer' />
           </Column>
-          <Column width={150}>
-            <Header>Người quản lý</Header>
-            <TextCell dataKey='is_manager' />
+          <Column width={100}>
+            <Header>Mã DM</Header>
+            <TextCell dataKey='category_id' />
           </Column>
           
-          <Column width={200}>
-            <Header>Email</Header>
-            <TextCell dataKey='email' />
-          </Column>
-          <Column width={140}>
-            <Header>SĐT</Header>
-            <TextCell dataKey='phone_number' />
-          </Column>
-          <Column width={140}>
-            <Header>Địa chỉ</Header>
-            <TextCell dataKey='address' />
-          </Column>
-
           <Column width={150} sortable>
-            <Header>Ngày join</Header>
-            <TextCell dataKey='join_date' />
+            <Header>Ngày nhập</Header>
+            <TextCell dataKey='imported_date' />
           </Column>
 
-          <Column width={120}>
-            <Header>Kích hoạt</Header>
-            <ToggleCell dataKey='status' setReload={setReload} />
+          <Column width={250}>
+            <Header>Ghi chú</Header>
+            <TextCell dataKey='notes' />
           </Column>
+
           <Column width={120}>
             <Header>Hành động</Header>
             <ActionCell dataKey='id' {...others} />
@@ -246,10 +155,6 @@ TableEmployee.propTypes = {
   limit: PropTypes.number,
   setSort: PropTypes.func,
   sort: PropTypes.any
-}
-ToggleCell.propTypes = {
-  rowData: PropTypes.object,
-  setReload: PropTypes.func
 }
 FormEdit.propTypes = {
   setReload: PropTypes.func

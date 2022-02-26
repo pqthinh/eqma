@@ -56,7 +56,7 @@ const Department = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListDep({ search: searchInput, page: page - 1 })
+    if (reload) getListDep({ name: searchInput, page: page - 1 })
   }, [searchInput, page, reload])
 
   useEffect(() => {
