@@ -8,6 +8,8 @@ const EndPoint = {
 
   // Muc khai bao
   GET_LIST_EMP: '/employees',
+  GET_LIST_CATE: '/categories',
+  GET_LIST_DEPART: '/departments',
 
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',

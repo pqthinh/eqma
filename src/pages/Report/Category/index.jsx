@@ -1,12 +1,12 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableEmployee, WrapperContentBody } from 'organisms'
+import { TableCategory, WrapperContentBody } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 import { withArray, withNumber } from 'exp-value'
 
-const Employee = ({ ...others }) => {
-  const [listEmp, setListEmp] = useState([])
+const Category = ({ ...others }) => {
+  const [listCate, setListCate] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
@@ -25,8 +25,8 @@ const Employee = ({ ...others }) => {
 
   const _renderTableEmp = useCallback(() => {
     return (
-      <TableEmployee
-        expData={listEmp}
+      <TableCategory
+        expData={listCate}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -36,17 +36,16 @@ const Employee = ({ ...others }) => {
         setSort={setSort}
       />
     )
-  }, [listEmp, page, totalRecord, sort, setSort])
+  }, [listCate, page, totalRecord, sort, setSort])
 
-  const getListEmp = useCallback(
+  const getListCate = useCallback(
     params => {
       async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_EMP, {
+        const result = await onGetExecute(EndPoint.GET_LIST_CATE, {
           ...params
         })
         if (result) {
-          console.log(result)
-          setListEmp(withArray('data', result))
+          setListCate(withArray('data', result))
           setTotalRecord(withNumber('meta.total', result) )
         }
       }
@@ -56,12 +55,12 @@ const Employee = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListEmp({ search: searchInput, page: page - 1 })
+    if (reload) getListCate({ search: searchInput, page: page - 1 })
   }, [searchInput, page, reload])
 
   useEffect(() => {
     if (sort.key)
-      getListEmp({
+      getListCate({
         search: searchInput,
         offset: page - 1,
         sort: sort.key,
@@ -72,7 +71,7 @@ const Employee = ({ ...others }) => {
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Danh sách nhân viên'}
+      contentBody={'Danh mục'}
       {...others}
     >
       {_renderTableEmp()}
@@ -80,4 +79,4 @@ const Employee = ({ ...others }) => {
   )
 }
 
-export default React.memo(Employee)
+export default React.memo(Category)

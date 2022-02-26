@@ -1,12 +1,12 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableEmployee, WrapperContentBody } from 'organisms'
+import { TableDepartment, WrapperContentBody } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 import { withArray, withNumber } from 'exp-value'
 
-const Employee = ({ ...others }) => {
-  const [listEmp, setListEmp] = useState([])
+const Department = ({ ...others }) => {
+  const [listDep, setListDep] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
@@ -25,8 +25,8 @@ const Employee = ({ ...others }) => {
 
   const _renderTableEmp = useCallback(() => {
     return (
-      <TableEmployee
-        expData={listEmp}
+      <TableDepartment
+        expData={listDep}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -36,18 +36,18 @@ const Employee = ({ ...others }) => {
         setSort={setSort}
       />
     )
-  }, [listEmp, page, totalRecord, sort, setSort])
+  }, [listDep, page, totalRecord, sort, setSort])
 
-  const getListEmp = useCallback(
+  const getListDep = useCallback(
     params => {
       async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_EMP, {
+        const result = await onGetExecute(EndPoint.GET_LIST_DEPART, {
           ...params
         })
         if (result) {
           console.log(result)
-          setListEmp(withArray('data', result))
-          setTotalRecord(withNumber('meta.total', result) )
+          setListDep(withArray('data', result))
+          setTotalRecord(withNumber('total', result) )
         }
       }
       execute(params)
@@ -56,12 +56,12 @@ const Employee = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListEmp({ search: searchInput, page: page - 1 })
+    if (reload) getListDep({ search: searchInput, page: page - 1 })
   }, [searchInput, page, reload])
 
   useEffect(() => {
     if (sort.key)
-      getListEmp({
+      getListDep({
         search: searchInput,
         offset: page - 1,
         sort: sort.key,
@@ -72,7 +72,7 @@ const Employee = ({ ...others }) => {
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Danh sách nhân viên'}
+      contentBody={'Phòng ban'}
       {...others}
     >
       {_renderTableEmp()}
@@ -80,4 +80,4 @@ const Employee = ({ ...others }) => {
   )
 }
 
-export default React.memo(Employee)
+export default React.memo(Department)

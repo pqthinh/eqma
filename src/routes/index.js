@@ -21,6 +21,8 @@ const ChangePasswordPage = lazy(() => import('pages/Profile/ChangePassword'))
 // Mục khai báo
 // 1: Ds nhân viên
 const EmployeeReport = lazy(() => import('pages/Report/Employee'))
+const CategoryReport = lazy(() => import('pages/Report/Category'))
+const DepartmentReport = lazy(() => import('pages/Report/Department'))
 
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
@@ -102,6 +104,22 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/report/employee'}
           render={props => {
             return <EmployeeReport {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/report/department'}
+          render={props => {
+            return <DepartmentReport {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/report/category'}
+          render={props => {
+            return <CategoryReport {...rest} {...props} />
           }}
         />
         
