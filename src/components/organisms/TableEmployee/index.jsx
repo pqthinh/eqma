@@ -133,7 +133,7 @@ const TableEmployee = ({
   setPage,
   limit,
   sort,
-  setSort,
+  // setSort,
   setReload,
   ...others
 }) => {
@@ -149,13 +149,6 @@ const TableEmployee = ({
     [page]
   )
 
-  const onSort = useCallback(
-    sortType => {
-      setSort({ key: sortType, type: sort.type == 'asc' ? 'desc' : 'asc' })
-    },
-    [sort, setSort]
-  )
-
   const onLoadParamPage = useCallback(() => {
     const page = new URLSearchParams(search).get('page')
     if (page) setPage(eval(page))
@@ -167,75 +160,46 @@ const TableEmployee = ({
         <Table
           data={data}
           wordWrap
-          id='table-product'
-          height={window.innerHeight - 220}
+          id='table-employee'
+          height={window.innerHeight - 200}
           {...others}
         >
           <Column width={150} align='center'>
-            <Header>Image</Header>
+            <Header>Ảnh</Header>
             <WrapperImageCell dataKey='image' />
           </Column>
-          <Column width={200}>
-            <Header>Tên sp</Header>
+          <Column width={150}>
+            <Header>Tên</Header>
             <TextCell dataKey='name' />
           </Column>
-          <Column width={250}>
-            <Header>Mô tả</Header>
-            <TextCell dataKey='description' />
+          <Column width={150}>
+            <Header>Phòng ban</Header>
+            <TextCell dataKey='department.name' />
           </Column>
-          <Column width={140} sortable>
-            <Header>
-              <span onClick={() => onSort('categoryName')}>Danh mục SP</span>
-            </Header>
-            <TextCell dataKey='categoryName' />
+          <Column width={150}>
+            <Header>Người quản lý</Header>
+            <TextCell dataKey='is_manager' />
           </Column>
-          <Column width={140}>
-            <Header>Tên user</Header>
-            <TextCell dataKey='username' />
-          </Column>
-          <Column width={140}>
-            <Header>Email user</Header>
+          
+          <Column width={200}>
+            <Header>Email</Header>
             <TextCell dataKey='email' />
           </Column>
-
-          <Column width={100} sortable>
-            <Header>
-              <span onClick={() => onSort('price')}>Giá</span>
-            </Header>
-            <TextCell dataKey='price' />
+          <Column width={140}>
+            <Header>SĐT</Header>
+            <TextCell dataKey='phone_number' />
           </Column>
-          <Column width={60} sortable>
-            <Header>
-              <span onClick={() => onSort('quantity')}>SL</span>
-            </Header>
-            <TextCell dataKey='quantity' />
-          </Column>
-          <Column width={80} sortable>
-            <Header>
-              <span onClick={() => onSort('view')}>View </span>
-            </Header>
-            <TextCell dataKey='view' />
-          </Column>
-          <Column width={60} sortable>
-            <Header>
-              <span onClick={() => onSort('like_num')}>Like</span>
-            </Header>
-            <TextCell dataKey='like_num' />
-          </Column>
-
-          <Column width={150}>
-            <Header>Địa điểm</Header>
+          <Column width={140}>
+            <Header>Địa chỉ</Header>
             <TextCell dataKey='address' />
           </Column>
 
           <Column width={150} sortable>
-            <Header>
-              <span onClick={() => onSort('createdAt')}>Ngày đăng</span>
-            </Header>
-            <TextCell dataKey='createdAt' />
+            <Header>Ngày join</Header>
+            <TextCell dataKey='join_date' />
           </Column>
 
-          <Column width={100}>
+          <Column width={120}>
             <Header>Kích hoạt</Header>
             <ToggleCell dataKey='status' setReload={setReload} />
           </Column>

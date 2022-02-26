@@ -27,14 +27,12 @@ const Routes = ({ isLoggedIn, ...rest }) => {
   const history = useHistory()
 
   const isPrivateRouter = useMemo(() => {
-    console.log( Constants.privateRouter)
     return (
       Constants.privateRouter.map(e => e.URL).indexOf(location.pathname) > -1
     )
   }, [location.pathname])
 
   const isPublicRouter = useMemo(() => {
-    console.log( Constants.publicRouter)
     return (
       Constants.publicRouter.map(e => e.URL).indexOf(location.pathname) > -1
     )

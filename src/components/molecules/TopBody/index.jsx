@@ -9,6 +9,7 @@ const TopBody = ({
   buttonAction,
   disableAdd,
   disableSearch,
+  placeholder='Tìm kiếm ...',
   ...others
 }) => {
   return (
@@ -26,7 +27,7 @@ const TopBody = ({
               ? 'Tìm kiếm bằng tên bài đăng ...'
               : status === 4
               ? 'Tìm kiếm bằng tên sản phẩm ...'
-              : 'Tìm kiếm ...'
+              : placeholder
           }
           name={'search'}
           rightIcon={<Icon name={'feather-search'} />}
@@ -48,7 +49,8 @@ TopBody.propTypes = {
   status: PropTypes.number,
   buttonAction: PropTypes.func,
   disableAdd: PropTypes.bool,
-  disableSearch: PropTypes.bool
+  disableSearch: PropTypes.bool,
+  placeholder: PropTypes.string,
 }
 
 export default React.memo(TopBody)

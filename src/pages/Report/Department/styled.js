@@ -5,12 +5,11 @@ import {
   BaseIcon,
   BaseModal,
   BaseText,
-  BaseToggle,
-  ImageCell
+  BaseToggle
 } from 'atoms'
+import { FormProduct } from 'molecules'
 import { Button, ButtonToolbar, IconButton, Table } from 'rsuite'
 import styled from 'styled-components'
-import { FormEmployee } from 'molecules'
 
 export const Wrapper = styled(BaseContainer)`
   max-height: calc(100vh - 150px);
@@ -59,7 +58,7 @@ export const Modal = styled(BaseModal)`
     min-height: 300px;
   }
 `
-export const FormEdit = styled(FormEmployee)``
+export const FormEdit = styled(FormProduct)``
 export const Toggle = styled(BaseToggle)``
 export const Toolbar = styled(ButtonToolbar)`
   margin: 20px auto 0;
@@ -69,12 +68,4 @@ export const TextNotification = styled.p`
 `
 export const ButtonNotification = styled(Button)`
   ${props => props.success && `color: #E26740;`}
-`
-export const WrapperImageCell = styled(ImageCell)`
-  img {
-    width: 100%;
-    border-radius: 4px;
-    height: 80px;
-    object-fit: contain;
-  }
 `
