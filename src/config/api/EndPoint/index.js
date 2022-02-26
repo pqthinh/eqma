@@ -12,6 +12,9 @@ const EndPoint = {
   GET_LIST_DEPART: '/departments',
   GET_LIST_EQU: '/equipments',
 
+  // mục thiết bị
+  GET_LIST_REP: '/repairs',
+
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',
   STAFFS: 'staffs',

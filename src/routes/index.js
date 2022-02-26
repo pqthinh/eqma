@@ -27,6 +27,8 @@ const DepartmentReport = lazy(() => import('pages/Report/Department'))
 // Mục thiết bị
 // 1. Quản lý thiết bị
 const EquipmentList = lazy(() => import('pages/Equipment/Manager'))
+// sửa chữa
+const RepairList = lazy(() => import('pages/Equipment/Repair'))
 
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
@@ -132,6 +134,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/equipment/list'}
           render={props => {
             return <EquipmentList {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/history'}
+          render={props => {
+            return <RepairList {...rest} {...props} />
           }}
         />
         
