@@ -17,8 +17,7 @@ import {
   Toolbar,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton,
-  WrapperImageCell
+  WrapperIconButton
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
@@ -158,9 +157,9 @@ const TableEmployee = ({
           }}
           {...others}
         >
-          <Column width={150} align='center'>
-            <Header>Ảnh</Header>
-            <WrapperImageCell dataKey='image' />
+          <Column width={150}>
+            <Header>ID</Header>
+            <TextCell dataKey='id' />
           </Column>
           <Column width={150}>
             <Header>Tên</Header>

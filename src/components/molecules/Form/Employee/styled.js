@@ -57,3 +57,16 @@ export const Image = styled(BaseImage)`
   width: 100% !important;
   object-fit: contain;
 `
+export const FlexWrapper = styled.div`
+  display: flex;
+  div:first-child {
+    margin-right: 20px;
+    width: 70%;
+    @media screen and (max-width: 480px) {
+      margin: auto;
+    }
+  }
+  @media screen and (max-width: 480px) {
+    display: block;
+  }
+`
