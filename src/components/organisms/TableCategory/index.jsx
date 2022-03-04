@@ -78,8 +78,12 @@ const TableEmployee = ({
         <Table
           data={data}
           wordWrap
-          id='table-employee'
-          height={window.innerHeight - 200}
+          id='table-category'
+          autoHeight
+          renderEmpty={()=>{}}
+          onRowClick={rowData => {
+            console.log(rowData)
+          }}
           {...others}
         >
           <Column width={150}>

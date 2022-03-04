@@ -13,15 +13,15 @@ import {
   LayoutWrapper, Wrapper,
   WrapperLoading
 } from './styled'
-import { employeeModel } from './validation'
+import { employeeRequestModel } from './validation'
 
-const FormEmployee = ({ employee, type, ...others }) => {
-  const [data, setData] = useState(employee)
+const FormEmployeeRequest = ({ erequest , type, ...others }) => {
+  const [data, setData] = useState(erequest)
   const { resizeImage } = useImage()
 
   const [loading, setLoading] = useState(false)
 
-  const _handleChangeemployee = useCallback(
+  const _handleChangERq = useCallback(
     (field, value) => {
       setData(prev => ({
         ...prev,
@@ -63,7 +63,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
         <Form
           fluid
           {...others}
-          model={employeeModel}
+          model={employeeRequestModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
         >
@@ -90,7 +90,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('name', data)}
             label={'Tên sp'}
-            onChange={value => _handleChangeemployee('name', value)}
+            onChange={value => _handleChangERq('name', value)}
             placeholder={'Tên sp'}
             name={'name'}
             leftIcon={<Icon name={'feather-user'} />}
@@ -99,7 +99,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('email', data)}
             label={'Email'}
-            onChange={value => _handleChangeemployee('email', value)}
+            onChange={value => _handleChangERq('email', value)}
             placeholder={'Email'}
             name={'email'}
             disabled
@@ -109,7 +109,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('categoryId', data)}
             label={'Mã danh mục'}
-            onChange={value => _handleChangeemployee('categoryId', value)}
+            onChange={value => _handleChangERq('categoryId', value)}
             placeholder={'Mã danh mục'}
             name={'categoryId'}
             leftIcon={<Icon name={'feather-phone'} />}
@@ -119,7 +119,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('price', data)}
             label={'Giá cả'}
-            onChange={value => _handleChangeemployee('price', value)}
+            onChange={value => _handleChangERq('price', value)}
             placeholder={'Giá cả'}
             name={'price'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -129,7 +129,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('like_num', data)}
             label={'Số lượt thích'}
-            onChange={value => _handleChangeemployee('like_num', value)}
+            onChange={value => _handleChangERq('like_num', value)}
             placeholder={'Số lượt thích'}
             name={'like_num'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -138,7 +138,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('view', data)}
             label={'Lượt xem'}
-            onChange={value => _handleChangeemployee('view', value)}
+            onChange={value => _handleChangERq('view', value)}
             placeholder={'Lượt xem'}
             name={'view'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -148,7 +148,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('tag', data)}
             label={'Thẻ tìm kiếm'}
-            onChange={value => _handleChangeemployee('tag', value)}
+            onChange={value => _handleChangERq('tag', value)}
             placeholder={'Thẻ tìm kiếm'}
             name={'tag'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -158,7 +158,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('uid', data)}
             label={'Mã người đăng tin'}
-            onChange={value => _handleChangeemployee('uid', value)}
+            onChange={value => _handleChangERq('uid', value)}
             placeholder={'Mã người đăng tin'}
             name={'uid'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -176,10 +176,10 @@ const FormEmployee = ({ employee, type, ...others }) => {
   return loading ? _renderLoading() : _renderForm()
 }
 
-FormEmployee.propTypes = {
-  employee: PropTypes.object,
+FormEmployeeRequest.propTypes = {
+  erequest: PropTypes.object,
   type: PropTypes.string,
   setReload: PropTypes.func
 }
 
-export default React.memo(FormEmployee)
+export default React.memo(FormEmployeeRequest)

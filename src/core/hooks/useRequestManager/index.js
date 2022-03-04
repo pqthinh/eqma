@@ -32,10 +32,11 @@ const useRequestManager = () => {
           setLoading(false)
           return data
         } catch (error) {
-          console.log(error, "Error")
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.message', error)|| "Có lỗi xuất hiện")
+          showError(
+            withNull('response.data.error', error) || 'Có lỗi xuất hiện'
+          )
         }
       }
 
@@ -59,7 +60,9 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.data.error', error)|| "Có lỗi xuất hiện")
+          showError(
+            withNull('response.data.error', error) || 'Có lỗi xuất hiện'
+          )
           clearToken()
         }
       }
@@ -79,7 +82,9 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.data.message', error)|| "Có lỗi xuất hiện")
+          showError(
+            withNull('response.data.error', error) || 'Có lỗi xuất hiện'
+          )
         }
       }
       return execute()
@@ -98,7 +103,10 @@ const useRequestManager = () => {
           setLoading(false)
           return data
         } catch (error) {
-          setStatus(withNull('response.status', error)|| "Có lỗi xuất hiện")
+          setStatus(withNull('response.error', error))
+          showError(
+            withNull('response.data.error', error) || 'Có lỗi xuất hiện'
+          )
           setLoading(false)
         }
       }
@@ -116,7 +124,10 @@ const useRequestManager = () => {
           setLoading(false)
           return data
         } catch (error) {
-          setStatus(withNull('response.status', error)|| "Có lỗi xuất hiện")
+          setStatus(withNull('response.status', error))
+          showError(
+            withNull('response.data.error', error) || 'Có lỗi xuất hiện'
+          )
           setLoading(false)
         }
       }
@@ -131,8 +142,8 @@ const useRequestManager = () => {
         case 400:
           break
         case 401:
+          showError('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại')
           await clearToken()
-
           break
         default:
           break

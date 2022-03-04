@@ -13,10 +13,10 @@ import {
   LayoutWrapper, Wrapper,
   WrapperLoading
 } from './styled'
-import { employeeModel } from './validation'
+import { lqModel } from './validation'
 
-const FormEmployee = ({ employee, type, ...others }) => {
-  const [data, setData] = useState(employee)
+const FormLiquidation = ({ liquidation, type, ...others }) => {
+  const [data, setData] = useState(liquidation)
   const { resizeImage } = useImage()
 
   const [loading, setLoading] = useState(false)
@@ -63,7 +63,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
         <Form
           fluid
           {...others}
-          model={employeeModel}
+          model={lqModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
         >
@@ -176,10 +176,10 @@ const FormEmployee = ({ employee, type, ...others }) => {
   return loading ? _renderLoading() : _renderForm()
 }
 
-FormEmployee.propTypes = {
-  employee: PropTypes.object,
+FormLiquidation.propTypes = {
+  liquidation: PropTypes.object,
   type: PropTypes.string,
   setReload: PropTypes.func
 }
 
-export default React.memo(FormEmployee)
+export default React.memo(FormLiquidation)
