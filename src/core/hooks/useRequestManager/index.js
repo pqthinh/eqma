@@ -32,6 +32,7 @@ const useRequestManager = () => {
           setLoading(false)
           return data
         } catch (error) {
+          console.log(error, "Error")
           setStatus(withNull('response.status', error))
           setLoading(false)
           showError(withNull('response.message', error)|| "Có lỗi xuất hiện")
@@ -58,7 +59,7 @@ const useRequestManager = () => {
         } catch (error) {
           setStatus(withNull('response.status', error))
           setLoading(false)
-          showError(withNull('response.data.message', error)|| "Có lỗi xuất hiện")
+          showError(withNull('response.data.error', error)|| "Có lỗi xuất hiện")
           clearToken()
         }
       }

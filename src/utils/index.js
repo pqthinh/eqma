@@ -1,5 +1,2 @@
 export { default as Constants } from './Constants'
 export { default as Routers } from './Routers'
-export { default as toThousands } from './toThousands'
-export { default as highlightValue } from './highlightValue'
-export { default as formatValue } from './formatValue'

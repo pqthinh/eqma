@@ -12,8 +12,7 @@ const Constant = {
     { URL: '/equipment/import', name: '' },
     { URL: '/equipment/list', name: '' },
     { URL: '/history', name: '' },
-    { URL: '/search', name: '' },
-
+    { URL: '/search', name: '' }
   ],
   publicRouter: [
     { URL: '/', name: '' },
@@ -76,7 +75,28 @@ const Constant = {
     { label: 'banner-category', value: 'banner-category' },
     { label: 'banner-top-product', value: 'banner-top-product' },
     { label: 'Test thooi', value: 'test' }
-  ]
+  ],
+  equipment_status: {
+    IN_WORK: 1,
+    IN_REPAIR: 2,
+    LIQUIDATION: 3,
+    FREE: 4
+  },
+  repair_status: {
+    NOT_YET: 1,
+    DONE: 2
+  },
+  request_status: {
+    WAITING: 1,
+    APPROVE: 2,
+    REJECT: 3
+  },
+  request_type: {
+    BORROW: 1, // mượn
+    RETURN: 2, // trả
+    REPAIR: 3,
+    LIQUIDATIOn: 4
+  }
 }
 
 export default Constant
