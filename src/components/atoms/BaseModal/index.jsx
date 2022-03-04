@@ -1,5 +1,5 @@
 import React from 'react'
-import { Wrapper, WrapperModal, Body } from './styled'
+import { Wrapper, WrapperModal, Body, Header } from './styled'
 import PropTypes from 'prop-types'
 
 const BaseModal = ({ size, header, body, footer, show, onHide, ...others }) => {
@@ -7,7 +7,7 @@ const BaseModal = ({ size, header, body, footer, show, onHide, ...others }) => {
   return (
     <Wrapper>
       <WrapperModal size={size} show={show} onHide={onHide} {...others}>
-        <WrapperModal.Header>{header}</WrapperModal.Header>
+        <WrapperModal.Header><Header>{header}</Header></WrapperModal.Header>
         <Body>{body}</Body>
         <WrapperModal.Footer>{footer}</WrapperModal.Footer>
       </WrapperModal>

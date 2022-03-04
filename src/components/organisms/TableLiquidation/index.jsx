@@ -11,8 +11,7 @@ import {
   Icon,
   Modal, Wrapper,
   WrapperIcon,
-  WrapperIconButton,
-  WrapperImageCell
+  WrapperIconButton
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
@@ -54,6 +53,8 @@ const TableEmployee = ({
   setPage,
   limit,
   sort,
+  // setSort,
+  // setReload,
   ...others
 }) => {
   const history = useHistory()
@@ -83,21 +84,46 @@ const TableEmployee = ({
           height={window.innerHeight - 200}
           {...others}
         >
-          <Column width={150} align='center'>
-            <Header>Ảnh</Header>
-            <WrapperImageCell dataKey='slug' />
+          <Column width={120} align='center'>
+            <Header>ID</Header>
+            <TextCell dataKey='id' />
           </Column>
-          <Column width={150}>
-            <Header>Tên</Header>
-            <TextCell dataKey='name' />
+          <Column width={120} align='center'>
+            <Header>Mã TB</Header>
+            <TextCell dataKey='equipment_id' />
           </Column>
-          <Column width={150}>
-            <Header>SL</Header>
-            <TextCell dataKey='quantity' />
+          <Column width={120} align='center'>
+            <Header>Mã NV</Header>
+            <TextCell dataKey='employee_id' />
           </Column>
+
+          <Column width={120} align='center'>
+            <Header>Phí</Header>
+            <TextCell dataKey='price' />
+          </Column>
+
+          <Column width={250}>
+            <Header>Chi tiết</Header>
+            <TextCell dataKey='details' />
+          </Column>
+          <Column width={250}>
+            <Header>Ghi chú</Header>
+            <TextCell dataKey='notes' />
+          </Column>
+
+          <Column width={120}>
+            <Header>Trạng thái</Header>
+            <TextCell dataKey='status' />
+          </Column>
+          
           <Column width={150} sortable>
-            <Header>Ngày tạo</Header>
-            <TextCell dataKey='created_at' />
+            <Header>Ngày sửa</Header>
+            <TextCell dataKey='start_date' />
+          </Column>
+
+          <Column width={150} sortable>
+            <Header>Ngày trả</Header>
+            <TextCell dataKey='end_date' />
           </Column>
 
           <Column width={120}>

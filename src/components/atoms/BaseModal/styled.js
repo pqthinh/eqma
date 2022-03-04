@@ -32,3 +32,7 @@ export const Body = styled(Modal.Body)`
     border-radius: 3px;
   }
 `
+export const Header = styled.p`
+  font-size: 18px;
+  font-weight: '700';
+`

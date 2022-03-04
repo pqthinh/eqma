@@ -1,4 +1,5 @@
 import { BasePagination, TextCell } from 'atoms'
+import { useUser } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -19,8 +20,6 @@ import {
   WrapperIconButton,
   WrapperImageCell
 } from './styled'
-import { useRequestManager, useUser } from 'hooks'
-import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
@@ -28,13 +27,14 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
 
-  const _renderModalFormProduct = useCallback(() => {
+  const _renderModalFormEmployee = useCallback(() => {
     return (
       <Modal
         show={showModalFormEdit}
         onHide={hideModal}
+        header="Cập nhật thông tin nhân viên"
         body={
-          <FormEdit product={rowData} type={'update'} setReload={setReload} />
+          <FormEdit employee={rowData} type={'update'} setReload={setReload} />
         }
       />
     )
@@ -42,7 +42,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
 
   return (
     <Cell {...props}>
-      {showModalFormEdit && _renderModalFormProduct()}
+      {showModalFormEdit && _renderModalFormEmployee()}
       <WrapperIcon>
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
@@ -54,26 +54,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   )
 }
 
-const ToggleCell = ({ rowData, setReload, ...props }) => {
-  const { onPostExecute } = useRequestManager()
+const ToggleCell = ({ rowData, ...props }) => {
   const { user } = useUser()
   const changeStatus = useCallback(
     (id, status) => {
       console.log(id, status, 'product')
-      async function execute(id, type) {
-        let endPoint =
-          type == 'active'
-            ? EndPoint.ADMIN_ACTIVE_POST
-            : EndPoint.ADMIN_BAN_POST
-        const result = await onPostExecute(endPoint, {
-          idProduct: id,
-          idAdmin: user?.id
-        })
-        if (result) {
-          setReload(true)
-        }
-      }
-      execute(id, status)
     },
     [user]
   )
@@ -81,7 +66,7 @@ const ToggleCell = ({ rowData, setReload, ...props }) => {
   const handleActive = useCallback(
     (id, status) => {
       Notification['info']({
-        title: 'Kích hoạt sản phẩm',
+        title: 'Thay đổi trạng thái',
         duration: 10000,
         description: (
           <Wrapper>
@@ -112,7 +97,7 @@ const ToggleCell = ({ rowData, setReload, ...props }) => {
   return (
     <Cell {...props}>
       <Toggle
-        active={rowData['status'] === 'active'}
+        active={rowData['status'] !== 'deactive'}
         onChange={() =>
           handleActive(
             rowData['id'],
@@ -180,7 +165,7 @@ const TableEmployee = ({
             <Header>Người quản lý</Header>
             <TextCell dataKey='is_manager' />
           </Column>
-          
+
           <Column width={200}>
             <Header>Email</Header>
             <TextCell dataKey='email' />

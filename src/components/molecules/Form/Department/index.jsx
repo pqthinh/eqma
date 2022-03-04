@@ -1,27 +1,23 @@
-import { withEmpty, withObject } from 'exp-value'
-import { useImage } from 'hooks'
+import { withEmpty } from 'exp-value'
 import PropTypes from 'prop-types'
 import React, { useCallback, useState } from 'react'
 import InputGroup from '../../InputGroup'
 import {
   Button,
-  Drag,
-  DragText,
   Form,
   Icon,
-  Image,
-  LayoutWrapper, Wrapper,
+  LayoutWrapper,
+  Wrapper,
   WrapperLoading
 } from './styled'
-import { employeeModel } from './validation'
+import { departmentModel } from './validation'
 
-const FormEmployee = ({ employee, type, ...others }) => {
-  const [data, setData] = useState(employee)
-  const { resizeImage } = useImage()
+const FormDepartment = ({ department, type, ...others }) => {
+  const [data, setData] = useState(department)
 
   const [loading, setLoading] = useState(false)
 
-  const _handleChangeemployee = useCallback(
+  const _handleChangedepartment = useCallback(
     (field, value) => {
       setData(prev => ({
         ...prev,
@@ -30,25 +26,15 @@ const FormEmployee = ({ employee, type, ...others }) => {
     },
     [data]
   )
-  const _handleChangeImage = useCallback(
-    async file => {
-      const image = await resizeImage(withEmpty('blobFile', file))
-      setData(prev => ({
-        ...prev,
-        file: image
-      }))
-    },
-    [data]
-  )
 
-  const employeeRequest = useCallback(data => {
-    console.log(data, 'employee update')
+  const departmentRequest = useCallback(data => {
+    console.log(data, type, 'department update')
   }, [])
 
   const onSubmit = useCallback(
     data => {
       setLoading(true)
-      employeeRequest(data)
+      departmentRequest(data)
     },
     [data]
   )
@@ -63,34 +49,14 @@ const FormEmployee = ({ employee, type, ...others }) => {
         <Form
           fluid
           {...others}
-          model={employeeModel}
+          model={departmentModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
         >
-          <Drag
-            draggable
-            onChange={e => _handleChangeImage(e[e.length - 1])}
-            autoUpload={false}
-          >
-            {data.image || data.file ? (
-              <Image
-                source={
-                  (data.file &&
-                    URL.createObjectURL(withObject('file', data))) ||
-                  data.image
-                }
-              />
-            ) : (
-              <DragText>Tải ảnh lên ...</DragText>
-            )}
-          </Drag>
-
-          <br></br><br></br>
-
           <InputGroup
             value={withEmpty('name', data)}
             label={'Tên sp'}
-            onChange={value => _handleChangeemployee('name', value)}
+            onChange={value => _handleChangedepartment('name', value)}
             placeholder={'Tên sp'}
             name={'name'}
             leftIcon={<Icon name={'feather-user'} />}
@@ -99,7 +65,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('description', data)}
             label={'Mô tả'}
-            onChange={value => _handleChangeemployee('description', value)}
+            onChange={value => _handleChangedepartment('description', value)}
             placeholder={'Mô tả'}
             name={'description'}
             leftIcon={<Icon name={'feather-user'} />}
@@ -108,7 +74,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('categoryId', data)}
             label={'Mã danh mục'}
-            onChange={value => _handleChangeemployee('categoryId', value)}
+            onChange={value => _handleChangedepartment('categoryId', value)}
             placeholder={'Mã danh mục'}
             name={'categoryId'}
             leftIcon={<Icon name={'feather-phone'} />}
@@ -118,7 +84,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('price', data)}
             label={'Giá cả'}
-            onChange={value => _handleChangeemployee('price', value)}
+            onChange={value => _handleChangedepartment('price', value)}
             placeholder={'Giá cả'}
             name={'price'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -128,7 +94,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('like_num', data)}
             label={'Số lượt thích'}
-            onChange={value => _handleChangeemployee('like_num', value)}
+            onChange={value => _handleChangedepartment('like_num', value)}
             placeholder={'Số lượt thích'}
             name={'like_num'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -137,7 +103,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('view', data)}
             label={'Lượt xem'}
-            onChange={value => _handleChangeemployee('view', value)}
+            onChange={value => _handleChangedepartment('view', value)}
             placeholder={'Lượt xem'}
             name={'view'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -147,7 +113,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('tag', data)}
             label={'Thẻ tìm kiếm'}
-            onChange={value => _handleChangeemployee('tag', value)}
+            onChange={value => _handleChangedepartment('tag', value)}
             placeholder={'Thẻ tìm kiếm'}
             name={'tag'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -157,7 +123,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
           <InputGroup
             value={withEmpty('uid', data)}
             label={'Mã người đăng tin'}
-            onChange={value => _handleChangeemployee('uid', value)}
+            onChange={value => _handleChangedepartment('uid', value)}
             placeholder={'Mã người đăng tin'}
             name={'uid'}
             leftIcon={<Icon name={'feather-link'} />}
@@ -165,7 +131,9 @@ const FormEmployee = ({ employee, type, ...others }) => {
           />
 
           <Wrapper>
-            <Button type={'submit'}>{type == 'update' ? 'Cập nhật' : 'Thêm mới'}</Button>
+            <Button type={'submit'}>
+              {type == 'update' ? 'Cập nhật' : 'Thêm mới'}
+            </Button>
           </Wrapper>
         </Form>
       </LayoutWrapper>
@@ -175,10 +143,10 @@ const FormEmployee = ({ employee, type, ...others }) => {
   return loading ? _renderLoading() : _renderForm()
 }
 
-FormEmployee.propTypes = {
-  employee: PropTypes.object,
+FormDepartment.propTypes = {
+  department: PropTypes.object,
   type: PropTypes.string,
   setReload: PropTypes.func
 }
 
-export default React.memo(FormEmployee)
+export default React.memo(FormDepartment)

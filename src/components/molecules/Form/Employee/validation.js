@@ -1,3 +1,3 @@
 import { Schema } from 'rsuite'
 
-export const productModel = Schema.Model({})
+export const employeeModel = Schema.Model({})

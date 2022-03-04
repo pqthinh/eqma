@@ -54,8 +54,6 @@ const TableEmployee = ({
   setPage,
   limit,
   sort,
-  // setSort,
-  // setReload,
   ...others
 }) => {
   const history = useHistory()

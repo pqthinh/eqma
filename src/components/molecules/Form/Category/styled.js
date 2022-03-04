@@ -40,11 +40,9 @@ export const Title = styled(BaseText)`
   margin: 40px auto;
 `
 export const WrapperLoading = styled(Loading)``
-
 export const Drag = styled(BaseUploader)`
   min-height: 150px;
   width: 100%;
-  background: ${props => props.theme.colors.background};
   .rs-uploader-trigger-btn {
     min-height: 150px;
     width: 100% !important;
