@@ -9,7 +9,8 @@ import {
   FormEdit,
   Header,
   Icon,
-  Modal, Wrapper,
+  Modal,
+  Wrapper,
   WrapperIcon,
   WrapperIconButton,
   WrapperImageCell
@@ -27,7 +28,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit product={rowData} type={'update'} setReload={setReload} />
+          <FormEdit equiment={rowData} type={'update'} setReload={setReload} />
         }
       />
     )
@@ -37,6 +38,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
+        <WrapperIconButton
+          onClick={() => setShowModalFormEdit(true)}
+          appearance='subtle'
+          icon={<Icon name='feather-eye' />}
+        />
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
@@ -81,7 +87,7 @@ const TableEmployee = ({
           wordWrap
           id='table-equi'
           autoHeight
-          renderEmpty={()=>{}}
+          renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
           }}
@@ -103,7 +109,7 @@ const TableEmployee = ({
             <Header>Mã DM</Header>
             <TextCell dataKey='category_id' />
           </Column>
-          
+
           <Column width={150} sortable>
             <Header>Ngày nhập</Header>
             <TextCell dataKey='imported_date' />

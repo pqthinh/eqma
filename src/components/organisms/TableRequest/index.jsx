@@ -9,7 +9,8 @@ import {
   FormEdit,
   Header,
   Icon,
-  Modal, Wrapper,
+  Modal,
+  Wrapper,
   WrapperIcon,
   WrapperIconButton
 } from './styled'
@@ -26,7 +27,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit product={rowData} type={'update'} setReload={setReload} />
+          <FormEdit request={rowData} type={'update'} setReload={setReload} />
         }
       />
     )
@@ -36,6 +37,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
+        <WrapperIconButton
+          onClick={() => setShowModalFormEdit(true)}
+          appearance='subtle'
+          icon={<Icon name='feather-eye' />}
+        />
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
@@ -82,7 +88,7 @@ const TableEmployee = ({
           wordWrap
           id='table-req'
           autoHeight
-          renderEmpty={()=>{}}
+          renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
           }}
@@ -119,7 +125,7 @@ const TableEmployee = ({
             <Header>Trạng thái</Header>
             <TextCell dataKey='status' />
           </Column>
-          
+
           <Column width={150} sortable>
             <Header>Ngày sửa</Header>
             <TextCell dataKey='start_date' />

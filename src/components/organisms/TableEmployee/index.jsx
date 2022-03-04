@@ -32,7 +32,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
       <Modal
         show={showModalFormEdit}
         onHide={hideModal}
-        header="Cập nhật thông tin nhân viên"
+        header='Cập nhật thông tin nhân viên'
         body={
           <FormEdit employee={rowData} type={'update'} setReload={setReload} />
         }
@@ -44,6 +44,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormEmployee()}
       <WrapperIcon>
+        <WrapperIconButton
+          onClick={() => setShowModalFormEdit(true)}
+          appearance='subtle'
+          icon={<Icon name='feather-eye' />}
+        />
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
@@ -147,7 +152,7 @@ const TableEmployee = ({
           wordWrap
           id='table-employee'
           autoHeight
-          renderEmpty={()=>{}}
+          renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
           }}

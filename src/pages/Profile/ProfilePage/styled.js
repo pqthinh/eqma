@@ -10,10 +10,13 @@ export const Wrapper = styled.div`
 `
 export const WrapperContent = styled.div`
   margin: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
+  display: block !important;
+  height: calc(100vh - 180px);
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+  scrollbar-width: none;
 `
 
 export const Text = styled(BaseText)`

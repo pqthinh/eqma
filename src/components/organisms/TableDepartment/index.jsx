@@ -9,7 +9,8 @@ import {
   FormEdit,
   Header,
   Icon,
-  Modal, Wrapper,
+  Modal,
+  Wrapper,
   WrapperIcon,
   WrapperIconButton,
   WrapperImageCell
@@ -27,7 +28,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         show={showModalFormEdit}
         onHide={hideModal}
         body={
-          <FormEdit product={rowData} type={'update'} setReload={setReload} />
+          <FormEdit department={rowData} type={'update'} setReload={setReload} />
         }
       />
     )
@@ -37,6 +38,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
+        <WrapperIconButton
+          onClick={() => setShowModalFormEdit(true)}
+          appearance='subtle'
+          icon={<Icon name='feather-eye' />}
+        />
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
@@ -81,7 +87,7 @@ const TableEmployee = ({
           wordWrap
           id='table-department'
           autoHeight
-          renderEmpty={()=>{}}
+          renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
           }}

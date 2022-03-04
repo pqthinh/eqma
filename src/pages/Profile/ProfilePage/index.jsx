@@ -1,6 +1,5 @@
 import { IMAGES } from 'assets'
 import React, { useCallback, useMemo, useState } from 'react'
-import { Constants } from 'utils'
 import ChangePassword from '../ChangePassword'
 import ProfileEdit from '../ProfileEdit'
 import NotFoundPage from '../../NotFoundPage'
@@ -37,7 +36,7 @@ const ProfilePage = () => {
   return (
     <ContentBody
       top={null}
-      contentBody={Constants.contentPage[6].title}
+      contentBody={"Trang cá nhân"}
       items={[
         { contentName: 'Thông tin', iconName: 'feather-user' },
         { contentName: 'Thông báo', iconName: 'feather-bell' },

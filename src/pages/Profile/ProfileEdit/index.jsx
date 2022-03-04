@@ -1,5 +1,7 @@
+import { EndPoint } from 'config/api'
 import { withBoolean, withEmpty } from 'exp-value'
-import { useUser } from 'hooks'
+import { useAlert, useRequestManager, useToken, useUser } from 'hooks'
+import jwtDecode from 'jwt-decode'
 import { InputGroup } from 'molecules'
 import React, { useCallback, useEffect, useState } from 'react'
 import {
@@ -9,32 +11,31 @@ import {
   Form,
   Icon,
   Text,
+  TextFooter,
   Uploader,
   Wrapper,
-  WrapperAvatar,
-  TextFooter
+  WrapperAvatar
 } from './styled'
-import { useRequestManager, useAlert } from 'hooks'
 import { profileModel } from './validation'
-import { EndPoint } from 'config/api'
 
 const ProfileEdit = ({ ...others }) => {
   const { user } = useUser()
+  const { token } = useToken()
   const [data, setData] = useState({
+    role: withEmpty('role', user),
     avatar: '',
-    lastName: '',
-    fullName: '',
-    firstName: '',
+    name: '',
     address: '',
-    phone: '',
+    phone_number: '',
     email: '',
     gender: '',
-    last_sign_in_at: ''
+    department_id: '',
+    is_manager: ''
   })
   const { onPostExecute } = useRequestManager()
   const { showSuccess } = useAlert()
-
   const [file, setFile] = useState(null)
+  const [lastLogin, setLastLogin] = useState()
 
   const _renderAvatar = useCallback(() => {
     if (!file) return <AvatarImage source={data.avatar} />
@@ -50,18 +51,21 @@ const ProfileEdit = ({ ...others }) => {
   const onSubmit = useCallback(() => {
     const input = {
       attribute: {
-        first_name: data.firstName,
-        last_name: data.lastName,
+        name: data.name,
         address: data.address,
         gender: data.gender,
         email: data.email,
-        phone: data.phone
+        phone_number: data.phone_number,
+        avatar: data.avatar
       }
     }
     if (file) ({ ...input, file: file })
     console.log(input)
     async function execute(data) {
-      const result = await onPostExecute(EndPoint.CHANGE_PASSWORD, data)
+      const result = await onPostExecute(
+        data.role == 'Admin' ? EndPoint.update_admin : EndPoint.update_admin,
+        data
+      )
       console.log(result, 'UPDATE_PROFILE')
       if (result) {
         showSuccess('Cập nhật thông tin thành công')
@@ -72,25 +76,26 @@ const ProfileEdit = ({ ...others }) => {
 
   useEffect(() => {
     const admin = JSON.parse(JSON.stringify(user))
-    console.log(user, 'user')
+    const lg = jwtDecode(token)
+    setLastLogin(new Date(lg?.iat * 1000))
     setData({
+      role: withEmpty('role', user),
       avatar: withEmpty('avatar_url', admin),
-      lastName: withEmpty('last_name', admin),
-      fullName: withEmpty('full_name', admin),
-      firstName: withEmpty('first_name', admin),
+      name: withEmpty('name', admin) || withEmpty('user_name', admin),
       address: withEmpty('address', admin),
-      phone: withEmpty('phone', admin),
+      phone_number: withEmpty('phone_number', admin),
       email: withEmpty('email', admin),
       gender: withEmpty('gender', admin),
-      last_sign_in_at:
-        withEmpty('last_sign_in_at', admin) || new Date().toISOString()
+      department_id: withEmpty('department_id', admin),
+      is_manager: withEmpty('is_manager', admin)
     })
   }, [user])
 
   return (
     <Wrapper {...others}>
-      <Text bold blue>
-        {withEmpty('fullName', data)}
+      <Text bold blue style={{ position: 'absolute', top: 10, left: 10 }}>
+        {(withEmpty('name', data) || withEmpty('user_name', data)) +" ___ "+
+          withEmpty('email', data)}
       </Text>
       <Form model={profileModel} fluid formValue={data} onSubmit={onSubmit}>
         <WrapperAvatar>
@@ -109,22 +114,43 @@ const ProfileEdit = ({ ...others }) => {
 
         <FlexWrapper>
           <InputGroup
-            value={withEmpty('firstName', data)}
-            label={'Tên'}
-            placeholder={'Tên'}
-            name={'firstName'}
+            value={withEmpty('name', data)}
+            label={'Họ tên'}
+            placeholder={'Họ tên'}
+            name={'name'}
             leftIcon={<Icon name={'feather-user'} />}
-            onChange={value => onChangeData('firstName', value)}
+            onChange={value => onChangeData('name', value)}
           />
           <InputGroup
-            value={withEmpty('lastName', data)}
-            label={'Họ'}
-            placeholder={'Họ và tên đệm'}
-            name={'lastName'}
-            leftIcon={<Icon name={'feather-user'} />}
-            onChange={value => onChangeData('lastName', value)}
+            value={withEmpty('gender', data)}
+            label={'GT'}
+            placeholder={'Giớ tính'}
+            name={'gender'}
+            leftIcon={<Icon name={'feather-type'} />}
+            onChange={value => onChangeData('gender', value)}
           />
         </FlexWrapper>
+
+        {data.role != 'Admin' ? (
+          <FlexWrapper>
+            <InputGroup
+              value={withEmpty('department_id', data)}
+              label={'Phòng'}
+              placeholder={'Phòng'}
+              name={'department_id'}
+              leftIcon={<Icon name={'feather-box'} />}
+              onChange={value => onChangeData('department_id', value)}
+            />
+            <InputGroup
+              value={withEmpty('is_manager', data)}
+              label={'QL'}
+              placeholder={'QL'}
+              name={'is_manager'}
+              leftIcon={<Icon name={'feather-type'} />}
+              onChange={value => onChangeData('is_manager', value)}
+            />
+          </FlexWrapper>
+        ) : null}
 
         <InputGroup
           value={withEmpty('email', data)}
@@ -136,23 +162,14 @@ const ProfileEdit = ({ ...others }) => {
           onChange={value => onChangeData('email', value)}
         />
         <InputGroup
-          value={withEmpty('phone', data)}
+          value={withEmpty('phone_number', data)}
           label={'Số điện thoại'}
           placeholder={'Sđt'}
-          name={'phone'}
+          name={'phone_number'}
           leftIcon={<Icon name={'feather-phone'} />}
-          disabled={withBoolean('phone', data)}
-          onChange={value => onChangeData('phone', value)}
+          disabled={withBoolean('phone_number', data)}
+          onChange={value => onChangeData('phone_number', value)}
         />
-        <InputGroup
-          value={withEmpty('gender', data)}
-          label={'Giới tính'}
-          placeholder={'Giới tính'}
-          leftIcon={<Icon name={''} />}
-          name={'gender'}
-          onChange={value => onChangeData('gender', value)}
-        />
-
         <InputGroup
           value={withEmpty('address', data)}
           label={'Điạ chỉ'}
@@ -166,12 +183,11 @@ const ProfileEdit = ({ ...others }) => {
           Cập nhật
           <Icon name='feather-refresh-cw' />
         </Button>
-
-        <TextFooter>
-          Đăng nhập lần cuối lúc:{' '}
-          {withEmpty('last_sign_in_at', data).toDateTime() || 'Không xác định'}
-        </TextFooter>
       </Form>
+      <TextFooter>
+        Đăng nhập lần cuối lúc:{' '}
+        {lastLogin ? lastLogin.toString() : 'Không xác định'}
+      </TextFooter>
     </Wrapper>
   )
 }

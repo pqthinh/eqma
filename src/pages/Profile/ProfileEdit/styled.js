@@ -10,14 +10,7 @@ import {
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-  margin: 10px;
-  display: block;
-  height: calc(100vh - 180px);
-  overflow: scroll;
-  &::-webkit-scrollbar {
-    width: 0;
-  }
-  scrollbar-width: none;
+  padding: 10px;
   width: 100%;
 `
 
@@ -54,6 +47,7 @@ export const FlexWrapper = styled.div`
   display: flex;
   div:first-child {
     margin-right: 20px;
+    width: 70%;
     @media screen and (max-width: 480px) {
       margin: auto;
     }
@@ -84,6 +78,6 @@ export const Uploader = styled(BaseUploader)`
 
 export const TextFooter = styled.p`
   position: absolute;
-  bottom: 0;
-  right: 0;
+  bottom: 10px;
+  right: 10px;
 `

@@ -30,6 +30,7 @@ export const BodyWrapper = styled(Content)`
   width: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 `
 export const FooterWrapper = styled(Footer)``
 export const Nav = styled(BaseNav)``

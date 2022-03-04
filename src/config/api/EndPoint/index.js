@@ -15,6 +15,12 @@ const EndPoint = {
   // mục thiết bị
   GET_LIST_REP: '/repairs',
 
+  // Profile
+  update_admin: '/admin/update-profile',
+  update_emp: '/employee-api/update-profile',
+
+  // 
+
   ADMIN_PROFILE: 'admins/profile',
   RESET_PASSWORD: 'auth/resetPassword',
   STAFFS: 'staffs',
