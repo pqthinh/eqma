@@ -1,82 +1,45 @@
-import { useDebounce, useRequestManager } from 'hooks'
-import { TopBody } from 'molecules'
-import { TableEquipment, WrapperContentBody } from 'organisms'
-import React, { useCallback, useEffect, useState } from 'react'
-import { EndPoint } from 'config/api'
-import { withArray, withNumber } from 'exp-value'
+import { IMAGES } from 'assets'
+import React, { useCallback, useMemo, useState } from 'react'
+import NotFoundPage from '../../NotFoundPage'
+import { ContentBody, Image, Content } from './styled'
+import Repair from '../Repair'
+import Equiment from '../Equiment'
 
-const Equipment = ({ ...others }) => {
-  const [listEqu, setListEqu] = useState([])
-  const [page, setPage] = useState(1)
-  const [search, setSearch] = useState('')
-  const [totalRecord, setTotalRecord] = useState(0)
-  const [reload, setReload] = useState(true)
-  const [sort, setSort] = useState({
-    key: '',
-    type: ''
-  })
-  const { onGetExecute } = useRequestManager()
+const EquimentManager = () => {
+  const [activeKeyNav, setActiveKeyNav] = useState('1')
+  const onSelect = useCallback(e => setActiveKeyNav(e), [activeKeyNav])
 
-  const searchInput = useDebounce(search, 3000)
+  const renderTimeline = useMemo(() => {
+    return <Image source={IMAGES.NO_CONTENT.default} />
+  }, [])
 
-  const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} />
-  }, [search])
-
-  const _renderTableEmp = useCallback(() => {
-    return (
-      <TableEquipment
-        expData={listEqu}
-        page={page}
-        setPage={setPage}
-        totalRecord={totalRecord}
-        setReload={setReload}
-        limit={10}
-        sort={sort}
-        setSort={setSort}
-      />
-    )
-  }, [listEqu, page, totalRecord, sort, setSort])
-
-  const getListEqu = useCallback(
-    params => {
-      async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_EQU, {
-          ...params
-        })
-        if (result) {
-          setListEqu(withArray('data', result))
-          setTotalRecord(withNumber('meta.total', result) )
-        }
-      }
-      execute(params)
-    },
-    [searchInput, page]
-  )
-
-  useEffect(() => {
-    if (reload) getListEqu({ name: searchInput, page: page - 1 })
-  }, [searchInput, page, reload])
-
-  useEffect(() => {
-    if (sort.key)
-      getListEqu({
-        search: searchInput,
-        offset: page - 1,
-        sort: sort.key,
-        type: sort.type
-      })
-  }, [sort])
+  const _renderContentPage = useCallback(() => {
+    if (activeKeyNav == '1') {
+      return <Repair />
+    }
+    if (activeKeyNav == '2') {
+      return <Equiment />
+    }
+    if (activeKeyNav == '3') {
+      return renderTimeline
+    }
+    return <NotFoundPage />
+  }, [activeKeyNav])
 
   return (
-    <WrapperContentBody
-      top={TopTab()}
-      contentBody={'Quản lý thiết bị'}
-      {...others}
+    <ContentBody
+      contentBody={"Quản lý thiết bị"}
+      items={[
+        { contentName: 'Danh sách thiết bị', iconName: 'feather-gift' },
+        { contentName: 'Thiết bị sửa chữa', iconName: 'feather-thumbs-down' },
+        { contentName: 'Yêu cầu', iconName: 'feather-layers' },
+      ]}
+      activeKey={activeKeyNav}
+      setActiveKey={onSelect}
     >
-      {_renderTableEmp()}
-    </WrapperContentBody>
+      <Content>{_renderContentPage()}</Content>
+    </ContentBody>
   )
 }
 
-export default React.memo(Equipment)
+export default React.memo(EquimentManager)

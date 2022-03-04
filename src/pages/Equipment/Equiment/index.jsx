@@ -1,12 +1,12 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableRepair, WrapperContent } from 'organisms'
+import { TableEquipment, WrapperContent } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 import { withArray, withNumber } from 'exp-value'
 
-const Repair = ({ ...others }) => {
-  const [listRepair, setListRepair] = useState([])
+const Equipment = ({ ...others }) => {
+  const [listEqu, setListEqu] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
@@ -25,8 +25,8 @@ const Repair = ({ ...others }) => {
 
   const _renderTableEmp = useCallback(() => {
     return (
-      <TableRepair
-        expData={listRepair}
+      <TableEquipment
+        expData={listEqu}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -36,17 +36,17 @@ const Repair = ({ ...others }) => {
         setSort={setSort}
       />
     )
-  }, [listRepair, page, totalRecord, sort, setSort])
+  }, [listEqu, page, totalRecord, sort, setSort])
 
-  const getListRepair = useCallback(
+  const getListEqu = useCallback(
     params => {
       async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_REP, {
+        const result = await onGetExecute(EndPoint.GET_LIST_EQU, {
           ...params
         })
         if (result) {
-          setListRepair(withArray('data', result))
-          setTotalRecord(withNumber('total', result) )
+          setListEqu(withArray('data', result))
+          setTotalRecord(withNumber('meta.total', result) )
         }
       }
       execute(params)
@@ -55,12 +55,12 @@ const Repair = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListRepair({ name: searchInput, page: page - 1 })
+    if (reload) getListEqu({ name: searchInput, page: page - 1 })
   }, [searchInput, page, reload])
 
   useEffect(() => {
     if (sort.key)
-      getListRepair({
+      getListEqu({
         search: searchInput,
         offset: page - 1,
         sort: sort.key,
@@ -78,4 +78,4 @@ const Repair = ({ ...others }) => {
   )
 }
 
-export default React.memo(Repair)
+export default React.memo(Equipment)
