@@ -97,7 +97,7 @@ const useRequestManager = () => {
       const execute = async () => {
         setLoading(true)
         try {
-          const { data } = await instance.post(url, entity, {
+          const { data } = await instance.put(url, entity, {
             headers
           })
           setLoading(false)

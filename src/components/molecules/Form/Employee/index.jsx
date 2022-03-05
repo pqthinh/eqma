@@ -1,22 +1,27 @@
-import { withBoolean, withEmpty } from 'exp-value'
+import { EndPoint } from 'config/api'
+import { withEmpty } from 'exp-value'
+import { useAlert, useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useState } from 'react'
 import InputGroup from '../../InputGroup'
 import {
   Button,
+  FlexWrapper,
   Form,
   Icon,
   LayoutWrapper,
   Wrapper,
-  WrapperLoading,
-  FlexWrapper
+  WrapperLoading
 } from './styled'
 import { employeeModel } from './validation'
+import { makeid } from 'utils/Helpers'
 
-const FormEmployee = ({ employee, type, ...others }) => {
+const FormEmployee = ({ employee, type, setReload, ...others }) => {
   const [data, setData] = useState(employee)
-
   const [loading, setLoading] = useState(false)
+  const { onPostExecute, onPutExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
+  const [showPass, setShowPass] = useState(false)
 
   const _handleChange = useCallback(
     (field, value) => {
@@ -28,17 +33,34 @@ const FormEmployee = ({ employee, type, ...others }) => {
     [data]
   )
 
-  const employeeRequest = useCallback(data => {
-    console.log(data, 'employee update')
-    
-  }, [])
+  const employeeRequest = useCallback(
+    data => {
+      async function execute(data) {
+        const result =
+          type == 'create'
+            ? await onPostExecute(EndPoint.create_emp, {
+                ...data,
+                code: makeid(6),
+                join_date: new Date()
+              })
+            : await onPutExecute(EndPoint.updel_emp(data.id), data)
+        if (result) {
+          showSuccess('Lưu thông tin thành công')
+          setReload(true)
+          setLoading(false)
+        }
+      }
+      execute(data)
+    },
+    [type, setReload]
+  )
 
   const onSubmit = useCallback(
     data => {
-      setLoading(true)
+      // setLoading(true)
       employeeRequest(data)
     },
-    [data]
+    [data, setReload]
   )
 
   const _renderLoading = useCallback(() => {
@@ -72,11 +94,30 @@ const FormEmployee = ({ employee, type, ...others }) => {
             onChange={value => _handleChange('email', value)}
             placeholder={'Email'}
             name={'email'}
-            disabled
+            disabled={type != 'create'}
             leftIcon={<Icon name={'feather-user'} />}
             require
           />
-          
+          {
+            type=="create"? <InputGroup
+            value={withEmpty('password', data)}
+            label={'Password'}
+            onChange={value => _handleChange('password', value)}
+            placeholder={'Password'}
+            name={'password'}
+            leftIcon={<Icon name={'feather-lock'} />}
+            rightIcon={
+              <Icon
+                name={showPass ? 'feather-eye-off' : 'feather-eye'}
+                background='true'
+                onClick={()=> setShowPass(!showPass)}
+              />
+            }
+            type={showPass? "text": 'password'}
+            require
+          />: null
+          }
+
           <FlexWrapper>
             <InputGroup
               value={withEmpty('department_id', data)}
@@ -94,6 +135,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
               name={'is_manager'}
               leftIcon={<Icon name={'feather-type'} />}
               onChange={value => _handleChange('is_manager', value)}
+              require
             />
           </FlexWrapper>
 
@@ -103,8 +145,8 @@ const FormEmployee = ({ employee, type, ...others }) => {
             placeholder={'Sđt'}
             name={'phone_number'}
             leftIcon={<Icon name={'feather-phone'} />}
-            disabled={withBoolean('phone_number', data)}
             onChange={value => _handleChange('phone_number', value)}
+            require
           />
           <InputGroup
             value={withEmpty('address', data)}
@@ -123,7 +165,7 @@ const FormEmployee = ({ employee, type, ...others }) => {
         </Form>
       </LayoutWrapper>
     )
-  }, [data])
+  }, [data, type, showPass])
 
   return loading ? _renderLoading() : _renderForm()
 }

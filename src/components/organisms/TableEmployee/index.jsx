@@ -150,14 +150,14 @@ const TableEmployee = ({
           data={data}
           wordWrap
           id='table-employee'
-          autoHeight
+          height={window.innerHeight - 200}
           renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
           }}
           {...others}
         >
-          <Column width={150}>
+          <Column width={60}>
             <Header>ID</Header>
             <TextCell dataKey='id' />
           </Column>
@@ -198,7 +198,7 @@ const TableEmployee = ({
           </Column>
           <Column width={120}>
             <Header>Hành động</Header>
-            <ActionCell dataKey='id' {...others} />
+            <ActionCell dataKey='id'  setReload={setReload} {...others} />
           </Column>
         </Table>
       )
