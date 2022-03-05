@@ -7,7 +7,7 @@ import {
   BaseText,
   BaseToggle
 } from 'atoms'
-import { FormProduct } from 'molecules'
+import { FormCategory } from 'molecules'
 import { Button, ButtonToolbar, IconButton, Table } from 'rsuite'
 import styled from 'styled-components'
 
@@ -58,7 +58,7 @@ export const Modal = styled(BaseModal)`
     min-height: 300px;
   }
 `
-export const FormEdit = styled(FormProduct)``
+export const FormAdd = styled(FormCategory)``
 export const Toggle = styled(BaseToggle)``
 export const Toolbar = styled(ButtonToolbar)`
   margin: 20px auto 0;

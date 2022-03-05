@@ -1,9 +1,10 @@
+import { EndPoint } from 'config/api'
+import { withArray, withNumber } from 'exp-value'
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
 import { TableDepartment, WrapperContentBody } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
-import { EndPoint } from 'config/api'
-import { withArray, withNumber } from 'exp-value'
+import { FormAddEmp, Modal } from './styled'
 
 const Department = ({ ...others }) => {
   const [listDep, setListDep] = useState([])
@@ -11,19 +12,42 @@ const Department = ({ ...others }) => {
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
-  const [sort, setSort] = useState({
-    key: '',
-    type: ''
-  })
+  const [showModal, setShowModal] = useState(false)
   const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} />
+    return (
+      <TopBody
+        search={search}
+        setSearch={setSearch}
+        buttonAction={() => setShowModal(true)}
+      />
+    )
   }, [search])
 
-  const _renderTableEmp = useCallback(() => {
+  const _renderModal = useCallback(() => {
+    if (!showModal) return
+    return (
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        header='Thêm bộ phận'
+        body={
+          <FormAddEmp
+            type='create'
+            setReload={e => {
+              setReload(e)
+              setShowModal(false)
+            }}
+          />
+        }
+      />
+    )
+  }, [showModal])
+
+  const _renderTable = useCallback(() => {
     return (
       <TableDepartment
         expData={listDep}
@@ -32,50 +56,38 @@ const Department = ({ ...others }) => {
         totalRecord={totalRecord}
         setReload={setReload}
         limit={10}
-        sort={sort}
-        setSort={setSort}
       />
     )
-  }, [listDep, page, totalRecord, sort, setSort])
+  }, [listDep, page, totalRecord])
 
-  const getListDep = useCallback(
-    params => {
-      async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_DEPART, {
-          ...params
-        })
-        if (result) {
-          console.log(result)
-          setListDep(withArray('data', result))
-          setTotalRecord(withNumber('total', result) )
-        }
+  const getListDep = useCallback(params => {
+    async function execute(params) {
+      const result = await onGetExecute(EndPoint.GET_LIST_DEPART, {
+        params: params
+      })
+      if (result) {
+        setListDep(withArray('data', result))
+        setTotalRecord(withNumber('total', result))
       }
-      execute(params)
-    },
-    [searchInput, page]
-  )
+    }
+    execute(params)
+  }, [])
 
   useEffect(() => {
-    if (reload) getListDep({ name: searchInput, page: page - 1 })
+    if (reload) {
+      getListDep({ name: searchInput, page: page })
+      setReload(false)
+    }
   }, [searchInput, page, reload])
 
   useEffect(() => {
-    if (sort.key)
-      getListDep({
-        search: searchInput,
-        offset: page - 1,
-        sort: sort.key,
-        type: sort.type
-      })
-  }, [sort])
+    if (!reload) getListDep({ name: searchInput, page: page })
+  }, [searchInput, page])
 
   return (
-    <WrapperContentBody
-      top={TopTab()}
-      contentBody={'Phòng ban'}
-      {...others}
-    >
-      {_renderTableEmp()}
+    <WrapperContentBody top={TopTab()} contentBody={'Phòng ban'} {...others}>
+      {_renderModal()}
+      {_renderTable()}
     </WrapperContentBody>
   )
 }

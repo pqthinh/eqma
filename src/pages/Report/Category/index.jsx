@@ -4,6 +4,7 @@ import { TableCategory, WrapperContentBody } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 import { withArray, withNumber } from 'exp-value'
+import { Modal, FormAdd } from './styled'
 
 const Category = ({ ...others }) => {
   const [listCate, setListCate] = useState([])
@@ -11,17 +12,34 @@ const Category = ({ ...others }) => {
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
-  const [sort, setSort] = useState({
-    key: '',
-    type: ''
-  })
+  const [showModal, setShowModal] = useState(false)
   const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} />
+    return <TopBody search={search} setSearch={setSearch} buttonAction={() => setShowModal(true)}/>
   }, [search])
+
+  const _renderModal = useCallback(() => {
+    if (!showModal) return
+    return (
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        header='Thêm danh mục'
+        body={
+          <FormAdd
+            type='create'
+            setReload={e => {
+              setReload(e)
+              setShowModal(false)
+            }}
+          />
+        }
+      />
+    )
+  }, [showModal])
 
   const _renderTableEmp = useCallback(() => {
     return (
@@ -32,41 +50,35 @@ const Category = ({ ...others }) => {
         totalRecord={totalRecord}
         setReload={setReload}
         limit={10}
-        sort={sort}
-        setSort={setSort}
       />
     )
-  }, [listCate, page, totalRecord, sort, setSort])
+  }, [listCate, page, totalRecord])
 
   const getListCate = useCallback(
     params => {
       async function execute(params) {
         const result = await onGetExecute(EndPoint.GET_LIST_CATE, {
-          ...params
+          params: params
         })
         if (result) {
           setListCate(withArray('data', result))
-          setTotalRecord(withNumber('meta.total', result) )
+          setTotalRecord(withNumber('total', result) )
         }
       }
       execute(params)
     },
-    [searchInput, page]
+    []
   )
 
   useEffect(() => {
-    if (reload) getListCate({ name: searchInput, page: page - 1 })
+    if (reload) {getListCate({ name: searchInput, page: page  })
+    setReload(false)
+  }
   }, [searchInput, page, reload])
 
   useEffect(() => {
-    if (sort.key)
-      getListCate({
-        search: searchInput,
-        offset: page - 1,
-        sort: sort.key,
-        type: sort.type
-      })
-  }, [sort])
+    if (!reload) getListCate({ name: searchInput, page: page })
+  }, [searchInput, page])
 
   return (
     <WrapperContentBody
@@ -74,6 +86,7 @@ const Category = ({ ...others }) => {
       contentBody={'Danh mục'}
       {...others}
     >
+      {_renderModal()}
       {_renderTableEmp()}
     </WrapperContentBody>
   )
