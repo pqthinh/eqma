@@ -11,10 +11,6 @@ const Equipment = ({ ...others }) => {
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
-  const [sort, setSort] = useState({
-    key: '',
-    type: ''
-  })
   const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
@@ -32,21 +28,19 @@ const Equipment = ({ ...others }) => {
         totalRecord={totalRecord}
         setReload={setReload}
         limit={10}
-        sort={sort}
-        setSort={setSort}
       />
     )
-  }, [listEqu, page, totalRecord, sort, setSort])
+  }, [listEqu, page, totalRecord])
 
   const getListEqu = useCallback(
     params => {
       async function execute(params) {
         const result = await onGetExecute(EndPoint.GET_LIST_EQU, {
-          ...params
+          params: params
         })
         if (result) {
           setListEqu(withArray('data', result))
-          setTotalRecord(withNumber('meta.total', result) )
+          setTotalRecord(withNumber('meta.total', result))
         }
       }
       execute(params)
@@ -55,24 +49,18 @@ const Equipment = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListEqu({ name: searchInput, page: page - 1 })
+    if (reload) {
+      getListEqu({ name: searchInput, page: page - 1 })
+      setReload(false)
+    }
   }, [searchInput, page, reload])
 
   useEffect(() => {
-    if (sort.key)
-      getListEqu({
-        search: searchInput,
-        offset: page - 1,
-        sort: sort.key,
-        type: sort.type
-      })
-  }, [sort])
+    if (!reload) getListEqu({ name: searchInput, page: page })
+  }, [searchInput, page])
 
   return (
-    <WrapperContent
-      top={TopTab()}
-      {...others}
-    >
+    <WrapperContent top={TopTab()} {...others}>
       {_renderTableEmp()}
     </WrapperContent>
   )

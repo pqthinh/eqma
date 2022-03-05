@@ -15,10 +15,10 @@ const EquimentManager = () => {
 
   const _renderContentPage = useCallback(() => {
     if (activeKeyNav == '1') {
-      return <Repair />
+      return <Equiment />
     }
     if (activeKeyNav == '2') {
-      return <Equiment />
+      return <Repair />
     }
     if (activeKeyNav == '3') {
       return renderTimeline

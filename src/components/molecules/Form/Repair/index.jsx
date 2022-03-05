@@ -1,25 +1,24 @@
-import { withEmpty, withObject } from 'exp-value'
-import { useImage } from 'hooks'
+import { withEmpty } from 'exp-value'
 import PropTypes from 'prop-types'
 import React, { useCallback, useState } from 'react'
 import InputGroup from '../../InputGroup'
 import {
   Button,
-  Drag,
-  DragText,
   Form,
   Icon,
-  Image,
-  LayoutWrapper, Wrapper,
+  LayoutWrapper,
+  Wrapper,
   WrapperLoading
 } from './styled'
 import { repairModel } from './validation'
+import { useAlert, useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
-const FormRepair = ({ repair, type, ...others }) => {
+const FormRepair = ({ repair, type, setReload, ...others }) => {
   const [data, setData] = useState(repair)
-  const { resizeImage } = useImage()
-
   const [loading, setLoading] = useState(false)
+  const { onPostExecute, onPutExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
 
   const _handleChange = useCallback(
     (field, value) => {
@@ -30,24 +29,29 @@ const FormRepair = ({ repair, type, ...others }) => {
     },
     [data]
   )
-  const _handleChangeImage = useCallback(
-    async file => {
-      const image = await resizeImage(withEmpty('blobFile', file))
-      setData(prev => ({
-        ...prev,
-        file: image
-      }))
-    },
-    [data]
-  )
 
   const repairRequest = useCallback(data => {
-    console.log(data, 'employee update')
-  }, [])
+    console.log(data, 'repair update')
+    async function execute(data) {
+      const result =
+        type == 'create'
+          ? await onPostExecute(EndPoint.create_rep, {
+              ...data,
+              created_at: new Date()
+            })
+          : await onPutExecute(EndPoint.updel_rep(data.id), {...data, updated_at: new Date()})
+      if (result) {
+        showSuccess('Lưu thông tin thành công')
+        setReload(true)
+        setLoading(false)
+      }
+    }
+    execute(data)
+  }, [type, setReload])
 
   const onSubmit = useCallback(
     data => {
-      setLoading(true)
+      // setLoading(true)
       repairRequest(data)
     },
     [data]
@@ -67,106 +71,86 @@ const FormRepair = ({ repair, type, ...others }) => {
           onSubmit={() => onSubmit(data)}
           formValue={data}
         >
-          <Drag
-            draggable
-            onChange={e => _handleChangeImage(e[e.length - 1])}
-            autoUpload={false}
-          >
-            {data.image || data.file ? (
-              <Image
-                source={
-                  (data.file &&
-                    URL.createObjectURL(withObject('file', data))) ||
-                  data.image
-                }
-              />
-            ) : (
-              <DragText>Tải ảnh lên ...</DragText>
-            )}
-          </Drag>
-
-          <br></br><br></br>
-
           <InputGroup
-            value={withEmpty('name', data)}
-            label={'Tên sp'}
-            onChange={value => _handleChange('name', value)}
-            placeholder={'Tên sp'}
-            name={'name'}
+            value={withEmpty('employee_id', data)}
+            label={'Mã NV'}
+            onChange={value => _handleChange('employee_id', value)}
+            placeholder={'Mã NV'}
+            name={'employee_id'}
             leftIcon={<Icon name={'feather-user'} />}
             require
           />
-          <InputGroup
-            value={withEmpty('email', data)}
-            label={'Email'}
-            onChange={value => _handleChange('email', value)}
-            placeholder={'Email'}
-            name={'email'}
-            disabled
-            leftIcon={<Icon name={'feather-user'} />}
-            require
-          />
-          <InputGroup
-            value={withEmpty('categoryId', data)}
-            label={'Mã danh mục'}
-            onChange={value => _handleChange('categoryId', value)}
-            placeholder={'Mã danh mục'}
-            name={'categoryId'}
-            leftIcon={<Icon name={'feather-phone'} />}
-            require
-          />
-
           <InputGroup
             value={withEmpty('price', data)}
-            label={'Giá cả'}
+            label={'Phí'}
             onChange={value => _handleChange('price', value)}
-            placeholder={'Giá cả'}
+            placeholder={'Phí'}
             name={'price'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-
-          <InputGroup
-            value={withEmpty('like_num', data)}
-            label={'Số lượt thích'}
-            onChange={value => _handleChange('like_num', value)}
-            placeholder={'Số lượt thích'}
-            name={'like_num'}
-            leftIcon={<Icon name={'feather-link'} />}
+            disabled
+            leftIcon={<Icon name={'feather-dollar-sign'} />}
             require
           />
           <InputGroup
-            value={withEmpty('view', data)}
-            label={'Lượt xem'}
-            onChange={value => _handleChange('view', value)}
-            placeholder={'Lượt xem'}
-            name={'view'}
-            leftIcon={<Icon name={'feather-link'} />}
+            value={withEmpty('details', data)}
+            label={'Chi tiết'}
+            onChange={value => _handleChange('details', value)}
+            placeholder={'Chi tiết'}
+            name={'details'}
+            leftIcon={<Icon name={'feather-framer'} />}
+            require
+            as="textarea"
+          />
+          <InputGroup
+            value={withEmpty('notes', data)}
+            label={'Ghi chú'}
+            onChange={value => _handleChange('notes', value)}
+            placeholder={'Ghi chú'}
+            name={'notes'}
+            leftIcon={<Icon name={'feather-framer'} />}
+            require
+            as="textarea"
+          />
+          <InputGroup
+            value={withEmpty('place', data)}
+            label={'Địa chỉ'}
+            onChange={value => _handleChange('place', value)}
+            placeholder={'Địa chỉ'}
+            name={'place'}
+            leftIcon={<Icon name={'feather-map-pin'} />}
             require
           />
-
           <InputGroup
-            value={withEmpty('tag', data)}
-            label={'Thẻ tìm kiếm'}
-            onChange={value => _handleChange('tag', value)}
-            placeholder={'Thẻ tìm kiếm'}
-            name={'tag'}
-            leftIcon={<Icon name={'feather-link'} />}
+            value={withEmpty('status', data)}
+            label={'Trạng thái'}
+            onChange={value => _handleChange('status', value)}
+            placeholder={'Trạng thái'}
+            name={'status'}
+            leftIcon={<Icon name={'feather-pie-chart'} />}
             require
           />
-
           <InputGroup
-            value={withEmpty('uid', data)}
-            label={'Mã người đăng tin'}
-            onChange={value => _handleChange('uid', value)}
-            placeholder={'Mã người đăng tin'}
-            name={'uid'}
-            leftIcon={<Icon name={'feather-link'} />}
+            value={withEmpty('start_date', data)}
+            label={'Ngày sửa'}
+            onChange={value => _handleChange('start_date', value)}
+            placeholder={'Ngày sửa'}
+            name={'start_date'}
+            leftIcon={<Icon name={'feather-calendar'} />}
+            require
+          />
+          <InputGroup
+            value={withEmpty('end_date', data)}
+            label={'Ngày hẹn trả'}
+            onChange={value => _handleChange('end_date', value)}
+            placeholder={'Ngày hẹn trả'}
+            name={'end_date'}
+            leftIcon={<Icon name={'feather-calendar'} />}
             require
           />
 
           <Wrapper>
-            <Button type={'submit'}>{type == 'update' ? 'Cập nhật' : 'Thêm mới'}</Button>
+            <Button type={'submit'}>
+              {type == 'update' ? 'Cập nhật' : 'Thêm mới'}
+            </Button>
           </Wrapper>
         </Form>
       </LayoutWrapper>

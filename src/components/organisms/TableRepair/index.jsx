@@ -12,20 +12,63 @@ import {
   Modal,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  TextNotification,
+  Toolbar,
+  ButtonNotification
 } from './styled'
+import { useAlert, useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
+  const { onDeleteExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
+
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
+
+  const remove = async id => {
+    const result = await onDeleteExecute(EndPoint.get_dep(id))
+    if (result) {
+      showSuccess(`Đã xóa bản ghi id=${id}`)
+      setReload(true)
+    }
+  }
+
+  const handleActive = useCallback(id => {
+    Notification['info']({
+      title: 'Sửa chữa',
+      duration: 10000,
+      description: (
+        <Wrapper>
+          <TextNotification>Bạn muốn xóa bản ghi này?</TextNotification>
+          <Toolbar>
+            <ButtonNotification
+              onClick={async () => {
+                Notification.close()
+                await remove(id)
+              }}
+              success
+            >
+              Xác nhận
+            </ButtonNotification>
+            <ButtonNotification onClick={() => Notification.close()}>
+              Hủy bỏ
+            </ButtonNotification>
+          </Toolbar>
+        </Wrapper>
+      )
+    })
+  }, [])
 
   const _renderModalFormProduct = useCallback(() => {
     return (
       <Modal
         show={showModalFormEdit}
         onHide={hideModal}
+        header='Cập nhật thông tin thiết bị sửa chữa'
         body={
           <FormEdit repair={rowData} type={'update'} setReload={setReload} />
         }
@@ -47,6 +90,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
           appearance='subtle'
           icon={<Icon name='feather-edit' />}
         />
+        <WrapperIconButton
+          onClick={() => handleActive(rowData.id)}
+          appearance='subtle'
+          icon={<Icon name='feather-trash' />}
+        />
       </WrapperIcon>
     </Cell>
   )
@@ -60,7 +108,7 @@ const TableEmployee = ({
   limit,
   sort,
   // setSort,
-  // setReload,
+  setReload,
   ...others
 }) => {
   const history = useHistory()
@@ -87,7 +135,7 @@ const TableEmployee = ({
           data={data}
           wordWrap
           id='table-rep'
-          autoHeight
+          height={window.innerHeight-200}
           renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
@@ -121,24 +169,29 @@ const TableEmployee = ({
             <TextCell dataKey='notes' />
           </Column>
 
+          <Column width={120} align='center'>
+            <Header>Địa chỉ</Header>
+            <TextCell dataKey='place' />
+          </Column>
+
           <Column width={120}>
             <Header>Trạng thái</Header>
             <TextCell dataKey='status' />
           </Column>
 
-          <Column width={150} sortable>
+          <Column width={150} sortable align='center'>
             <Header>Ngày sửa</Header>
             <TextCell dataKey='start_date' />
           </Column>
 
-          <Column width={150} sortable>
+          <Column width={150} sortable align='center'>
             <Header>Ngày trả</Header>
             <TextCell dataKey='end_date' />
           </Column>
 
-          <Column width={120}>
+          <Column width={120} align='center'>
             <Header>Hành động</Header>
-            <ActionCell dataKey='id' {...others} />
+            <ActionCell dataKey='id' {...others} setReload={setReload} />
           </Column>
         </Table>
       )

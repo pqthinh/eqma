@@ -13,20 +13,62 @@ import {
   Wrapper,
   WrapperIcon,
   WrapperIconButton,
-  WrapperImageCell
+  WrapperImageCell,
+  TextNotification,
+  Toolbar,
+  ButtonNotification
 } from './styled'
+import { useAlert, useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
+  const { onDeleteExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
+
+  const remove = async id => {
+    const result = await onDeleteExecute(EndPoint.get_equ(id))
+    if (result) {
+      showSuccess(`Đã xóa bản ghi id=${id}`)
+      setReload(true)
+    }
+  }
+
+  const handleActive = useCallback(id => {
+    Notification['info']({
+      title: 'Thiết bị',
+      duration: 10000,
+      description: (
+        <Wrapper>
+          <TextNotification>Bạn muốn xóa thiết bị này?</TextNotification>
+          <Toolbar>
+            <ButtonNotification
+              onClick={async () => {
+                Notification.close()
+                await remove(id)
+              }}
+              success
+            >
+              Xác nhận
+            </ButtonNotification>
+            <ButtonNotification onClick={() => Notification.close()}>
+              Hủy bỏ
+            </ButtonNotification>
+          </Toolbar>
+        </Wrapper>
+      )
+    })
+  }, [])
 
   const _renderModalFormProduct = useCallback(() => {
     return (
       <Modal
         show={showModalFormEdit}
         onHide={hideModal}
+        header='Cập nhật thông tin thiết bị'
         body={
           <FormEdit equiment={rowData} type={'update'} setReload={setReload} />
         }
@@ -47,6 +89,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
           icon={<Icon name='feather-edit' />}
+        />
+        <WrapperIconButton
+          onClick={() => handleActive(rowData.id)}
+          appearance='subtle'
+          icon={<Icon name='feather-trash' />}
         />
       </WrapperIcon>
     </Cell>
@@ -86,7 +133,7 @@ const TableEmployee = ({
           data={data}
           wordWrap
           id='table-equi'
-          autoHeight
+          height={window.innerHeight - 200}
           renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)

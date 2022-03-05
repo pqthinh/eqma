@@ -14,12 +14,15 @@ import {
   WrapperLoading
 } from './styled'
 import { eqModel } from './validation'
+import { useAlert, useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
-const FormEquiment = ({ equiment, type, ...others }) => {
+const FormEquiment = ({ equiment, type,setReload, ...others }) => {
   const [data, setData] = useState(equiment)
   const { resizeImage } = useImage()
-
   const [loading, setLoading] = useState(false)
+  const { onPostExecute, onPutExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
 
   const _handleChange = useCallback(
     (field, value) => {
@@ -35,7 +38,7 @@ const FormEquiment = ({ equiment, type, ...others }) => {
       const image = await resizeImage(withEmpty('blobFile', file))
       setData(prev => ({
         ...prev,
-        file: image
+        image: image
       }))
     },
     [data]
@@ -43,11 +46,27 @@ const FormEquiment = ({ equiment, type, ...others }) => {
 
   const equimentRequest = useCallback(data => {
     console.log(data, 'equiment update')
-  }, [])
+    async function execute(data) {
+      const result =
+        type == 'create'
+          ? await onPostExecute(EndPoint.create_equ, {
+              ...data,
+              created_at: new Date()
+            })
+          : await onPutExecute(EndPoint.updel_equ(data.id), {...data, updated_at: new Date()})
+      if (result) {
+        showSuccess('Lưu thông tin thành công')
+        setReload(true)
+        setLoading(false)
+      }
+    }
+    execute(data)
+
+  }, [type, setReload])
 
   const onSubmit = useCallback(
     data => {
-      setLoading(true)
+      // setLoading(true)
       equimentRequest(data)
     },
     [data]
@@ -89,80 +108,50 @@ const FormEquiment = ({ equiment, type, ...others }) => {
 
           <InputGroup
             value={withEmpty('name', data)}
-            label={'Tên sp'}
+            label={'Tên thiết bị'}
             onChange={value => _handleChange('name', value)}
-            placeholder={'Tên sp'}
+            placeholder={'Tên thiết bị'}
             name={'name'}
-            leftIcon={<Icon name={'feather-user'} />}
+            leftIcon={<Icon name={'feather-inbox'} />}
             require
           />
           <InputGroup
-            value={withEmpty('email', data)}
-            label={'Email'}
-            onChange={value => _handleChange('email', value)}
-            placeholder={'Email'}
-            name={'email'}
+            value={withEmpty('producer', data)}
+            label={'Nguồn gốc'}
+            onChange={value => _handleChange('producer', value)}
+            placeholder={'Nguồn gốc'}
+            name={'producer'}
             disabled
-            leftIcon={<Icon name={'feather-user'} />}
+            leftIcon={<Icon name={'feather-sunrise'} />}
             require
           />
           <InputGroup
-            value={withEmpty('categoryId', data)}
+            value={withEmpty('category_id', data)}
             label={'Mã danh mục'}
-            onChange={value => _handleChange('categoryId', value)}
+            onChange={value => _handleChange('category_id', value)}
             placeholder={'Mã danh mục'}
-            name={'categoryId'}
-            leftIcon={<Icon name={'feather-phone'} />}
-            require
-          />
-
-          <InputGroup
-            value={withEmpty('price', data)}
-            label={'Giá cả'}
-            onChange={value => _handleChange('price', value)}
-            placeholder={'Giá cả'}
-            name={'price'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-
-          <InputGroup
-            value={withEmpty('like_num', data)}
-            label={'Số lượt thích'}
-            onChange={value => _handleChange('like_num', value)}
-            placeholder={'Số lượt thích'}
-            name={'like_num'}
-            leftIcon={<Icon name={'feather-link'} />}
+            name={'category_id'}
+            leftIcon={<Icon name={'feather-align-justify'} />}
             require
           />
           <InputGroup
-            value={withEmpty('view', data)}
-            label={'Lượt xem'}
-            onChange={value => _handleChange('view', value)}
-            placeholder={'Lượt xem'}
-            name={'view'}
-            leftIcon={<Icon name={'feather-link'} />}
+            value={withEmpty('imported_date', data)}
+            label={'Ngày nhập'}
+            onChange={value => _handleChange('imported_date', value)}
+            placeholder={'Ngày nhập'}
+            name={'imported_date'}
+            leftIcon={<Icon name={'feather-calendar'} />}
             require
           />
-
           <InputGroup
-            value={withEmpty('tag', data)}
-            label={'Thẻ tìm kiếm'}
-            onChange={value => _handleChange('tag', value)}
-            placeholder={'Thẻ tìm kiếm'}
-            name={'tag'}
-            leftIcon={<Icon name={'feather-link'} />}
+            value={withEmpty('notes', data)}
+            label={'Ghi chú'}
+            onChange={value => _handleChange('notes', value)}
+            placeholder={'Ghi chú'}
+            name={'notes'}
+            leftIcon={<Icon name={'feather-bookmark'} />}
             require
-          />
-
-          <InputGroup
-            value={withEmpty('uid', data)}
-            label={'Mã người đăng tin'}
-            onChange={value => _handleChange('uid', value)}
-            placeholder={'Mã người đăng tin'}
-            name={'uid'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
+            as="textarea"
           />
 
           <Wrapper>

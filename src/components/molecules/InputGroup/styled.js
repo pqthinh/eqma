@@ -38,6 +38,11 @@ export const Input = styled(InputGroup)`
   border: 1px solid #e5e5ea;
   border-radius: 4px;
   outline: none;
+  textarea {
+    width: 100%;
+    border-width: 0;
+    padding: 10px 5px;
+  }
 `
 
 export const InputAddon = styled(Input.Addon)`

@@ -11,10 +11,7 @@ const Repair = ({ ...others }) => {
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
-  const [sort, setSort] = useState({
-    key: '',
-    type: ''
-  })
+
   const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
@@ -32,21 +29,19 @@ const Repair = ({ ...others }) => {
         totalRecord={totalRecord}
         setReload={setReload}
         limit={10}
-        sort={sort}
-        setSort={setSort}
       />
     )
-  }, [listRepair, page, totalRecord, sort, setSort])
+  }, [listRepair, page, totalRecord])
 
   const getListRepair = useCallback(
     params => {
       async function execute(params) {
         const result = await onGetExecute(EndPoint.GET_LIST_REP, {
-          ...params
+          params: params
         })
         if (result) {
           setListRepair(withArray('data', result))
-          setTotalRecord(withNumber('total', result) )
+          setTotalRecord(withNumber('total', result))
         }
       }
       execute(params)
@@ -55,24 +50,18 @@ const Repair = ({ ...others }) => {
   )
 
   useEffect(() => {
-    if (reload) getListRepair({ name: searchInput, page: page - 1 })
+    if (reload) {
+      getListRepair({ name: searchInput, page: page - 1 })
+      setReload(false)
+    }
   }, [searchInput, page, reload])
 
   useEffect(() => {
-    if (sort.key)
-      getListRepair({
-        search: searchInput,
-        offset: page - 1,
-        sort: sort.key,
-        type: sort.type
-      })
-  }, [sort])
+    if (!reload) getListRepair({ name: searchInput, page: page })
+  }, [searchInput, page])
 
   return (
-    <WrapperContent
-      top={TopTab()}
-      {...others}
-    >
+    <WrapperContent top={TopTab()} {...others}>
       {_renderTableEmp()}
     </WrapperContent>
   )
