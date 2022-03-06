@@ -25,10 +25,18 @@ const CategoryReport = lazy(() => import('pages/Report/Category'))
 const DepartmentReport = lazy(() => import('pages/Report/Department'))
 
 // Mục thiết bị
+// Nhập thiết bị
+const EquipmentImport = lazy(() => import('pages/Equipment/Import'))
 // 1. Quản lý thiết bị
 const EquipmentList = lazy(() => import('pages/Equipment/Manager'))
 // sửa chữa
-const RepairList = lazy(() => import('pages/Equipment/Repair'))
+// const RepairList = lazy(() => import('pages/Equipment/Repair'))
+
+// Lịch sử mượn trả
+const History = lazy(() => import('pages/History'))
+
+// Tra cứu
+const Search = lazy(() => import('pages/Search'))
 
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
@@ -131,6 +139,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
         <Route
           {...rest}
           exact
+          path={'/equipment/import'}
+          render={props => {
+            return <EquipmentImport {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
           path={'/equipment/list'}
           render={props => {
             return <EquipmentList {...rest} {...props} />
@@ -141,7 +157,15 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           exact
           path={'/history'}
           render={props => {
-            return <RepairList {...rest} {...props} />
+            return <History {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/search'}
+          render={props => {
+            return <Search {...rest} {...props} />
           }}
         />
         

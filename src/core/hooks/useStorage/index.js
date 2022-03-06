@@ -5,7 +5,7 @@ const useStorage = () => {
     try {
       const execute = async () => {
         const jsonValue = JSON.stringify(value)
-        await localStorage.setItem(key, jsonValue)
+        await sessionStorage.setItem(key, jsonValue)
       }
 
       execute()
@@ -16,7 +16,7 @@ const useStorage = () => {
 
   const getValue = React.useCallback(async key => {
     try {
-      const jsonValue = await localStorage.getItem(key)
+      const jsonValue = await sessionStorage.getItem(key)
       const value = await JSON.parse(jsonValue)
       return value
     } catch (error) {
@@ -26,7 +26,7 @@ const useStorage = () => {
 
   const reset = React.useCallback(async () => {
     try {
-      await localStorage.clear()
+      await sessionStorage.clear()
     } catch (error) {
       print('Error[useStorage-reset]', error)
     }
