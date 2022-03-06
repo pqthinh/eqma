@@ -91,7 +91,7 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
             onChange={e => _handleChangeImage(e[e.length - 1])}
             autoUpload={false}
           >
-            {data.image || data.file ? (
+            {data?.image || data?.file ? (
               <Image
                 source={
                   (data.file &&
