@@ -112,7 +112,7 @@
   },
   "proxy": {
     "*": {
-      "target": "http://kltn-qltb.herokuapp.com"
+      "target": "https://kltn-qltb.herokuapp.com"
     }
   }
 }

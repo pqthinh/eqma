@@ -25,7 +25,7 @@ module.exports = webpackMerge.smart(baseConfig, {
   devServer: {
     contentBase: path.join(__dirname, './public'),
     compress: true,
-    port: 5000,
+    port: 3000,
     historyApiFallback: true,
     stats: 'minimal'
   },
@@ -36,7 +36,7 @@ module.exports = webpackMerge.smart(baseConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        BASE_API_URL: JSON.stringify('http://kltn-qltb.herokuapp.com'),
+        BASE_API_URL: JSON.stringify('https://kltn-qltb.herokuapp.com'),
         NODE_ENV: JSON.stringify('development'),
         ENCRYPTION_KEY: JSON.stringify('marketplace'),
         LOCAL_STORAGE_KEY: JSON.stringify('marketplace'),
