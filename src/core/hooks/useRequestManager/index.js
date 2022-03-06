@@ -18,7 +18,9 @@ const useRequestManager = () => {
 
   const headers = React.useMemo(
     () => ({
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
     }),
     [token]
   )
