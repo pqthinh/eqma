@@ -1,6 +1,7 @@
 import { storage, firebase } from 'config/firebaseConfig.js'
+import Sizer from 'react-image-file-resizer'
 
-const uploadImage = (bucket, file) => {
+const uploadImage = (bucket='/', file) => {
   const uploadPromise = new Promise((resolve, reject) => {
     var uploadTask = storage.ref().child(bucket).put(file)
     uploadTask.on(
@@ -43,4 +44,24 @@ const makeid = length => {
   return result
 }
 
-export { uploadImage, makeid }
+const resizeImage = (file)=> {
+  if(!file) return null
+  const img = new Promise((resolve) => {
+    Sizer.imageFileResizer(
+      file,
+      1200,
+      1200,
+      ['BLOB', 'JPEG', 'PNG'],
+      70,
+      0,
+      (uri) => {
+        resolve(uri);
+      },
+      'file',
+      50,
+      50
+    )
+  })
+  return img
+}
+export { uploadImage, makeid , resizeImage}

@@ -23,9 +23,9 @@ const Constant = {
   ],
   contentPage: [
     {},
-    { title: 'Tổng quan', link: '/' },
-    { title: 'Danh sách người dùng', link: '/system/user' },
-    { title: 'Lịch sử mượn trả', link: '/system/log' },
+    { title: 'Tổng quan hệ thống', link: '/' },
+    // { title: 'Danh sách người dùng', link: '/system/user' },
+    // { title: 'Lịch sử mượn trả', link: '/system/log' },
     { title: 'Nhân viên', link: '/report/employee' },
     { title: 'Danh mục', link: '/report/category' },
     { title: 'Phòng ban', link: '/report/department' },
@@ -34,7 +34,7 @@ const Constant = {
     { title: 'Báo hỏng thiết bị', link: '/equipment/list/broken ' },
     { title: 'Báo mất thiết bị', link: '/equipment/list/lost' },
     { title: 'Báo sửa thiết bị', link: '/equipment/list/fix' },
-    { title: 'Mượn/trả thiết bị', link: '/history' },
+    { title: 'Lịch sử mượn trả', link: '/history' },
     { title: 'Tra cứu', link: '/search' },
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
@@ -42,33 +42,37 @@ const Constant = {
     {
       key: '1',
       icon: 'feather-bar-chart-2',
-      label: 'Hệ thống',
-      child: [
-        { key: '2', label: 'Người mượn' },
-        { key: '3', label: 'Nhật ký' }
-      ]
+      label: 'Hệ thống'
+      // child: [
+      //   { key: '2', label: 'Người mượn' },
+      //   { key: '3', label: 'Nhật ký' }
+      // ]
     },
     {
-      key: '4',
+      key: '2',
       icon: 'feather-user',
       label: 'Khai báo',
       child: [
-        { key: '4', label: 'Nhân viên' },
-        { key: '5', label: 'Danh mục' },
-        { key: '6', label: 'Phòng ban' }
+        { key: '2', label: 'Nhân viên' },
+        { key: '3', label: 'Danh mục' },
+        { key: '4', label: 'Phòng ban' }
+      ]
+    },
+    {
+      key: '5',
+      icon: 'feather-briefcase',
+      label: 'Thiết bị',
+      child: [
+        { key: '5', label: 'Nhập thiết bị' },
+        { key: '6', label: 'Quản lý thiết bị' }
       ]
     },
     {
       key: '7',
-      icon: 'feather-briefcase',
-      label: 'Thiết bị',
-      child: [
-        { key: '7', label: 'Nhập thiết bị' },
-        { key: '8', label: 'Quản lý thiết bị' }
-      ]
+      icon: 'feather-alert-circle',
+      label: 'Mượn-trả'
     },
-    { key: '9', icon: 'feather-alert-circle', label: 'Mượn-trả' },
-    { key: '10', icon: 'feather-search', label: 'Tra cứu' }
+    { key: '8', icon: 'feather-search', label: 'Tra cứu' }
   ],
   dataBanner: [
     { label: 'Banner home', value: 'Banner-home' },
@@ -77,25 +81,25 @@ const Constant = {
     { label: 'Test thooi', value: 'test' }
   ],
   equipment_status: {
-    IN_WORK: 1,
-    IN_REPAIR: 2,
-    LIQUIDATION: 3,
-    FREE: 4
+    1: 'Đang sử dụng', //IN_WORK
+    2: 'Đang sửa chữa', //IN_REPAIR
+    3: 'Thanh lý', //LIQUIDATION
+    4: 'Sẵn sàng' //FREE
   },
   repair_status: {
-    NOT_YET: 1,
-    DONE: 2
+    1: 'Chưa hoàn thành', //NOT_YET
+    2: 'Hoàn thành' //DONE
   },
   request_status: {
-    WAITING: 1,
-    APPROVE: 2,
-    REJECT: 3
+    1: 'Đang chờ', //WAITING
+    2: 'Đã duyệt', // APPROVE
+    3: 'Từ chối' //REJECT
   },
   request_type: {
-    BORROW: 1, // mượn
-    RETURN: 2, // trả
-    REPAIR: 3,
-    LIQUIDATIOn: 4
+    1: 'Mượn', // mượn BORROW
+    2: 'Trả', // trả  RETURN
+    3: 'Sửa chữa', //REPAIR
+    4: 'Thanh lý' //LIQUIDATION
   }
 }
 

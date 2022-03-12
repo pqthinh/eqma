@@ -1,5 +1,4 @@
 import { withEmpty, withObject } from 'exp-value'
-import { useImage } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useState } from 'react'
 import InputGroup from '../../InputGroup'
@@ -10,16 +9,17 @@ import {
   Form,
   Icon,
   Image,
-  LayoutWrapper, Wrapper,
+  LayoutWrapper,
+  Wrapper,
   WrapperLoading
 } from './styled'
 import { eqModel } from './validation'
 import { useAlert, useRequestManager } from 'hooks'
 import { EndPoint } from 'config/api'
+import { resizeImage, uploadImage, makeid } from 'utils/Helpers'
 
-const FormEquiment = ({ equiment, type,setReload, ...others }) => {
-  const [data, setData] = useState(equiment)
-  const { resizeImage } = useImage()
+const FormEquiment = ({ equiment={}, type, setReload, ...others }) => {
+  const [data, setData] = useState({...equiment, imported_date: equiment?.imported_date || new Date()})
   const [loading, setLoading] = useState(false)
   const { onPostExecute, onPutExecute } = useRequestManager()
   const { showSuccess } = useAlert()
@@ -38,36 +38,55 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
       const image = await resizeImage(withEmpty('blobFile', file))
       setData(prev => ({
         ...prev,
-        image: image
+        file: image
       }))
     },
     [data]
   )
 
-  const equimentRequest = useCallback(data => {
-    console.log(data, 'equiment update')
-    async function execute(data) {
-      const result =
-        type == 'create'
-          ? await onPostExecute(EndPoint.create_equ, {
-              ...data,
-              created_at: new Date()
-            })
-          : await onPutExecute(EndPoint.updel_equ(data.id), {...data, updated_at: new Date()})
-      if (result) {
-        showSuccess('Lưu thông tin thành công')
-        setReload(true)
-        setLoading(false)
+  const equimentRequest = useCallback(
+    data => {
+      console.log(data, 'equiment update')
+      async function execute(data) {
+        const result =
+          type == 'create'
+            ? await onPostExecute(EndPoint.create_equ, {
+                ...data,
+                created_at: new Date()
+              })
+            : await onPutExecute(EndPoint.updel_equ(data.id), {
+                ...data,
+                updated_at: new Date()
+              })
+        if (result) {
+          showSuccess('Lưu thông tin thành công')
+          setReload(true)
+          setLoading(false)
+        }
       }
-    }
-    execute(data)
-
-  }, [type, setReload])
+      execute(data)
+    },
+    [type, setReload]
+  )
 
   const onSubmit = useCallback(
-    data => {
+    async data => {
       // setLoading(true)
-      equimentRequest(data)
+      try {
+        let linkimg = ''
+        if (data.file)
+          linkimg = await uploadImage(
+            `images/equiment/${Date.now()}.jpg`,
+            data.file
+          )
+        equimentRequest({
+          ...data,
+          image: linkimg || data.image,
+          code: makeid(6)
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
     [data]
   )
@@ -94,9 +113,9 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
             {data?.image || data?.file ? (
               <Image
                 source={
-                  (data.file &&
-                    URL.createObjectURL(withObject('file', data))) ||
-                  data.image
+                  data.file
+                    ? URL.createObjectURL(withObject('file', data))
+                    : data.image
                 }
               />
             ) : (
@@ -104,7 +123,8 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
             )}
           </Drag>
 
-          <br></br><br></br>
+          <br></br>
+          <br></br>
 
           <InputGroup
             value={withEmpty('name', data)}
@@ -119,8 +139,17 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
             value={withEmpty('producer', data)}
             label={'Nguồn gốc'}
             onChange={value => _handleChange('producer', value)}
-            placeholder={'Nguồn gốc'}
+            placeholder={'Công ty ABC'}
             name={'producer'}
+            leftIcon={<Icon name={'feather-sunrise'} />}
+            require
+          />
+          <InputGroup
+            value={withEmpty('price', data)}
+            label={'Giá niêm yết'}
+            onChange={value => _handleChange('price', value)}
+            placeholder={'Giá niêm yết'}
+            name={'price'}
             disabled
             leftIcon={<Icon name={'feather-sunrise'} />}
             require
@@ -135,8 +164,9 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
             require
           />
           <InputGroup
-            value={withEmpty('imported_date', data)}
+            value={withEmpty('imported_date', data)|| new Date()}
             label={'Ngày nhập'}
+            type='date'
             onChange={value => _handleChange('imported_date', value)}
             placeholder={'Ngày nhập'}
             name={'imported_date'}
@@ -146,16 +176,19 @@ const FormEquiment = ({ equiment, type,setReload, ...others }) => {
           <InputGroup
             value={withEmpty('notes', data)}
             label={'Ghi chú'}
-            onChange={value => _handleChange('notes', value)}
+            onChange={e => _handleChange('notes', e)}
             placeholder={'Ghi chú'}
             name={'notes'}
             leftIcon={<Icon name={'feather-bookmark'} />}
             require
-            as="textarea"
+            componentClass='textarea'
+            rows={3}
           />
 
           <Wrapper>
-            <Button type={'submit'}>{type == 'update' ? 'Cập nhật' : 'Thêm mới'}</Button>
+            <Button type={'submit'}>
+              {type == 'update' ? 'Cập nhật' : 'Thêm mới'}
+            </Button>
           </Wrapper>
         </Form>
       </LayoutWrapper>

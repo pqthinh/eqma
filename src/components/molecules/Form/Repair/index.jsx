@@ -93,22 +93,24 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
           <InputGroup
             value={withEmpty('details', data)}
             label={'Chi tiết'}
-            onChange={value => _handleChange('details', value)}
+            onChange={e => _handleChange('details', e)}
             placeholder={'Chi tiết'}
             name={'details'}
             leftIcon={<Icon name={'feather-framer'} />}
             require
-            as="textarea"
+            componentClass='textarea'
+            rows={3}
           />
           <InputGroup
             value={withEmpty('notes', data)}
             label={'Ghi chú'}
-            onChange={value => _handleChange('notes', value)}
+            onChange={e => _handleChange('notes', e)}
             placeholder={'Ghi chú'}
             name={'notes'}
             leftIcon={<Icon name={'feather-framer'} />}
             require
-            as="textarea"
+            componentClass='textarea'
+            rows={3}
           />
           <InputGroup
             value={withEmpty('place', data)}
@@ -129,7 +131,8 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             require
           />
           <InputGroup
-            value={withEmpty('start_date', data)}
+            value={withEmpty('start_date', data) || new Date()}
+            type="date"
             label={'Ngày sửa'}
             onChange={value => _handleChange('start_date', value)}
             placeholder={'Ngày sửa'}
@@ -138,7 +141,8 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             require
           />
           <InputGroup
-            value={withEmpty('end_date', data)}
+            value={withEmpty('end_date', data) || new Date()}
+            type="date"
             label={'Ngày hẹn trả'}
             onChange={value => _handleChange('end_date', value)}
             placeholder={'Ngày hẹn trả'}
