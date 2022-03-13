@@ -12,7 +12,8 @@ const Constant = {
     { URL: '/equipment/import', name: '' },
     { URL: '/equipment/list', name: '' },
     { URL: '/history', name: '' },
-    { URL: '/search', name: '' }
+    { URL: '/search', name: '' },
+    { URL: '/liquidation/form', name:''}
   ],
   publicRouter: [
     { URL: '/', name: '' },
