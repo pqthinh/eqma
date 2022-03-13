@@ -1,8 +1,8 @@
 import { EndPoint } from 'config/api'
-import { withEmpty } from 'exp-value'
+import { withArray, withEmpty } from 'exp-value'
 import { useAlert, useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import InputGroup from '../../InputGroup'
 import {
   Button,
@@ -19,9 +19,34 @@ import { makeid } from 'utils/Helpers'
 const FormEmployee = ({ employee, type, setReload, ...others }) => {
   const [data, setData] = useState(employee)
   const [loading, setLoading] = useState(false)
-  const { onPostExecute, onPutExecute } = useRequestManager()
-  const { showSuccess } = useAlert()
+  const { onPostExecute, onPutExecute , onGetExecute} = useRequestManager()
+  const { showSuccess, showError } = useAlert()
   const [showPass, setShowPass] = useState(false)
+  const [dep, setDep] = useState([])
+
+  useEffect(() => {
+    async function execute() {
+      const result = await onGetExecute(EndPoint.GET_LIST_DEP, {
+        params: { per_page: 1000 }
+      })
+      if (result) {
+        setDep(
+          withArray('data', result).map(e => ({
+            ...e,
+            label: e.name,
+            value: e.id
+          }))
+        )
+      } else {
+        showError('Không lấy được dữ liệu phòng ban')
+      }
+    }
+    execute()
+
+    return () => {
+      setData({})
+    }
+  }, [])
 
   const _handleChange = useCallback(
     (field, value) => {
@@ -98,35 +123,39 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
             leftIcon={<Icon name={'feather-user'} />}
             require
           />
-          {
-            type=="create"? <InputGroup
-            value={withEmpty('password', data)}
-            label={'Password'}
-            onChange={value => _handleChange('password', value)}
-            placeholder={'Password'}
-            name={'password'}
-            leftIcon={<Icon name={'feather-lock'} />}
-            rightIcon={
-              <Icon
-                name={showPass ? 'feather-eye-off' : 'feather-eye'}
-                background='true'
-                onClick={()=> setShowPass(!showPass)}
-              />
-            }
-            type={showPass? "text": 'password'}
-            require
-          />: null
-          }
+          {type == 'create' ? (
+            <InputGroup
+              value={withEmpty('password', data)}
+              label={'Password'}
+              onChange={value => _handleChange('password', value)}
+              placeholder={'Password'}
+              name={'password'}
+              leftIcon={<Icon name={'feather-lock'} />}
+              rightIcon={
+                <Icon
+                  name={showPass ? 'feather-eye-off' : 'feather-eye'}
+                  background='true'
+                  onClick={() => setShowPass(!showPass)}
+                />
+              }
+              type={showPass ? 'text' : 'password'}
+              require
+            />
+          ) : null}
 
           <FlexWrapper>
             <InputGroup
+              data={dep}
               value={withEmpty('department_id', data)}
               label={'Phòng ban'}
               onChange={value => _handleChange('department_id', value)}
               placeholder={'Phòng ban'}
               name={'department_id'}
               leftIcon={<Icon name={'feather-type'} />}
+              type='select'
               require
+              block
+              size='sm'
             />
             <InputGroup
               value={withEmpty('is_manager', data)}
@@ -165,7 +194,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
         </Form>
       </LayoutWrapper>
     )
-  }, [data, type, showPass])
+  }, [data, type, showPass,dep])
 
   return loading ? _renderLoading() : _renderForm()
 }
