@@ -1,6 +1,6 @@
-import { withEmpty, withObject } from 'exp-value'
+import { withArray, withEmpty, withObject } from 'exp-value'
 import PropTypes from 'prop-types'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import InputGroup from '../../InputGroup'
 import {
   Button,
@@ -17,15 +17,47 @@ import { eqModel } from './validation'
 import { useAlert, useRequestManager } from 'hooks'
 import { EndPoint } from 'config/api'
 import { resizeImage, uploadImage, makeid } from 'utils/Helpers'
+import moment from 'moment'
+import { DatePicker } from 'rsuite'
+import CurrencyInput from 'react-currency-input-field'
 
-const FormEquiment = ({ equiment={}, type, setReload, ...others }) => {
-  const [data, setData] = useState({...equiment, imported_date: equiment?.imported_date || new Date()})
+const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
+  const [data, setData] = useState({
+    ...equiment,
+    imported_date: equiment?.imported_date || moment()
+  })
   const [loading, setLoading] = useState(false)
-  const { onPostExecute, onPutExecute } = useRequestManager()
-  const { showSuccess } = useAlert()
+  const { onPostExecute, onPutExecute, onGetExecute } = useRequestManager()
+  const { showSuccess, showError } = useAlert()
+  const [category, setCategory] = useState([])
+
+  useEffect(() => {
+    async function execute() {
+      const result = await onGetExecute(EndPoint.GET_LIST_CATE, {
+        params: { per_page: 1000 }
+      })
+      if (result) {
+        setCategory(
+          withArray('data', result).map(e => ({
+            ...e,
+            label: e.name,
+            value: e.id
+          }))
+        )
+      } else {
+        showError('Không lấy được dữ liệu danh mục')
+      }
+    }
+    execute()
+
+    return () => {
+      setData({})
+    }
+  }, [])
 
   const _handleChange = useCallback(
     (field, value) => {
+      console.log(field, value)
       setData(prev => ({
         ...prev,
         [field]: value
@@ -79,6 +111,7 @@ const FormEquiment = ({ equiment={}, type, setReload, ...others }) => {
             `images/equiment/${Date.now()}.jpg`,
             data.file
           )
+        delete data['file']
         equimentRequest({
           ...data,
           image: linkimg || data.image,
@@ -145,32 +178,41 @@ const FormEquiment = ({ equiment={}, type, setReload, ...others }) => {
             require
           />
           <InputGroup
-            value={withEmpty('price', data)}
-            label={'Giá niêm yết'}
-            onChange={value => _handleChange('price', value)}
+            intlConfig={{ locale: 'vi-VN', currency: 'VND' }}
             placeholder={'Giá niêm yết'}
+            onValueChange={value => _handleChange('price', value)}
+            label={'Giá niêm yết'}
             name={'price'}
-            disabled
             leftIcon={<Icon name={'feather-sunrise'} />}
             require
+            accepter={CurrencyInput}
+            style={{ border: 0 }}
           />
           <InputGroup
+            data={category}
             value={withEmpty('category_id', data)}
-            label={'Mã danh mục'}
+            label={'Danh mục'}
             onChange={value => _handleChange('category_id', value)}
-            placeholder={'Mã danh mục'}
+            placeholder={'Danh mục'}
             name={'category_id'}
             leftIcon={<Icon name={'feather-align-justify'} />}
+            type='select'
             require
+            block
+            size='sm'
           />
           <InputGroup
-            value={withEmpty('imported_date', data)|| new Date()}
+            value={withEmpty('imported_date', data)}
             label={'Ngày nhập'}
-            type='date'
             onChange={value => _handleChange('imported_date', value)}
             placeholder={'Ngày nhập'}
             name={'imported_date'}
             leftIcon={<Icon name={'feather-calendar'} />}
+            size='sm'
+            cleanable={false}
+            placement='autoVerticalStart'
+            block
+            accepter={DatePicker}
             require
           />
           <InputGroup
@@ -193,7 +235,7 @@ const FormEquiment = ({ equiment={}, type, setReload, ...others }) => {
         </Form>
       </LayoutWrapper>
     )
-  }, [data])
+  }, [data, category])
 
   return loading ? _renderLoading() : _renderForm()
 }

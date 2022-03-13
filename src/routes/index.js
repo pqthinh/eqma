@@ -29,6 +29,10 @@ const DepartmentReport = lazy(() => import('pages/Report/Department'))
 const EquipmentImport = lazy(() => import('pages/Equipment/Import'))
 // 1. Quản lý thiết bị
 const EquipmentList = lazy(() => import('pages/Equipment/Manager'))
+
+// Thanh lý
+const LiquidationList = lazy(() => import('pages/Equipment/Liquidation'))
+const LiquidationForm = lazy(() => import('pages/Equipment/Liquidation/Form'))
 // sửa chữa
 // const RepairList = lazy(() => import('pages/Equipment/Repair'))
 
@@ -150,6 +154,23 @@ const Routes = ({ isLoggedIn, ...rest }) => {
           path={'/equipment/list'}
           render={props => {
             return <EquipmentList {...rest} {...props} />
+          }}
+        />
+        <Route
+          {...rest}
+          exact
+          path={'/liquidation/list'}
+          render={props => {
+            return <LiquidationList {...rest} {...props} />
+          }}
+        />
+        
+        <Route
+          {...rest}
+          exact
+          path={'/liquidation/form'}
+          render={props => {
+            return <LiquidationForm {...rest} {...props} />
           }}
         />
         <Route

@@ -87,7 +87,7 @@ const TableEmployee = ({
           data={data}
           wordWrap
           id='table-req'
-          autoHeight
+          height={window.innerHeight - 200}
           renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)

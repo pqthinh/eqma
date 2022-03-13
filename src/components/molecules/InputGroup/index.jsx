@@ -5,7 +5,8 @@ import {
   Control,
   Input,
   InputAddon,
-  TextRequire
+  TextRequire,
+  Picker
 } from './styled'
 import PropTypes from 'prop-types'
 
@@ -20,6 +21,7 @@ const InputGroup = ({
   rightIcon,
   placeholder,
   require,
+  type,
   ...rest
 }) => {
   return (
@@ -28,16 +30,26 @@ const InputGroup = ({
         {label}
         {require ? <TextRequire>(*)</TextRequire> : null}
       </Label>
+
       <Input>
         {leftIcon ? <InputAddon>{leftIcon}</InputAddon> : null}
-        <Control
-          name={name}
-          value={value}
-          onChange={onChange}
-          accepter={accepter}
-          placeholder={placeholder}
-          {...rest}
-        />
+        {type == 'select' ? (
+          <Picker
+            placeholder={placeholder}
+            placement='autoVerticalStart'
+            {...rest}
+          ></Picker>
+        ) : (
+          <Control
+            name={name}
+            value={value}
+            onChange={onChange}
+            accepter={accepter}
+            placeholder={placeholder}
+            type={type}
+            {...rest}
+          />
+        )}
         {rightIcon ? <InputAddon>{rightIcon}</InputAddon> : null}
       </Input>
     </Wrapper>
@@ -48,13 +60,14 @@ InputGroup.propTypes = {
   label: PropTypes.string,
   bold: PropTypes.bool,
   name: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.any,
   onChange: PropTypes.func,
   accepter: PropTypes.object,
   leftIcon: PropTypes.node,
   rightIcon: PropTypes.node,
   placeholder: PropTypes.string,
-  require: PropTypes.bool
+  require: PropTypes.bool,
+  type: PropTypes.any
 }
 
 export default React.memo(InputGroup)

@@ -4,6 +4,7 @@ import NotFoundPage from '../../NotFoundPage'
 import { ContentBody, Image, Content } from './styled'
 import Repair from '../Repair'
 import Equiment from '../Equiment'
+import Liquidation from '../Liquidation'
 
 const EquimentManager = () => {
   const [activeKeyNav, setActiveKeyNav] = useState('1')
@@ -21,6 +22,9 @@ const EquimentManager = () => {
       return <Repair />
     }
     if (activeKeyNav == '3') {
+      return <Liquidation />
+    }
+    if (activeKeyNav == '4') {
       return renderTimeline
     }
     return <NotFoundPage />
@@ -31,7 +35,8 @@ const EquimentManager = () => {
       contentBody={"Quản lý thiết bị"}
       items={[
         { contentName: 'Danh sách thiết bị', iconName: 'feather-gift' },
-        { contentName: 'Thiết bị sửa chữa', iconName: 'feather-thumbs-down' },
+        { contentName: 'Thiết bị sửa chữa', iconName: 'feather-tool' },
+        { contentName: 'Thiết bị thanh lý', iconName: 'feather-truck' },
         { contentName: 'Yêu cầu', iconName: 'feather-layers' },
       ]}
       activeKey={activeKeyNav}

@@ -1,13 +1,13 @@
 import { useDebounce, useRequestManager } from 'hooks'
 import { TopBody } from 'molecules'
-import { TableEquipment, WrapperContent } from 'organisms'
+import { TableLiquidation, WrapperContent } from 'organisms'
 import React, { useCallback, useEffect, useState } from 'react'
 import { EndPoint } from 'config/api'
 import { withArray, withNumber } from 'exp-value'
 import { useHistory } from 'react-router-dom'
 
-const Equipment = ({ ...others }) => {
-  const [listEqu, setListEqu] = useState([])
+const Liquidation = ({ ...others }) => {
+  const [listLiq, setListLiq] = useState([])
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
@@ -18,13 +18,13 @@ const Equipment = ({ ...others }) => {
   const searchInput = useDebounce(search, 3000)
 
   const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} buttonAction={() => history.push("/equipment/import")}/>
+    return <TopBody search={search} setSearch={setSearch} buttonAction={() => history.push("/liquidation/form")}/>
   }, [search])
 
-  const _renderTableEmp = useCallback(() => {
+  const _renderTableLiq = useCallback(() => {
     return (
-      <TableEquipment
-        expData={listEqu}
+      <TableLiquidation
+        expData={listLiq}
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
@@ -32,16 +32,16 @@ const Equipment = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listEqu, page, totalRecord])
+  }, [listLiq, page, totalRecord])
 
-  const getListEqu = useCallback(
+  const getListLiq = useCallback(
     params => {
       async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_EQU, {
+        const result = await onGetExecute(EndPoint.GET_LIST_LIQ, {
           params: params
         })
         if (result) {
-          setListEqu(withArray('data', result))
+          setListLiq(withArray('data', result))
           setTotalRecord(withNumber('meta.total', result))
         }
       }
@@ -52,20 +52,20 @@ const Equipment = ({ ...others }) => {
 
   useEffect(() => {
     if (reload) {
-      getListEqu({ name: searchInput, page: page - 1 })
+      getListLiq({ name: searchInput, page: page - 1 })
       setReload(false)
     }
   }, [searchInput, page, reload])
 
   useEffect(() => {
-    if (!reload) getListEqu({ name: searchInput, page: page })
+    if (!reload) getListLiq({ name: searchInput, page: page })
   }, [searchInput, page])
 
   return (
     <WrapperContent top={TopTab()} {...others}>
-      {_renderTableEmp()}
+      {_renderTableLiq()}
     </WrapperContent>
   )
 }
 
-export default React.memo(Equipment)
+export default React.memo(Liquidation)

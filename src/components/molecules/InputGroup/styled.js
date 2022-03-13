@@ -1,5 +1,12 @@
 import styled from 'styled-components'
-import { FormGroup, ControlLabel, FormControl, InputGroup, Icon } from 'rsuite'
+import {
+  FormGroup,
+  ControlLabel,
+  FormControl,
+  InputGroup,
+  Icon,
+  SelectPicker
+} from 'rsuite'
 import { BaseText } from 'atoms'
 
 export const Wrapper = styled(FormGroup)`
@@ -30,6 +37,24 @@ export const Control = styled(FormControl)`
     color: unset;
     background: unset;
   }
+  input {
+    border: 0;
+  }
+`
+export const Picker = styled(SelectPicker)`
+  outline: none;
+  font-size: 12px;
+  width: 100%;
+  .rs-picker-toggle {
+    border: 0;
+    font-size: 12px;
+    padding: 4px;
+  }
+  &.rs-picker-select[disabled] {
+    cursor: not-allowed;
+    color: unset;
+    background: unset;
+  }
 `
 export const Input = styled(InputGroup)`
   overflow: visible;
@@ -42,6 +67,7 @@ export const Input = styled(InputGroup)`
     width: 100%;
     border-width: 0;
     padding: 10px 5px;
+    white-space: pre;
   }
 `
 
