@@ -26,7 +26,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
 
   useEffect(() => {
     async function execute() {
-      const result = await onGetExecute(EndPoint.GET_LIST_DEP, {
+      const result = await onGetExecute(EndPoint.GET_LIST_DEPART, {
         params: { per_page: 1000 }
       })
       if (result) {
@@ -85,7 +85,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
       // setLoading(true)
       employeeRequest(data)
     },
-    [data, setReload]
+    [data]
   )
 
   const _renderLoading = useCallback(() => {
