@@ -25,6 +25,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
   const { onDeleteExecute } = useRequestManager()
   const { showSuccess } = useAlert()
+  const history= useHistory()
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
@@ -81,7 +82,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
         <WrapperIconButton
-          onClick={() => setShowModalFormEdit(true)}
+          onClick={() => history.push(`/equipment/${rowData.id}`)}
           appearance='subtle'
           icon={<Icon name='feather-eye' />}
         />

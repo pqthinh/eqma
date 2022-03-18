@@ -13,7 +13,7 @@ const Constant = {
     { URL: '/equipment/list', name: '' },
     { URL: '/history', name: '' },
     { URL: '/search', name: '' },
-    { URL: '/liquidation/form', name:''}
+    { URL: '/liquidation/form', name: '' }
   ],
   publicRouter: [
     { URL: '/', name: '' },
@@ -39,42 +39,67 @@ const Constant = {
     { title: 'Tra cứu', link: '/search' },
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
-  navigators: [
-    {
-      key: '1',
-      icon: 'feather-bar-chart-2',
-      label: 'Hệ thống'
-      // child: [
-      //   { key: '2', label: 'Người mượn' },
-      //   { key: '3', label: 'Nhật ký' }
-      // ]
-    },
-    {
-      key: '2',
-      icon: 'feather-user',
-      label: 'Khai báo',
-      child: [
-        { key: '2', label: 'Nhân viên' },
-        { key: '3', label: 'Danh mục' },
-        { key: '4', label: 'Phòng ban' }
+  navigators: (role = 'admin') => {
+    if (role == 'admin')
+      return [
+        {
+          key: '1',
+          icon: 'feather-bar-chart-2',
+          label: 'Hệ thống'
+          // child: [
+          //   { key: '2', label: 'Người mượn' },
+          //   { key: '3', label: 'Nhật ký' }
+          // ]
+        },
+        {
+          key: '2',
+          icon: 'feather-user',
+          label: 'Khai báo',
+          child: [
+            { key: '2', label: 'Nhân viên' },
+            { key: '3', label: 'Danh mục' },
+            { key: '4', label: 'Phòng ban' }
+          ]
+        },
+        {
+          key: '5',
+          icon: 'feather-briefcase',
+          label: 'Thiết bị',
+          child: [
+            { key: '5', label: 'Nhập thiết bị' },
+            { key: '6', label: 'Quản lý thiết bị' }
+          ]
+        },
+        {
+          key: '7',
+          icon: 'feather-alert-circle',
+          label: 'Mượn-trả'
+        },
+        { key: '8', icon: 'feather-search', label: 'Tra cứu' }
       ]
-    },
-    {
-      key: '5',
-      icon: 'feather-briefcase',
-      label: 'Thiết bị',
-      child: [
-        { key: '5', label: 'Nhập thiết bị' },
-        { key: '6', label: 'Quản lý thiết bị' }
-      ]
-    },
-    {
-      key: '7',
-      icon: 'feather-alert-circle',
-      label: 'Mượn-trả'
-    },
-    { key: '8', icon: 'feather-search', label: 'Tra cứu' }
-  ],
+    return [
+      {
+        key: '1',
+        icon: 'feather-bar-chart-2',
+        label: 'Hệ thống'
+      },
+      {
+        key: '2',
+        icon: 'feather-user',
+        label: 'Khai báo',
+        child: [
+          { key: '2', label: 'Mượn trả' },
+          { key: '3', label: 'Lịch sử' }
+        ]
+      },
+      {
+        key: '4',
+        icon: 'feather-briefcase',
+        label: 'Thiết bị'
+      },
+      { key: '8', icon: 'feather-search', label: 'Tra cứu' }
+    ]
+  },
   dataBanner: [
     { label: 'Banner home', value: 'Banner-home' },
     { label: 'banner-category', value: 'banner-category' },

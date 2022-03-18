@@ -70,7 +70,6 @@ const FormDepartment = ({ department, type,setReload, ...others }) => {
           model={departmentModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
-          onCheck={(e)=> console.log(e)}
         >
           <InputGroup
             value={withEmpty('name', data)}

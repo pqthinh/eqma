@@ -88,7 +88,6 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
   )
 
   const employeeRequest = useCallback(data => {
-    console.log(data, 'employee update')
     async function execute(data) {
       const result =
         type == 'create'

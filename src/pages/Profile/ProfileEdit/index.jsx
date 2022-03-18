@@ -60,13 +60,11 @@ const ProfileEdit = ({ ...others }) => {
       }
     }
     if (file) ({ ...input, file: file })
-    console.log(input)
     async function execute(data) {
       const result = await onPostExecute(
-        data.role == 'Admin' ? EndPoint.update_admin : EndPoint.update_admin,
+        data.role.toLowerCase() == 'admin' ? EndPoint.update_admin : EndPoint.update_admin,
         data
       )
-      console.log(result, 'UPDATE_PROFILE')
       if (result) {
         showSuccess('Cập nhật thông tin thành công')
       }
@@ -77,7 +75,7 @@ const ProfileEdit = ({ ...others }) => {
   useEffect(() => {
     const admin = JSON.parse(JSON.stringify(user))
     const lg = jwtDecode(token)
-    setLastLogin(new Date(lg?.iat * 1000))
+    setLastLogin(new Date(lg?.iat * 1000).toLocaleDateString())
     setData({
       role: withEmpty('role', user),
       avatar: withEmpty('avatar_url', admin),

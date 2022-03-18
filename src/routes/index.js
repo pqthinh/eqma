@@ -4,6 +4,8 @@ import React, { lazy, Suspense, useMemo, useCallback, useEffect } from 'react'
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 import { PrivateTemplate, PublicTemplate } from 'layout'
 import { Routers, Constants } from 'utils'
+import { useUser } from 'hooks'
+import { withEmpty } from 'exp-value'
 
 const EmptyPage = lazy(() => import('pages/NotFoundPage'))
 //  public page
@@ -24,6 +26,8 @@ const EmployeeReport = lazy(() => import('pages/Report/Employee'))
 const CategoryReport = lazy(() => import('pages/Report/Category'))
 const DepartmentReport = lazy(() => import('pages/Report/Department'))
 
+const EmployeeDetail = lazy(() => import('pages/Report/EmployeeDetail'))
+const EquipmentDetail = lazy(() => import('pages/Equipment/EquipmentDetail'))
 // Mục thiết bị
 // Nhập thiết bị
 const EquipmentImport = lazy(() => import('pages/Equipment/Import'))
@@ -45,6 +49,9 @@ const Search = lazy(() => import('pages/Search'))
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
   const history = useHistory()
+  const { user } = useUser()
+
+  const role = withEmpty('role', JSON.parse(JSON.stringify(user))).toLowerCase()
 
   const isPrivateRouter = useMemo(() => {
     return (
@@ -74,14 +81,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
       if (!isLoggedIn) history.push(Routers.LOGIN)
       return
     }
-  }, [location.pathname, isLoggedIn])
+  }, [location.pathname, isLoggedIn, role])
 
   useEffect(() => {
     if (isPrivateRouter && !isLoggedIn) history.push('/login')
     if (isPublicRouter && isLoggedIn) history.push('/')
   }, [location.pathname, isLoggedIn])
 
-  const _renderPrivateSuperAdminRoute = useCallback(() => {
+  const _renderPrivateAdminRoute = useCallback(() => {
     return (
       <PrivateTemplate>
         <Route
@@ -116,80 +123,108 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             return <ChangePasswordPage {...rest} {...props} />
           }}
         />
-        <Route
-          {...rest}
-          exact
-          path={'/report/employee'}
-          render={props => {
-            return <EmployeeReport {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/report/department'}
-          render={props => {
-            return <DepartmentReport {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/report/category'}
-          render={props => {
-            return <CategoryReport {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/equipment/import'}
-          render={props => {
-            return <EquipmentImport {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/equipment/list'}
-          render={props => {
-            return <EquipmentList {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/liquidation/list'}
-          render={props => {
-            return <LiquidationList {...rest} {...props} />
-          }}
-        />
-        
-        <Route
-          {...rest}
-          exact
-          path={'/liquidation/form'}
-          render={props => {
-            return <LiquidationForm {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/history'}
-          render={props => {
-            return <History {...rest} {...props} />
-          }}
-        />
-        <Route
-          {...rest}
-          exact
-          path={'/search'}
-          render={props => {
-            return <Search {...rest} {...props} />
-          }}
-        />
-        
+        {role == 'admin' ? (
+          <>
+            <Route
+              {...rest}
+              exact
+              path={'/report/employee'}
+              render={props => {
+                return <EmployeeReport {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/report/employee/:id'}
+              render={props => {
+                return <EmployeeDetail {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/report/department'}
+              render={props => {
+                return <DepartmentReport {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/report/category'}
+              render={props => {
+                return <CategoryReport {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/equipment/import'}
+              render={props => {
+                return <EquipmentImport {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/equipment/list'}
+              render={props => {
+                return <EquipmentList {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/equipment/:id'}
+              render={props => {
+                return <EquipmentDetail {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/liquidation/list'}
+              render={props => {
+                return <LiquidationList {...rest} {...props} />
+              }}
+            />
+
+            <Route
+              {...rest}
+              exact
+              path={'/liquidation/form'}
+              render={props => {
+                return <LiquidationForm {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/history'}
+              render={props => {
+                return <History {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/search'}
+              render={props => {
+                return <Search {...rest} {...props} />
+              }}
+            />
+          </>
+        ) : (
+          <Route
+            {...rest}
+            exact
+            path={'/emp/request'}
+            render={props => {
+              return <Search {...rest} {...props} />
+            }}
+          />
+        )}
       </PrivateTemplate>
     )
   }, [isLoggedIn, location.pathname])
@@ -229,7 +264,7 @@ const Routes = ({ isLoggedIn, ...rest }) => {
   const route = useCallback(() => {
     return isLoggedIn !== null
       ? isLoggedIn
-        ? _renderPrivateSuperAdminRoute()
+        ? _renderPrivateAdminRoute()
         : _renderPublicRoute()
       : _handleBadRouter()
   }, [isLoggedIn, location.pathname])

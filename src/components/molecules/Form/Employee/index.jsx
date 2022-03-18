@@ -2,11 +2,12 @@ import { EndPoint } from 'config/api'
 import { withArray, withEmpty } from 'exp-value'
 import { useAlert, useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
+import { SelectPicker } from 'rsuite'
+import { makeid } from 'utils/Helpers'
 import InputGroup from '../../InputGroup'
 import {
   Button,
-  FlexWrapper,
   Form,
   Icon,
   LayoutWrapper,
@@ -14,8 +15,6 @@ import {
   WrapperLoading
 } from './styled'
 import { employeeModel } from './validation'
-import { makeid } from 'utils/Helpers'
-import { SelectPicker } from 'rsuite'
 
 const FormEmployee = ({ employee, type, setReload, ...others }) => {
   const [data, setData] = useState(employee)
@@ -67,7 +66,8 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
             ? await onPostExecute(EndPoint.create_emp, {
                 ...data,
                 code: makeid(6),
-                join_date: new Date()
+                join_date: new Date(),
+                is_manager: 1
               })
             : await onPutExecute(EndPoint.updel_emp(data.id), data)
         if (result) {
@@ -102,7 +102,6 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
           model={employeeModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
-          onCheck={e => console.log(e)}
         >
           <br></br>
 
@@ -157,7 +156,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
             block
             size='sm'
           />
-          <FlexWrapper>
+          {/* <FlexWrapper>
             <InputGroup
               value={withEmpty('is_manager', data)}
               label={'QL'}
@@ -167,7 +166,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
               onChange={value => _handleChange('is_manager', value)}
               require
             />
-          </FlexWrapper>
+          </FlexWrapper> */}
 
           <InputGroup
             value={withEmpty('phone_number', data)}

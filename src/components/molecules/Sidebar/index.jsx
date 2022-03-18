@@ -76,7 +76,7 @@ const Sidebar = props => {
   const renderMenuSidebar = useCallback(() => {
     return (
       <Navigator>
-        {Constants.navigators?.map(item =>
+        {Constants.navigators(withEmpty('role', user).toLowerCase())?.map(item =>
           !item.child ? (
             <NavItem
               eventKey={item.key}
@@ -113,7 +113,7 @@ const Sidebar = props => {
         )}
       </Navigator>
     )
-  }, [activeKey])
+  }, [activeKey, user])
 
   const renderFooter = useCallback(user => {
     return (
@@ -124,7 +124,7 @@ const Sidebar = props => {
           controlId='control-id-hover-enterable'
           onClick={goProfilePage}
           speaker={
-            <WrapperPopover title={withEmpty('full_name', user)}>
+            <WrapperPopover title={withEmpty('name', user)}>
               <Text link onClick={goProfilePage}>
                 Trang cá nhân
               </Text>
@@ -146,7 +146,7 @@ const Sidebar = props => {
         </Whisper>
       </Footer>
     )
-  }, [])
+  }, [user])
 
   // handleActiveMenu
   useEffect(() => {
