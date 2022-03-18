@@ -70,6 +70,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
           model={repairModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
+          onCheck={(e)=> console.log(e)}
         >
           <InputGroup
             value={withEmpty('employee_id', data)}

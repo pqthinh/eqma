@@ -32,7 +32,7 @@ const Liquidation = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listLiq, page, totalRecord])
+  }, [listLiq, page, totalRecord,reload])
 
   const getListLiq = useCallback(
     params => {
@@ -59,7 +59,7 @@ const Liquidation = ({ ...others }) => {
 
   useEffect(() => {
     if (!reload) getListLiq({ name: searchInput, page: page })
-  }, [searchInput, page])
+  }, [searchInput, page,reload])
 
   return (
     <WrapperContent top={TopTab()} {...others}>

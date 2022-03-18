@@ -1,14 +1,13 @@
+import PropTypes from 'prop-types'
 import React from 'react'
 import {
-  Wrapper,
-  Label,
   Control,
   Input,
   InputAddon,
+  Label,
   TextRequire,
-  Picker
+  Wrapper
 } from './styled'
-import PropTypes from 'prop-types'
 
 const InputGroup = ({
   label,
@@ -33,23 +32,16 @@ const InputGroup = ({
 
       <Input>
         {leftIcon ? <InputAddon>{leftIcon}</InputAddon> : null}
-        {type == 'select' ? (
-          <Picker
-            placeholder={placeholder}
-            placement='autoVerticalStart'
-            {...rest}
-          ></Picker>
-        ) : (
-          <Control
-            name={name}
-            value={value}
-            onChange={onChange}
-            accepter={accepter}
-            placeholder={placeholder}
-            type={type}
-            {...rest}
-          />
-        )}
+
+        <Control
+          name={name}
+          value={value}
+          onChange={onChange}
+          accepter={accepter}
+          placeholder={placeholder}
+          type={type}
+          {...rest}
+        />
         {rightIcon ? <InputAddon>{rightIcon}</InputAddon> : null}
       </Input>
     </Wrapper>

@@ -47,6 +47,7 @@ const FormRequest = ({ request, type, ...others }) => {
 
   const onSubmit = useCallback(
     data => {
+      console.log(data, "data")
       setLoading(true)
       requestRequest(data)
     },
@@ -66,6 +67,7 @@ const FormRequest = ({ request, type, ...others }) => {
           model={requestModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
+          onCheck={(e)=> console.log(e)}
         >
           <Drag
             draggable

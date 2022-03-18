@@ -15,11 +15,12 @@ import {
 } from './styled'
 import { employeeModel } from './validation'
 import { makeid } from 'utils/Helpers'
+import { SelectPicker } from 'rsuite'
 
 const FormEmployee = ({ employee, type, setReload, ...others }) => {
   const [data, setData] = useState(employee)
   const [loading, setLoading] = useState(false)
-  const { onPostExecute, onPutExecute , onGetExecute} = useRequestManager()
+  const { onPostExecute, onPutExecute, onGetExecute } = useRequestManager()
   const { showSuccess, showError } = useAlert()
   const [showPass, setShowPass] = useState(false)
   const [dep, setDep] = useState([])
@@ -101,6 +102,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
           model={employeeModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
+          onCheck={e => console.log(e)}
         >
           <br></br>
 
@@ -142,21 +144,20 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
               require
             />
           ) : null}
-
+          <InputGroup
+            data={dep}
+            value={withEmpty('department_id', data)}
+            label={'Phòng ban'}
+            onChange={value => _handleChange('department_id', value)}
+            placeholder={'Phòng ban'}
+            name={'department_id'}
+            leftIcon={<Icon name={'feather-type'} />}
+            accepter={SelectPicker}
+            require
+            block
+            size='sm'
+          />
           <FlexWrapper>
-            <InputGroup
-              data={dep}
-              value={withEmpty('department_id', data)}
-              label={'Phòng ban'}
-              onChange={value => _handleChange('department_id', value)}
-              placeholder={'Phòng ban'}
-              name={'department_id'}
-              leftIcon={<Icon name={'feather-type'} />}
-              type='select'
-              require
-              block
-              size='sm'
-            />
             <InputGroup
               value={withEmpty('is_manager', data)}
               label={'QL'}
@@ -194,7 +195,7 @@ const FormEmployee = ({ employee, type, setReload, ...others }) => {
         </Form>
       </LayoutWrapper>
     )
-  }, [data, type, showPass,dep])
+  }, [data, type, showPass, dep])
 
   return loading ? _renderLoading() : _renderForm()
 }

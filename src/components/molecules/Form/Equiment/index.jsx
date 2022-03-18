@@ -18,7 +18,7 @@ import { useAlert, useRequestManager } from 'hooks'
 import { EndPoint } from 'config/api'
 import { resizeImage, uploadImage, makeid } from 'utils/Helpers'
 import moment from 'moment'
-import { DatePicker } from 'rsuite'
+import { DatePicker, SelectPicker } from 'rsuite'
 import CurrencyInput from 'react-currency-input-field'
 
 const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
@@ -57,7 +57,6 @@ const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
 
   const _handleChange = useCallback(
     (field, value) => {
-      console.log(field, value)
       setData(prev => ({
         ...prev,
         [field]: value
@@ -78,7 +77,6 @@ const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
 
   const equimentRequest = useCallback(
     data => {
-      console.log(data, 'equiment update')
       async function execute(data) {
         const result =
           type == 'create'
@@ -104,6 +102,7 @@ const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
   const onSubmit = useCallback(
     async data => {
       // setLoading(true)
+      console.log(data, 'data')
       try {
         let linkimg = ''
         if (data.file)
@@ -196,7 +195,8 @@ const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
             placeholder={'Danh mục'}
             name={'category_id'}
             leftIcon={<Icon name={'feather-align-justify'} />}
-            type='select'
+            placement='autoVerticalStart'
+            accepter={SelectPicker}
             require
             block
             size='sm'

@@ -32,7 +32,7 @@ const Equipment = ({ ...others }) => {
         limit={10}
       />
     )
-  }, [listEqu, page, totalRecord])
+  }, [listEqu, page, totalRecord,reload])
 
   const getListEqu = useCallback(
     params => {

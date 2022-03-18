@@ -69,6 +69,12 @@ export const Input = styled(InputGroup)`
     padding: 10px 5px;
     white-space: pre;
   }
+  .rs-picker-select {
+    padding: 0;
+    a {
+      border: 0;
+    }
+  }
 `
 
 export const InputAddon = styled(Input.Addon)`

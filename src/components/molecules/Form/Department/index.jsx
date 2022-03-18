@@ -31,7 +31,6 @@ const FormDepartment = ({ department, type,setReload, ...others }) => {
   )
 
   const departmentRequest = useCallback(data => {
-    console.log(data, type, 'department update')
     async function execute(data) {
       const result =
         type == 'create'
@@ -52,6 +51,7 @@ const FormDepartment = ({ department, type,setReload, ...others }) => {
   const onSubmit = useCallback(
     data => {
       // setLoading(true)
+      console.log(data)
       departmentRequest(data)
     },
     [data]
@@ -70,6 +70,7 @@ const FormDepartment = ({ department, type,setReload, ...others }) => {
           model={departmentModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
+          onCheck={(e)=> console.log(e)}
         >
           <InputGroup
             value={withEmpty('name', data)}

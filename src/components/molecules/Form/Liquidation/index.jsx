@@ -18,6 +18,7 @@ import { resizeImage, uploadImage, makeid } from 'utils/Helpers'
 import { useAlert, useRequestManager } from 'hooks'
 import { EndPoint } from 'config/api'
 import CurrencyInput from 'react-currency-input-field'
+import { SelectPicker } from 'rsuite'
 
 const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
   const [data, setData] = useState(liquidation)
@@ -140,6 +141,7 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
           model={lqModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
+          onCheck={(e)=> console.log(e)}
         >
           <Drag
             draggable
@@ -170,7 +172,8 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
             placeholder={'Thiết bị'}
             name={'equipment_id'}
             leftIcon={<Icon name={'feather-file-text'} />}
-            type='select'
+            accepter={SelectPicker}
+            placement='autoVerticalStart'
             require
             block
             size='sm'
@@ -184,7 +187,8 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
             placeholder={'Nhân viên quản lý'}
             name={'employee_id'}
             leftIcon={<Icon name={'feather-user'} />}
-            type='select'
+            accepter={SelectPicker }
+            placement='autoVerticalStart'
             require
             block
             size='sm'

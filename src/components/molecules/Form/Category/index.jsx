@@ -68,6 +68,7 @@ const FormCategory = ({ category, type, setReload, ...others }) => {
           model={categoryModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
+          onCheck={(e)=> console.log(e)}
         >
           <InputGroup
             value={withEmpty('name', data)}
