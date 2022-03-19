@@ -136,7 +136,7 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             <Route
               {...rest}
               exact
-              path={'/report/employee/:id'}
+              path={'/report/employee/detail/:id'}
               render={props => {
                 return <EmployeeDetail {...rest} {...props} />
               }}
@@ -176,7 +176,7 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             <Route
               {...rest}
               exact
-              path={'/equipment/:id'}
+              path={'/equipment/detail/:id'}
               render={props => {
                 return <EquipmentDetail {...rest} {...props} />
               }}

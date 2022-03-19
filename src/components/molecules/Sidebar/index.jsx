@@ -162,7 +162,7 @@ const Sidebar = props => {
   }, [])
 
   return (
-    <GridItem md={1} sm={1} lg={4}>
+    <GridItem md={1} sm={1} lg={4} style={{position: 'sticky', top:0}}>
       <WrapperContainer expanded={expanded}>
         <Menu
           {...others}

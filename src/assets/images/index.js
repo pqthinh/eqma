@@ -13,5 +13,7 @@ export default {
   LOADING: LOADING,
   pv: pv,
   uv: uv,
-  vv: vv
+  vv: vv,
+  no_notify: require('./no-notify.png'),
+  nopost: require('./no-post.jpg'),
 }

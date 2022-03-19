@@ -24,6 +24,7 @@ export const WrapperContainer = styled.div`
 export const GridItem = styled(BaseItemGrid)`
   padding: 0;
   height: 100vh;
+  // height: 100%;
   @media screen and (max-width: 1200px) and (min-width: 480px) {
     min-width: 56px;
   }

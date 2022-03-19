@@ -83,7 +83,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
       {showModalFormEdit && _renderModalFormEmployee()}
       <WrapperIcon>
         <WrapperIconButton
-          onClick={() => history.push(`/report/employee/${rowData.id}`)}
+          onClick={() => history.push(`/report/employee/detail/${rowData.id}`)} ///report/employee/detail/
           appearance='subtle'
           icon={<Icon name='feather-eye' />}
         />

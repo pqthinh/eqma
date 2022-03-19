@@ -13,7 +13,9 @@ const Constant = {
     { URL: '/equipment/list', name: '' },
     { URL: '/history', name: '' },
     { URL: '/search', name: '' },
-    { URL: '/liquidation/form', name: '' }
+    { URL: '/liquidation/form', name: '' },
+    { URL: '/report/employee/detail', name: '' },
+    { URL: '/equipment/detail', name: '' },
   ],
   publicRouter: [
     { URL: '/', name: '' },

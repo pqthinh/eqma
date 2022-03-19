@@ -12,6 +12,7 @@ export const Wrapper = styled(Container)`
 export const BodyWrapper = styled(Content)`
   position: relative;
   height: 100%;
+  min-height: 100vh;
   background: ${props => props.theme.colors.background};
 `
 
@@ -19,7 +20,8 @@ export const BodyWrapper = styled(Content)`
 export const LayoutWrapper = styled(Container)`
   display: block;
   background-color: ${props => props.theme.colors.gray[1]};
-  height: 100vh;
+  min-height: 100vh;
+  height: 100%;
   overflow-x: hidden;
   &::-webkit-scrollbar {
     width: 0;

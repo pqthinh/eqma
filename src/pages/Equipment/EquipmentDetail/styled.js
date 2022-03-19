@@ -1,11 +1,10 @@
-import { BaseImage } from 'atoms'
+import { BaseImage, BaseButton, BaseIcon, BaseText } from 'atoms'
 import { WrapperContentBody } from 'organisms'
 import styled from 'styled-components'
+import { Container } from 'rsuite'
+
 export const ContentBody = styled(WrapperContentBody)``
 
-export const Wrapper = styled.div`
-  display: block;
-`
 export const Content = styled.div`
   display: block !important;
   width: 100%;
@@ -22,4 +21,37 @@ export const Image = styled(BaseImage)`
   width: 100%;
   max-height: 480px;
   max-width: 480px;
+`
+
+export const Button = styled(BaseButton)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    margin-right: 10px;
+  }
+`
+export const Icon = styled(BaseIcon)`
+  width: 20px;
+`
+export const Wrapper = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  border: 1px solid ${props => props.theme.colors.gray[5]};
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+`
+export const Text = styled(BaseText)`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`
+
+export const WrapperLeft = styled(Container)``
+export const WrapperRight = styled(Container)`
+  text-align: right;
+`
+export const WrapperItem = styled.div`
+  display: flex;
 `

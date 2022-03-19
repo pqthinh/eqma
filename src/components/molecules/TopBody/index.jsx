@@ -36,7 +36,7 @@ const TopBody = ({
       </Form>
       {typeof buttonAction === 'function' && (
         <Button onClick={buttonAction} disabled={disableAdd}>
-          THÊM MỚI
+          Thêm mới
         </Button>
       )}
     </Wrapper>
