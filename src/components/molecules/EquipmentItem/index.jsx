@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Wrapper, Text, Image, WrapperLeft, WrapperRight } from './styled'
 import { withEmpty } from 'exp-value'
 import { Whisper, Tooltip } from 'rsuite'
+import { Constants } from 'utils'
 
 function EquipmentItem({ equi, type, ...others }) {
   const item = (title, value, slice = false) => {
@@ -36,9 +37,12 @@ function EquipmentItem({ equi, type, ...others }) {
     >
       <WrapperLeft style={{ width: type == 'liquidation' ? '60%' : '100%' }}>
         {item('Mã thiết bị:', withEmpty('equipment_id', equi))}
-        {item('Nội dung:', withEmpty('details', equi), true)}
-        {item('Ghi chú:', withEmpty('note', equi), true)}
-        {item('Mã thiết bị:', withEmpty('equipment_id', equi))}
+        {type != 'status_log'
+          ? item('Nội dung:', withEmpty('details', equi), true)
+          : null}
+        {type != 'status_log'
+          ? item('Ghi chú:', withEmpty('note', equi), true)
+          : null}
         {type == 'liquidation' || type == 'repair' ? (
           <>
             {item('Địa chỉ:', withEmpty('place', equi), true)}
@@ -59,6 +63,14 @@ function EquipmentItem({ equi, type, ...others }) {
           <>
             {item('Trạng thái:', withEmpty('status', equi))}
             {item('Ngày sửa:', withEmpty('start_date', equi))}
+            {item('Ngày hẹn trả:', withEmpty('end_date', equi))}
+          </>
+        ) : null}
+        {type == 'status_log' ? (
+          <>
+            {item('Mã nhân viên sd: ', withEmpty('employee_id', equi))}
+            {item('Trạng thái', withEmpty('status', equi))}
+            {item('Tính chất', Constants.equipment_status[withEmpty('type', equi)|| 5])}
             {item('Ngày hẹn trả:', withEmpty('end_date', equi))}
           </>
         ) : null}

@@ -112,7 +112,8 @@ const Constant = {
     1: 'Đang sử dụng', //IN_WORK
     2: 'Đang sửa chữa', //IN_REPAIR
     3: 'Thanh lý', //LIQUIDATION
-    4: 'Sẵn sàng' //FREE
+    4: 'Sẵn sàng', //FREE
+    5: 'Không xác định'
   },
   repair_status: {
     1: 'Chưa hoàn thành', //NOT_YET

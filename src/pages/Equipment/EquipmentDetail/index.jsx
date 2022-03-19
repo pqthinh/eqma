@@ -13,18 +13,21 @@ import {
   WrapperItem
 } from './styled'
 import { useRequestManager, useAlert } from 'hooks'
-import { withArray, withObject, withEmpty } from 'exp-value'
+import { withArray, withEmpty } from 'exp-value'
 import { EndPoint } from 'config/api'
 import { useHistory, useParams } from 'react-router-dom'
 import { FlexboxGrid, Divider } from 'rsuite'
 import { EquipmentItem } from 'molecules'
 import { IMAGES } from 'assets'
+import { Whisper, Tooltip } from 'rsuite'
 
 const EquipmentDetail = () => {
   const [activeKeyNav, setActiveKeyNav] = useState('1')
   const [info, setInfo] = useState()
   const [request, setRequest] = useState()
   const [liquidation, setLiquidation] = useState()
+  const [status_log, setStatus_log]= useState()
+  const [repair, setRepair]= useState()
 
   const { onGetExecute } = useRequestManager()
   const { showError } = useAlert()
@@ -33,13 +36,15 @@ const EquipmentDetail = () => {
 
   const onSelect = useCallback(e => setActiveKeyNav(e), [activeKeyNav])
 
-  const getEmp = useCallback(() => {
+  const getEqui = useCallback(() => {
     async function execute() {
       const result = await onGetExecute(EndPoint.get_equ(id))
       if (result) {
-        setInfo(withObject('data', result))
-        setRequest(withArray('data.request', result))
-        setLiquidation(withArray('data.liquidation', result))
+        setInfo(result)
+        setRequest(withArray('request', result))
+        setLiquidation(withArray('liquidation', result))
+        setStatus_log(withArray('status_log', result))
+        setRepair(withArray('repair', result))
       } else {
         showError('Lấy dữ liệu thiết bị không thành công')
       }
@@ -47,13 +52,34 @@ const EquipmentDetail = () => {
     execute()
   }, [id])
 
-  useEffect(getEmp, [id])
+  useEffect(getEqui, [id])
+
+  const item = (title, value, slice = false) => {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+        <WrapperLeft>{title}</WrapperLeft>
+        <WrapperRight>
+          <Whisper
+            placement='top'
+            trigger='hover'
+            controlId='control-id-hover'
+            speaker={<Tooltip>{value}</Tooltip>}
+          >
+            <Text bold>
+              {slice ? value.toString().slice(50) + '... ' : value}
+            </Text>
+          </Whisper>
+        </WrapperRight>
+      </div>
+    )
+  }
 
   // eslint-disable-next-line
   const RowItem = ({ data, type, ...rest }) => {
     return (
       <Wrapper style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}} {...rest}>
-        {Array.isArray(data) ? (
+        {/* eslint-disable-next-line */}
+        {Array.isArray(data) && data.length>0 ? (
           [...data].map((equi, index) => (
             <EquipmentItem equi={equi} key={index} type={type} />
           ))
@@ -71,20 +97,14 @@ const EquipmentDetail = () => {
     if (activeKeyNav == '2') {
       return <RowItem data={liquidation} type="liquidation"/>
     }
+    if (activeKeyNav == '3') {
+      return <RowItem data={repair} type="repair"/>
+    }
+    if (activeKeyNav == '4') {
+      return <RowItem data={status_log} type="status_log"/>
+    }
     return <NotFoundPage />
   }, [activeKeyNav])
-
-  // eslint-disable-next-line
-  const Item = ({ title, value, ...others }) => {
-    return (
-      <WrapperItem {...others}>
-        <WrapperLeft>{title}</WrapperLeft>
-        <WrapperRight>
-          <Text bold>{value}</Text>
-        </WrapperRight>
-      </WrapperItem>
-    )
-  }
 
   const InfoEmp = () => {
     return (
@@ -93,14 +113,14 @@ const EquipmentDetail = () => {
           <FlexboxGrid.Item colspan={4}>
             <Button
               appearance='primary'
-              onClick={() => history.push('/report/employee')}
+              onClick={() => history.push('/equipment/list')}
             >
               <Icon name='feather-arrow-left' />
               Quay lại
             </Button>
           </FlexboxGrid.Item>
           <FlexboxGrid.Item colspan={4}>
-            <Button appearance='secondary'>
+            <Button appearance='secondary' onClick={getEqui}>
               <Icon name='feather-refresh-cw' />
               Làm mới
             </Button>
@@ -109,26 +129,17 @@ const EquipmentDetail = () => {
         <Divider>Thông tin thiết bị</Divider>
         <WrapperItem style={{padding: 20}}>
           <WrapperLeft>
-            <Item title='Tên nhân viên: ' value={withEmpty('name', info)} />
-            <Item title='Email: ' value={withEmpty('email', info)} />
-            <Item title='Địa chỉ: ' value={withEmpty('address', info)} />
-            <Item title='Sđt: ' value={withEmpty('phone_number', info)} />
-            <Item
-              title='Ngày tham gia: '
-              value={withEmpty('join_date', info).toDate()}
-            />
-            <Item
-              title='Phòng ban: '
-              value={
-                `(${withEmpty('department.id', info)}) ` +
-                withEmpty('department.name', info)
-              }
-            />
+            {item('Tên thiết bị: ', withEmpty('name', info), true)}
+            {item('Mã danh mục: ',withEmpty('category_id', info))}
+            {item('Giá: ', withEmpty('price', info).toLocaleString('vi-VN'))}
+            {item('Trạng thái: ',withEmpty('status', info))}
+            {item('Ngày nhập: ',withEmpty('created_at', info))}
+            {item('Ghi chú: ',withEmpty('notes', info), true)}
           </WrapperLeft>
           <WrapperRight style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
             <Image
-              source={IMAGES.AVATAR.default}
-              style={{ height: 120, width: 120, borderRadius: '50%' }}
+              source={withEmpty('image', info)}
+              style={{ height: 120, width: 120}}
             />
           </WrapperRight>
         </WrapperItem>
@@ -140,10 +151,12 @@ const EquipmentDetail = () => {
 
   return (
     <ContentBody
-      contentBody={'Thông tin nhân viên'}
+      contentBody={'Thông tin thiết bị'}
       items={[
         { contentName: 'Lịch sử yêu cầu', iconName: 'feather-book' },
-        { contentName: 'Lịch sử thanh lý', iconName: 'feather-shopping-bag' }
+        { contentName: 'Lịch sử thanh lý', iconName: 'feather-shopping-bag' },
+        { contentName: 'Lịch sử sửa chữa', iconName: 'feather-tool' },
+        { contentName: 'Lịch sử sử dụng', iconName: 'feather-loader' }
       ]}
       activeKey={activeKeyNav}
       setActiveKey={onSelect}
