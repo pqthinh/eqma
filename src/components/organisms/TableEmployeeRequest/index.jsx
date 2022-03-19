@@ -15,6 +15,15 @@ import {
   WrapperIconButton
 } from './styled'
 
+const EquimentCell = ({ rowData, dataKey, ...props }) => {
+  const history = useHistory()
+  return (
+    <Cell {...props} style={{cursor: "pointer"}} onClick={() => history.push(`/equipment/detail/${rowData.id}`)}>
+      {rowData[dataKey]}
+    </Cell>
+  )
+}
+
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
   const hideModal = useCallback(() => {
@@ -87,31 +96,25 @@ const TableEmployee = ({
           data={data}
           wordWrap
           id='table-erequest'
-          autoHeight
+          height={window.innerHeight - 200}
           renderEmpty={() => {}}
           onRowClick={rowData => {
             console.log(rowData)
           }}
           {...others}
         >
-          <Column width={120} align='center'>
+          <Column width={60} align='center'>
             <Header>ID</Header>
             <TextCell dataKey='id' />
           </Column>
           <Column width={120} align='center'>
             <Header>Mã TB</Header>
-            <TextCell dataKey='equipment_id' />
+            <EquimentCell dataKey='equipment_id' />
           </Column>
-          <Column width={120} align='center'>
-            <Header>Mã NV</Header>
-            <TextCell dataKey='employee_id' />
-          </Column>
-
           <Column width={120} align='center'>
             <Header>Phí</Header>
             <TextCell dataKey='price' />
           </Column>
-
           <Column width={250}>
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
@@ -159,6 +162,11 @@ const TableEmployee = ({
       />
     </Wrapper>
   )
+}
+
+EquimentCell.propTypes = {
+  rowData: PropTypes.object,
+  dataKey: PropTypes.string
 }
 
 ActionCell.propTypes = {

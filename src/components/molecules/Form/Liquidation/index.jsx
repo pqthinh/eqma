@@ -39,8 +39,6 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
         })
       ])
         .then(data => {
-          console.log(data)
-
           let eq = withArray('data', data[1]).map(e => ({
               ...e,
               label: `${e.name} (${e.id})`,

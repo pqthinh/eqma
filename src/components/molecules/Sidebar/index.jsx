@@ -40,8 +40,7 @@ const Sidebar = props => {
   const { onPostExecute } = useRequestManager()
 
   const onLogout = React.useCallback(() => {
-    async function execute(data) {
-      console.log(data)
+    async function execute() {
       const result = await onPostExecute(EndPoint.LOGOUT_ADMIN)
       if (result) {
         await reset()
@@ -49,7 +48,7 @@ const Sidebar = props => {
         history.push(Routers.SIGN_IN_PAGE)
       }
     }
-    execute(user)
+    execute()
   }, [user])
 
   const goProfilePage = useCallback(() => {
@@ -85,7 +84,7 @@ const Sidebar = props => {
               activeKey={activeKey}
               setActiveKey={setActiveKey}
               key={item.key}
-              onClick={() => history.push(Routers.NAV_LINK[item.key - 1])}
+              onClick={() => history.push(Routers.NAV_LINK(withEmpty('role', user).toLowerCase())[item.key - 1])}
             />
           ) : (
             <DropdownWrapper
@@ -101,7 +100,7 @@ const Sidebar = props => {
                   key={child.key}
                   active={activeKey == eval(child.key)}
                   onSelect={e => {
-                    history.push(Routers.NAV_LINK[eval(e - 1)])
+                    history.push(Routers.NAV_LINK(withEmpty('role', user).toLowerCase())[eval(e - 1)])
                     setActiveKey(e)
                   }}
                 >
@@ -150,7 +149,7 @@ const Sidebar = props => {
 
   // handleActiveMenu
   useEffect(() => {
-    let currentLink = Routers.NAV_LINK.indexOf(location.pathname)
+    let currentLink = Routers.NAV_LINK(withEmpty('role', user).toLowerCase()).indexOf(location.pathname)
     if (currentLink >= 0) return setActiveKey((currentLink + 1).toString())
     setActiveKey(null)
   }, [location])

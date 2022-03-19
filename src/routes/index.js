@@ -46,6 +46,10 @@ const History = lazy(() => import('pages/History'))
 // Tra cứu
 const Search = lazy(() => import('pages/Search'))
 
+// Request
+const RequestEmployee = lazy(() => import('pages/ForEmployee/Request'))
+const RequestCreateEmployee = lazy(() => import('pages/ForEmployee/CreateRequest'))
+
 const Routes = ({ isLoggedIn, ...rest }) => {
   const location = useLocation()
   const history = useHistory()
@@ -216,14 +220,32 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             />
           </>
         ) : (
-          <Route
-            {...rest}
-            exact
-            path={'/emp/request'}
-            render={props => {
-              return <Search {...rest} {...props} />
-            }}
-          />
+          <>
+            <Route
+              {...rest}
+              exact
+              path={'/emp/request'}
+              render={props => {
+                return <RequestEmployee {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/emp/create/request'}
+              render={props => {
+                return <RequestCreateEmployee {...rest} {...props} />
+              }}
+            />
+            <Route
+              {...rest}
+              exact
+              path={'/equipment/detail/:id'}
+              render={props => {
+                return <EquipmentDetail {...rest} {...props} />
+              }}
+            />
+          </>
         )}
       </PrivateTemplate>
     )

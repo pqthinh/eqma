@@ -16,6 +16,9 @@ const Constant = {
     { URL: '/liquidation/form', name: '' },
     { URL: '/report/employee/detail', name: '' },
     { URL: '/equipment/detail', name: '' },
+    { URL: '/emp/request', name: '' },
+    { URL: '/emp/equipment', name: '' },
+    { URL: '/emp/create/request', name: '' }
   ],
   publicRouter: [
     { URL: '/', name: '' },
@@ -88,18 +91,14 @@ const Constant = {
       {
         key: '2',
         icon: 'feather-user',
-        label: 'Khai báo',
-        child: [
-          { key: '2', label: 'Mượn trả' },
-          { key: '3', label: 'Lịch sử' }
-        ]
+        label: 'Tạo yêu cầu',
       },
       {
-        key: '4',
+        key: '3',
         icon: 'feather-briefcase',
-        label: 'Thiết bị'
+        label: 'Lịch sử'
       },
-      { key: '8', icon: 'feather-search', label: 'Tra cứu' }
+      { key: '4', icon: 'feather-search', label: 'Tra cứu' }
     ]
   },
   dataBanner: [
@@ -128,7 +127,8 @@ const Constant = {
     1: 'Mượn', // mượn BORROW
     2: 'Trả', // trả  RETURN
     3: 'Sửa chữa', //REPAIR
-    4: 'Thanh lý' //LIQUIDATION
+    4: 'Thanh lý', //LIQUIDATION
+    5: 'Báo mất'//LOST
   }
 }
 

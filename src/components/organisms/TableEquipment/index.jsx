@@ -35,6 +35,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     if (result) {
       showSuccess(`Đã xóa bản ghi id=${id}`)
       setReload(true)
+      setShowModalFormEdit(false)
     }
   }
 
@@ -71,7 +72,10 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         onHide={hideModal}
         header='Cập nhật thông tin thiết bị'
         body={
-          <FormEdit equiment={rowData} type={'update'} setReload={setReload} />
+          <FormEdit equiment={rowData} type={'update'} setReload={()=> {
+            setReload(true)
+            setShowModalFormEdit(false)
+          }} />
         }
       />
     )
