@@ -75,6 +75,9 @@ export const Input = styled(InputGroup)`
       border: 0;
     }
   }
+  .rs-picker-date {
+    padding: 0
+  }
 `
 
 export const InputAddon = styled(Input.Addon)`

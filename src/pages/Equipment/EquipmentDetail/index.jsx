@@ -20,14 +20,15 @@ import { FlexboxGrid, Divider } from 'rsuite'
 import { EquipmentItem } from 'molecules'
 import { IMAGES } from 'assets'
 import { Whisper, Tooltip } from 'rsuite'
+import { Constants } from 'utils'
 
 const EquipmentDetail = () => {
   const [activeKeyNav, setActiveKeyNav] = useState('1')
   const [info, setInfo] = useState()
   const [request, setRequest] = useState()
   const [liquidation, setLiquidation] = useState()
-  const [status_log, setStatus_log]= useState()
-  const [repair, setRepair]= useState()
+  const [status_log, setStatus_log] = useState()
+  const [repair, setRepair] = useState()
 
   const { onGetExecute } = useRequestManager()
   const { showError } = useAlert()
@@ -66,7 +67,7 @@ const EquipmentDetail = () => {
             speaker={<Tooltip>{value}</Tooltip>}
           >
             <Text bold>
-              {slice ? value.toString().slice(50) + '... ' : value}
+              {slice ? value.toString().slice(0, 50) + '... ' : value}
             </Text>
           </Whisper>
         </WrapperRight>
@@ -77,14 +78,22 @@ const EquipmentDetail = () => {
   // eslint-disable-next-line
   const RowItem = ({ data, type, ...rest }) => {
     return (
-      <Wrapper style={{display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%'}} {...rest}>
+      <Wrapper
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%'
+        }}
+        {...rest}
+      >
         {/* eslint-disable-next-line */}
-        {Array.isArray(data) && data.length>0 ? (
+        {Array.isArray(data) && data.length > 0 ? (
           [...data].map((equi, index) => (
             <EquipmentItem equi={equi} key={index} type={type} />
           ))
         ) : (
-          <Image source={IMAGES.nopost.default} style={{padding: 100}}/>
+          <Image source={IMAGES.nopost.default} style={{ padding: 100 }} />
         )}
       </Wrapper>
     )
@@ -92,16 +101,16 @@ const EquipmentDetail = () => {
 
   const _renderContentPage = useCallback(() => {
     if (activeKeyNav == '1') {
-      return <RowItem data={request} type="request"/>
+      return <RowItem data={request} type='request' />
     }
     if (activeKeyNav == '2') {
-      return <RowItem data={liquidation} type="liquidation"/>
+      return <RowItem data={liquidation} type='liquidation' />
     }
     if (activeKeyNav == '3') {
-      return <RowItem data={repair} type="repair"/>
+      return <RowItem data={repair} type='repair' />
     }
     if (activeKeyNav == '4') {
-      return <RowItem data={status_log} type="status_log"/>
+      return <RowItem data={status_log} type='status_log' />
     }
     return <NotFoundPage />
   }, [activeKeyNav])
@@ -127,19 +136,28 @@ const EquipmentDetail = () => {
           </FlexboxGrid.Item>
         </FlexboxGrid>
         <Divider>Thông tin thiết bị</Divider>
-        <WrapperItem style={{padding: 20}}>
+        <WrapperItem style={{ padding: 20 }}>
           <WrapperLeft>
             {item('Tên thiết bị: ', withEmpty('name', info), true)}
-            {item('Mã danh mục: ',withEmpty('category_id', info))}
+            {item('Mã danh mục: ', withEmpty('category_id', info))}
             {item('Giá: ', withEmpty('price', info).toLocaleString('vi-VN'))}
-            {item('Trạng thái: ',withEmpty('status', info))}
-            {item('Ngày nhập: ',withEmpty('created_at', info))}
-            {item('Ghi chú: ',withEmpty('notes', info), true)}
+            {item(
+              'Trạng thái: ',
+              Constants.equipment_status[withEmpty('status.type', info) || 5]
+            )}
+            {item('Ngày nhập: ', withEmpty('created_at', info))}
+            {item('Ghi chú: ', withEmpty('notes', info), true)}
           </WrapperLeft>
-          <WrapperRight style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center'}}>
+          <WrapperRight
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center'
+            }}
+          >
             <Image
               source={withEmpty('image', info)}
-              style={{ height: 120, width: 120}}
+              style={{ height: 120, width: 120 }}
             />
           </WrapperRight>
         </WrapperItem>

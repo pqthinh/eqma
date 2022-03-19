@@ -18,7 +18,7 @@ function EquipmentItem({ equi, type, ...others }) {
             speaker={<Tooltip>{value}</Tooltip>}
           >
             <Text bold>
-              {slice ? value.toString().slice(50) + '... ' : value}
+              {slice ? value.toString().slice(0, 50) + '... ' : value}
             </Text>
           </Whisper>
         </WrapperRight>
