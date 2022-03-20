@@ -27,12 +27,7 @@ module.exports = webpackMerge.smart(baseConfig, {
     compress: true,
     port: 5000,
     historyApiFallback: true,
-    stats: 'minimal',
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-    }
+    stats: 'minimal'
   },
   watchOptions: {
     poll: 1000,

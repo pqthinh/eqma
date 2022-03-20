@@ -55,7 +55,12 @@ const useRequestManager = () => {
           const { data } = await instance.post(
             url,
             entity,
-            hasHeader ? { headers } : {}
+            hasHeader
+              ? { headers }
+              : {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*'
+                }
           )
           setLoading(false)
           return data
