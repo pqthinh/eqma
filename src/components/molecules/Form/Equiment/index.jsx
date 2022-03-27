@@ -102,7 +102,6 @@ const FormEquiment = ({ equiment = {}, type, setReload, ...others }) => {
   const onSubmit = useCallback(
     async data => {
       // setLoading(true)
-      console.log(data, 'data')
       try {
         let linkimg = ''
         if (data.file)

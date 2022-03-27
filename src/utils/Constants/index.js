@@ -45,7 +45,7 @@ const Constant = {
     { title: 'Thông tin cá nhân', link: '/profile' }
   ],
   navigators: (role = 'admin') => {
-    if (role == 'admin')
+    if (role.toLowerCase() == 'admin')
       return [
         {
           key: '1',

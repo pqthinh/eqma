@@ -2,7 +2,7 @@ import { EndPoint } from 'config/api'
 import { withBoolean, withEmpty } from 'exp-value'
 import { useRequestManager, useToken, useUser } from 'hooks'
 import { InputGroup } from 'molecules'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Routers } from 'utils'
 import { BaseCheckbox } from 'atoms'
@@ -62,6 +62,11 @@ const LoginPage = () => {
     () => history.push(Routers.FORGOT_PASSWORD),
     []
   )
+  useEffect(() => {
+    return () => {
+      window.location.reload()
+    };
+  }, [])
 
   return (
     <LayoutWrapper>

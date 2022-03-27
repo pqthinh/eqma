@@ -112,7 +112,7 @@ const Sidebar = props => {
         )}
       </Navigator>
     )
-  }, [activeKey, user])
+  }, [activeKey, user, Constants.navigators, Routers.NAV_LINK])
 
   const renderFooter = useCallback(user => {
     return (
@@ -152,7 +152,7 @@ const Sidebar = props => {
     let currentLink = Routers.NAV_LINK(withEmpty('role', user).toLowerCase()).indexOf(location.pathname)
     if (currentLink >= 0) return setActiveKey((currentLink + 1).toString())
     setActiveKey(null)
-  }, [location])
+  }, [location, user, Routers.NAV_LINK])
 
   useEffect(handleResize, [])
   useEffect(() => {
