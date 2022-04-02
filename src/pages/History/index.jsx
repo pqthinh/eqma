@@ -88,7 +88,7 @@ const History = ({ ...others }) => {
   return (
     <WrapperContentBody
       top={TopTab()}
-      contentBody={'Danh sách nhân viên'}
+      contentBody={'Danh sách thiết bị mượn-trả'}
       {...others}
     >
       {_renderModalEmp()}

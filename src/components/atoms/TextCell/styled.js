@@ -12,7 +12,7 @@ export const Text = styled.p`
 export const WrapperCell = styled(Cell)`
   .rs-table-cell-wrap {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
   }
 `

@@ -149,7 +149,7 @@ const useRequestManager = () => {
         case 400:
           break
         case 401:
-          showError('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại')
+          // showError('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại')
           await clearToken()
           break
         default:

@@ -118,55 +118,6 @@ const FormRequest = ({ request, type, ...others }) => {
             require
           />
 
-          <InputGroup
-            value={withEmpty('price', data)}
-            label={'Giá cả'}
-            onChange={value => _handleChange('price', value)}
-            placeholder={'Giá cả'}
-            name={'price'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-
-          <InputGroup
-            value={withEmpty('like_num', data)}
-            label={'Số lượt thích'}
-            onChange={value => _handleChange('like_num', value)}
-            placeholder={'Số lượt thích'}
-            name={'like_num'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-          <InputGroup
-            value={withEmpty('view', data)}
-            label={'Lượt xem'}
-            onChange={value => _handleChange('view', value)}
-            placeholder={'Lượt xem'}
-            name={'view'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-
-          <InputGroup
-            value={withEmpty('tag', data)}
-            label={'Thẻ tìm kiếm'}
-            onChange={value => _handleChange('tag', value)}
-            placeholder={'Thẻ tìm kiếm'}
-            name={'tag'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-
-          <InputGroup
-            value={withEmpty('uid', data)}
-            label={'Mã người đăng tin'}
-            onChange={value => _handleChange('uid', value)}
-            placeholder={'Mã người đăng tin'}
-            name={'uid'}
-            leftIcon={<Icon name={'feather-link'} />}
-            require
-          />
-
           <Wrapper>
             <Button type={'submit'}>{type == 'update' ? 'Cập nhật' : 'Thêm mới'}</Button>
           </Wrapper>

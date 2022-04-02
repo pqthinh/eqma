@@ -36,10 +36,12 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
         type == 'create'
           ? await onPostExecute(EndPoint.create_ereq, {
               ...data,
+              notes: '',
               created_at: new Date()
             })
           : await onPutExecute(EndPoint.updel_ereq(data.id), {
               ...data,
+              notes: '',
               updated_at: new Date()
             })
       if (result) {
@@ -92,51 +94,6 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
         formValue={data}
       >
         <InputGroup
-          data={equi}
-          value={withEmpty('equipment_id', data)}
-          label={'Mã thiết bị'}
-          onChange={value => _handleChange('equipment_id', value)}
-          placeholder={'Mã thiết bị'}
-          name={'equipment_id'}
-          leftIcon={<Icon name={'feather-align-justify'} />}
-          placement='autoVerticalStart'
-          accepter={SelectPicker}
-          require
-          block
-          size='sm'
-        />
-        {/* <InputGroup
-          value={withEmpty('equipment_id', data)}
-          label={'Mã thiết bị'}
-          onChange={value => _handleChange('equipment_id', value)}
-          placeholder={'Mã thiết bị'}
-          name={'equipment_id'}
-          leftIcon={<Icon name={'feather-user'} />}
-          require
-        /> */}
-        <InputGroup
-          value={withEmpty('details', data)}
-          label={'Mô tả'}
-          onChange={e => _handleChange('details', e)}
-          placeholder={'Mô tả'}
-          name={'details'}
-          leftIcon={<Icon name={'feather-bookmark'} />}
-          require
-          componentClass='textarea'
-          rows={3}
-        />
-        <InputGroup
-          value={withEmpty('notes', data)}
-          label={'Ghi chú'}
-          onChange={e => _handleChange('notes', e)}
-          placeholder={'Ghi chú'}
-          name={'notes'}
-          leftIcon={<Icon name={'feather-bookmark'} />}
-          require
-          componentClass='textarea'
-          rows={3}
-        />
-        <InputGroup
           data={datatype}
           value={withEmpty('type', data)}
           label={'Hình thức'}
@@ -150,6 +107,43 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
           block
           size='sm'
         />
+        <InputGroup
+          data={equi}
+          value={withEmpty('equipment_id', data)}
+          label={'Mã thiết bị'}
+          onChange={value => _handleChange('equipment_id', value)}
+          placeholder={'Mã thiết bị'}
+          name={'equipment_id'}
+          leftIcon={<Icon name={'feather-align-justify'} />}
+          placement='autoVerticalStart'
+          accepter={SelectPicker}
+          require
+          block
+          size='sm'
+        />
+        <InputGroup
+          value={withEmpty('details', data)}
+          label={'Mô tả'}
+          onChange={e => _handleChange('details', e)}
+          placeholder={'Mô tả'}
+          name={'details'}
+          leftIcon={<Icon name={'feather-bookmark'} />}
+          require
+          componentClass='textarea'
+          rows={3}
+        />
+        {/* <InputGroup
+          value={withEmpty('notes', data)}
+          label={'Ghi chú'}
+          onChange={e => _handleChange('notes', e)}
+          placeholder={'Ghi chú'}
+          name={'notes'}
+          leftIcon={<Icon name={'feather-bookmark'} />}
+          require
+          componentClass='textarea'
+          rows={3}
+        /> */}
+        
         <Wrapper>
           <Button type={'submit'}>
             {type == 'update' ? 'Cập nhật' : 'Thêm mới'}
