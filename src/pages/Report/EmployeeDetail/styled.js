@@ -44,14 +44,18 @@ export const Wrapper = styled(Container)`
 `
 export const Text = styled(BaseText)`
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start;
   align-items: center;
 `
 
-export const WrapperLeft = styled(Container)``
+export const WrapperLeft = styled(Container)`
+  flex: 2;
+`
 export const WrapperRight = styled(Container)`
-  text-align: right;
+  flex: 3;
 `
 export const WrapperItem = styled.div`
   display: flex;
+  flex: 1;
+  justify-content: flex-start;
 `

@@ -67,7 +67,7 @@ const EquipmentDetail = () => {
             speaker={<Tooltip>{value}</Tooltip>}
           >
             <Text bold>
-              {slice ? value.toString().slice(0, 50) + '... ' : value}
+              {slice && value.length>50?value.toString().slice(0, 50) + '... ' : value}
             </Text>
           </Whisper>
         </WrapperRight>

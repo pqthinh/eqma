@@ -94,32 +94,27 @@ const TableEmployee = ({
           }}
           {...others}
         >
-          <Column width={120} align='center'>
+          <Column width={60} >
             <Header>ID</Header>
             <TextCell dataKey='id' />
           </Column>
-          <Column width={120} align='center'>
+          <Column width={80} >
             <Header>Mã TB</Header>
             <TextCell dataKey='equipment_id' />
           </Column>
-          <Column width={120} align='center'>
+          <Column width={60} >
             <Header>Mã NV</Header>
             <TextCell dataKey='employee_id' />
           </Column>
 
-          <Column width={120} align='center'>
-            <Header>Phí</Header>
-            <TextCell dataKey='price' />
-          </Column>
-
-          <Column width={250}>
+          <Column width={250} align='center'>
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
           </Column>
-          <Column width={250}>
+          {/* <Column width={250}>
             <Header>Ghi chú</Header>
             <TextCell dataKey='notes' />
-          </Column>
+          </Column> */}
 
           <Column width={120}>
             <Header>Trạng thái</Header>
@@ -134,6 +129,10 @@ const TableEmployee = ({
           <Column width={150} sortable>
             <Header>Ngày trả</Header>
             <TextCell dataKey='end_date' />
+          </Column>
+          <Column width={100} align='center'>
+            <Header>Phí</Header>
+            <TextCell dataKey='price' />
           </Column>
 
           <Column width={120}>

@@ -26,8 +26,10 @@ export const Image = styled(BaseImage)`
   max-width: 480px;
 `
 export const WrapperLeft = styled(Container)`
-  text-align: left;
+  // text-align: left;
+  flex: 1;
 `
 export const WrapperRight = styled(Container)`
-  text-align: right;
+  // text-align: right;
+  flex: 4;
 `
