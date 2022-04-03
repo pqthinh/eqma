@@ -129,7 +129,14 @@ const Constant = {
     3: 'Sửa chữa', //REPAIR
     4: 'Thanh lý', //LIQUIDATION
     5: 'Báo mất'//LOST
-  }
+  },
+  dropdown_rtype: [
+    {value: 1, label: 'Mượn'},
+    {value: 2, label: 'Trả'},
+    {value: 3, label: 'Sửa chữa'},
+    {value: 4, label: 'Thanh lý'},
+    {value: 5, label: 'Báo mất'}
+  ]
 }
 
 export default Constant

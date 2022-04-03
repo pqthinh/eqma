@@ -12,8 +12,13 @@ import {
   Modal,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  ButtonNotification,
+  TextNotification,
+  Toolbar
 } from './styled'
+import { useAlert, useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const EquimentCell = ({ rowData, dataKey, ...props }) => {
   const history = useHistory()
@@ -25,10 +30,47 @@ const EquimentCell = ({ rowData, dataKey, ...props }) => {
 }
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
+
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
+  const { onDeleteExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
+
+  const remove = async id => {
+    const result = await onDeleteExecute(EndPoint.get_qreq(id))
+    if (result) {
+      showSuccess(`Đã xóa bản ghi id=${id}`)
+      setReload(true)
+    }
+  }
+
+  const handleActive = useCallback(id => {
+    Notification['info']({
+      title: 'Nhân viên',
+      duration: 10000,
+      description: (
+        <Wrapper>
+          <TextNotification>Bạn muốn xóa nhân viên này?</TextNotification>
+          <Toolbar>
+            <ButtonNotification
+              onClick={async () => {
+                Notification.close()
+                await remove(id)
+              }}
+              success
+            >
+              Xác nhận
+            </ButtonNotification>
+            <ButtonNotification onClick={() => Notification.close()}>
+              Hủy bỏ
+            </ButtonNotification>
+          </Toolbar>
+        </Wrapper>
+      )
+    })
+  }, [])
 
   const _renderModalFormProduct = useCallback(() => {
     return (
@@ -47,9 +89,9 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
         <WrapperIconButton
-          onClick={() => setShowModalFormEdit(true)}
+          onClick={() => handleActive(rowData.id)}
           appearance='subtle'
-          icon={<Icon name='feather-eye' />}
+          icon={<Icon name='feather-trash' />}
         />
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}

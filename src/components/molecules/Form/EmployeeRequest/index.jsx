@@ -12,6 +12,7 @@ import { employeeRequestModel } from './validation'
 const FormEmployeeRequest = ({ erequest, type, ...others }) => {
   if(!erequest) erequest={...erequest, type: 1}
   const [data, setData] = useState(erequest)
+  const datatype=Constants.dropdown_rtype
   const { onPostExecute, onPutExecute, onGetExecute } = useRequestManager()
   const { showSuccess, showError } = useAlert()
   const [equi, setEqui] = useState()
@@ -25,11 +26,6 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
     },
     [data]
   )
-
-  const datatype = []
-  for (const [key, value] of Object.entries(Constants.request_type)) {
-    datatype.push({ value: key, label: value })
-  }
 
   const employeeRequest = useCallback(data => {
     async function execute(data) {
@@ -107,6 +103,7 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
           require
           block
           size='sm'
+          disabled={type=="update"}
         />
         <InputGroup
           data={equi}
@@ -121,6 +118,7 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
           require
           block
           size='sm'
+          disabled={type=="update"}
         />
         {data?.type == 1 ? (
           <>

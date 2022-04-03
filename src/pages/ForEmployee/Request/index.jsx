@@ -14,7 +14,7 @@ const Request = ({ ...others }) => {
   const [search, setSearch] = useState('')
   const [totalRecord, setTotalRecord] = useState(0)
   const [reload, setReload] = useState(true)
-  const [type, setType] = useState(1)
+  const [type, setType] = useState()
 
   const { onGetExecute } = useRequestManager()
 
@@ -23,13 +23,12 @@ const Request = ({ ...others }) => {
     return (
       <Popover ref={ref} className={className} style={{ left, top }} full>
         <Dropdown.Menu>
-          {Object.entries(Constant.request_type).map(e => (
+          {Object.entries({...{0: 'Tất cả'}, ...Constant.request_type}).map(e => (
             <Dropdown.Item
               eventKey={e[0]}
               key={e[0]}
               active={type == e[0]}
               onSelect={e => {
-                console.log(e, type)
                 setType(e)
               }}
             >
@@ -79,19 +78,23 @@ const Request = ({ ...others }) => {
       }
       execute(params)
     },
-    [searchInput, page]
+    [searchInput, page,type]
   )
 
   useEffect(() => {
     if (reload) {
-      getListRequest({ name: searchInput, page: page - 1 })
+      if(type) getListRequest({ name: searchInput, page: page - 1, type })
+      else getListRequest({ name: searchInput, page: page - 1 })
       setReload(false)
     }
-  }, [searchInput, page, reload])
+  }, [searchInput, page, reload, type])
 
   useEffect(() => {
-    if (!reload) getListRequest({ name: searchInput, page: page })
-  }, [searchInput, page])
+    if (!reload) {
+      if(type) getListRequest({ name: searchInput, page: page, type })
+      else getListRequest({ name: searchInput, page: page })
+    }
+  }, [searchInput, page, type])
 
   return (
     <WrapperContentBody top={TopTab()} contentBody={'Lịch sử'} {...others}>
