@@ -30,24 +30,32 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
     [data]
   )
 
-  const repairRequest = useCallback(data => {
-    console.log(data, 'repair update')
-    async function execute(data) {
-      const result =
-        type == 'create'
-          ? await onPostExecute(EndPoint.create_rep, {
-              ...data,
-              created_at: new Date()
-            })
-          : await onPutExecute(EndPoint.updel_rep(data.id), {...data, updated_at: new Date()})
-      if (result) {
-        showSuccess('Lưu thông tin thành công')
-        setReload(true)
-        setLoading(false)
+  const repairRequest = useCallback(
+    data => {
+      console.log(data, 'repair update')
+      async function execute(data) {
+        const result =
+          type == 'create'
+            ? await onPostExecute(EndPoint.create_rep, {
+                ...data,
+                notes: '',
+                created_at: new Date()
+              })
+            : await onPutExecute(EndPoint.updel_rep(data.id), {
+                ...data,
+                notes: '',
+                updated_at: new Date()
+              })
+        if (result) {
+          showSuccess('Lưu thông tin thành công')
+          setReload(true)
+          setLoading(false)
+        }
       }
-    }
-    execute(data)
-  }, [type, setReload])
+      execute(data)
+    },
+    [type, setReload]
+  )
 
   const onSubmit = useCallback(
     data => {
@@ -70,7 +78,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
           model={repairModel}
           onSubmit={() => onSubmit(data)}
           formValue={data}
-          onCheck={(e)=> console.log(e)}
+          onCheck={e => console.log(e)}
         >
           <InputGroup
             value={withEmpty('employee_id', data)}
@@ -102,7 +110,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             componentClass='textarea'
             rows={3}
           />
-          <InputGroup
+          {/* <InputGroup
             value={withEmpty('notes', data)}
             label={'Ghi chú'}
             onChange={e => _handleChange('notes', e)}
@@ -112,7 +120,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             require
             componentClass='textarea'
             rows={3}
-          />
+          /> */}
           <InputGroup
             value={withEmpty('place', data)}
             label={'Địa chỉ'}
@@ -133,7 +141,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
           />
           <InputGroup
             value={withEmpty('start_date', data) || new Date()}
-            type="date"
+            type='date'
             label={'Ngày sửa'}
             onChange={value => _handleChange('start_date', value)}
             placeholder={'Ngày sửa'}
@@ -143,7 +151,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
           />
           <InputGroup
             value={withEmpty('end_date', data) || new Date()}
-            type="date"
+            type='date'
             label={'Ngày hẹn trả'}
             onChange={value => _handleChange('end_date', value)}
             placeholder={'Ngày hẹn trả'}

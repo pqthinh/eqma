@@ -2,7 +2,7 @@ import { EndPoint } from 'config/api'
 import { withEmpty, withArray } from 'exp-value'
 import { useAlert, useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
-import React, { useCallback, useState,useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { SelectPicker } from 'rsuite'
 import { Constants } from 'utils'
 import InputGroup from '../../InputGroup'
@@ -10,6 +10,7 @@ import { Button, Form, Icon, LayoutWrapper, Wrapper } from './styled'
 import { employeeRequestModel } from './validation'
 
 const FormEmployeeRequest = ({ erequest, type, ...others }) => {
+  if(!erequest) erequest={...erequest, type: 1}
   const [data, setData] = useState(erequest)
   const { onPostExecute, onPutExecute, onGetExecute } = useRequestManager()
   const { showSuccess, showError } = useAlert()
@@ -73,12 +74,12 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
             value: e.id
           }))
         )
+        _handleChange('type', 1)
       } else {
         showError('Không lấy được dữ liệu thiết bị')
       }
     }
     execute()
-
     return () => {
       setData({})
     }
@@ -95,7 +96,7 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
       >
         <InputGroup
           data={datatype}
-          value={withEmpty('type', data)}
+          value={withEmpty('type', data)||1}
           label={'Hình thức'}
           onChange={value => _handleChange('type', value)}
           placeholder={'Hình thức'}
@@ -121,6 +122,91 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
           block
           size='sm'
         />
+        {data?.type == 1 ? (
+          <>
+            <InputGroup
+              value={withEmpty('start_date', data) || new Date()}
+              type='date'
+              label={'Ngày mượn'}
+              onChange={value => _handleChange('start_date', value)}
+              placeholder={'Ngày mượn'}
+              name={'start_date'}
+              leftIcon={<Icon name={'feather-calendar'} />}
+              require
+            />
+            <InputGroup
+              value={withEmpty('end_date', data) || new Date()}
+              type='date'
+              label={'Ngày hẹn trả'}
+              onChange={value => _handleChange('end_date', value)}
+              placeholder={'Ngày hẹn trả'}
+              name={'end_date'}
+              leftIcon={<Icon name={'feather-calendar'} />}
+              require
+            />
+          </>
+        ) : data?.type == 2 ? (
+          <>
+            <InputGroup
+              value={withEmpty('end_date', data) || new Date()}
+              type='date'
+              label={'Ngày trả'}
+              onChange={value => _handleChange('end_date', value)}
+              placeholder={'Ngày trả'}
+              name={'end_date'}
+              leftIcon={<Icon name={'feather-calendar'} />}
+              require
+            />
+          </>
+        ) : data?.type == 3 ? (
+          <>
+            <InputGroup
+              value={withEmpty('start_date', data) || new Date()}
+              type='date'
+              label={'Ngày sửa chữa'}
+              onChange={value => _handleChange('start_date', value)}
+              placeholder={'Ngày sửa chữa'}
+              name={'start_date'}
+              leftIcon={<Icon name={'feather-calendar'} />}
+              require
+            />
+            <InputGroup
+              value={withEmpty('end_date', data) || new Date()}
+              type='date'
+              label={'Ngày hẹn'}
+              onChange={value => _handleChange('end_date', value)}
+              placeholder={'Ngày hẹn'}
+              name={'end_date'}
+              leftIcon={<Icon name={'feather-calendar'} />}
+              require
+            />
+          </>
+        ) : data?.type == 4 ? (
+          <>
+            <InputGroup
+              value={withEmpty('start_date', data) || new Date()}
+              type='date'
+              label={'Ngày thanh lý'}
+              onChange={value => _handleChange('start_date', value)}
+              placeholder={'Ngày thanh lý'}
+              name={'start_date'}
+              leftIcon={<Icon name={'feather-calendar'} />}
+              require
+            />
+          </>
+        ) : (
+          <InputGroup
+            value={withEmpty('start_date', data) || new Date()}
+            type='date'
+            label={'Ngày phát hiện'}
+            onChange={value => _handleChange('start_date', value)}
+            placeholder={'Ngày phát hiện'}
+            name={'start_date'}
+            leftIcon={<Icon name={'feather-calendar'} />}
+            require
+          />
+        )}
+
         <InputGroup
           value={withEmpty('details', data)}
           label={'Mô tả'}
@@ -143,7 +229,7 @@ const FormEmployeeRequest = ({ erequest, type, ...others }) => {
           componentClass='textarea'
           rows={3}
         /> */}
-        
+
         <Wrapper>
           <Button type={'submit'}>
             {type == 'update' ? 'Cập nhật' : 'Thêm mới'}
