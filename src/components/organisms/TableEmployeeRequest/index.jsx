@@ -119,14 +119,13 @@ const TableEmployee = ({
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
           </Column>
-          <Column width={250}>
-            <Header>Ghi chú</Header>
-            <TextCell dataKey='notes' />
+          <Column width={120}>
+            <Header>Loại yêu cầu</Header>
+            <TextCell dataKey='type' type={true}/>
           </Column>
-
           <Column width={120}>
             <Header>Trạng thái</Header>
-            <TextCell dataKey='status' />
+            <TextCell dataKey='status' status={true}/>
           </Column>
 
           <Column width={150} sortable>

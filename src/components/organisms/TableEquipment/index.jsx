@@ -167,6 +167,11 @@ const TableEmployee = ({
             <TextCell dataKey='imported_date' />
           </Column>
 
+          <Column width={150} sortable>
+            <Header>Trạng thái</Header>
+            <TextCell dataKey='status.type' equiqment={true}/>
+          </Column>
+
           <Column width={250}>
             <Header>Ghi chú</Header>
             <TextCell dataKey='notes' />

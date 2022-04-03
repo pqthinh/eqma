@@ -29,6 +29,7 @@ const Request = ({ ...others }) => {
               key={e[0]}
               active={type == e[0]}
               onSelect={e => {
+                console.log(e, type)
                 setType(e)
               }}
             >

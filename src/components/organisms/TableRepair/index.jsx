@@ -176,7 +176,7 @@ const TableEmployee = ({
 
           <Column width={120}>
             <Header>Trạng thái</Header>
-            <TextCell dataKey='status' />
+            <TextCell dataKey='status' repair={true}/>
           </Column>
 
           <Column width={150} sortable align='center'>

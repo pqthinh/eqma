@@ -123,7 +123,7 @@ const TableEmployee = ({
 
           <Column width={120}>
             <Header>Trạng thái</Header>
-            <TextCell dataKey='status' />
+            <TextCell dataKey='status' status={true}/>
           </Column>
 
           <Column width={150} sortable>
