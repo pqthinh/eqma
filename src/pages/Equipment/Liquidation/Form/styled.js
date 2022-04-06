@@ -1,4 +1,4 @@
-import { BaseText, BaseImage } from 'atoms'
+import { BaseText, BaseImage, BaseButton, BaseIcon } from 'atoms'
 import styled from 'styled-components'
 import { FormLiquidation } from 'molecules'
 export const WrapperContent = styled.div`
@@ -21,3 +21,5 @@ export const Image = styled(BaseImage)`
 export const FormLiq = styled(FormLiquidation)`
   width: 100%;
 `
+export const Icon = styled(BaseIcon)``
+export const Button = styled(BaseButton)``

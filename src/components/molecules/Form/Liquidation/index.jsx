@@ -89,12 +89,12 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
     async function execute(data) {
       const result =
         type == 'create'
-          ? await onPostExecute(EndPoint.create_equ, {
+          ? await onPostExecute(EndPoint.create_liq, {
               ...data,
               notes: '',
               created_at: new Date()
             })
-          : await onPutExecute(EndPoint.updel_equ(data.id), {
+          : await onPutExecute(EndPoint.updel_liq(data.id), {
               ...data,
               notes: '',
               updated_at: new Date()
@@ -114,7 +114,7 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
       let linkimg = ''
       if (data.file)
         linkimg = await uploadImage(
-          `images/equiment/${Date.now()}.jpg`,
+          `images/liqui/${Date.now()}.jpg`,
           data.file
         )
       delete data["file"]

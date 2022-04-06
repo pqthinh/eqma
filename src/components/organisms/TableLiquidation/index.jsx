@@ -136,20 +136,20 @@ const TableEmployee = ({
           }}
           {...others}
         >
-          <Column width={120} align='center'>
+          <Column width={120}>
             <Header>ID</Header>
             <TextCell dataKey='id' />
           </Column>
-          <Column width={120} align='center'>
+          <Column width={120}>
             <Header>Mã TB</Header>
             <TextCell dataKey='equipment_id' />
           </Column>
-          <Column width={120} align='center'>
+          <Column width={120}>
             <Header>Mã NV</Header>
             <TextCell dataKey='employee_id' />
           </Column>
 
-          <Column width={120} align='center'>
+          <Column width={120}>
             <Header>Phí</Header>
             <TextCell dataKey='price' />
           </Column>
@@ -178,7 +178,7 @@ const TableEmployee = ({
             <TextCell dataKey='end_date' />
           </Column>
 
-          <Column width={120}>
+          <Column width={120} align="center">
             <Header>Hành động</Header>
             <ActionCell dataKey='id' {...others} />
           </Column>
