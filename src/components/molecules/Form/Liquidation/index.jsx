@@ -91,10 +91,12 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
         type == 'create'
           ? await onPostExecute(EndPoint.create_equ, {
               ...data,
+              notes: '',
               created_at: new Date()
             })
           : await onPutExecute(EndPoint.updel_equ(data.id), {
               ...data,
+              notes: '',
               updated_at: new Date()
             })
       if (result) {
@@ -223,7 +225,7 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
             leftIcon={<Icon name={'feather-map-pin'} />}
             require
           />
-          <InputGroup
+          {/* <InputGroup
             value={withEmpty('notes', data)}
             label={'Ghi chú'}
             onChange={e => _handleChange('notes', e)}
@@ -233,7 +235,7 @@ const FormLiquidation = ({ liquidation, type, setReload, ...others }) => {
             require
             componentClass='textarea'
             rows={3}
-          />
+          /> */}
 
           <Wrapper>
             <Button type={'submit'}>

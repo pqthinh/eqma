@@ -1,6 +1,6 @@
-import { withEmpty } from 'exp-value'
+import { withArray, withEmpty } from 'exp-value'
 import PropTypes from 'prop-types'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState,useEffect } from 'react'
 import InputGroup from '../../InputGroup'
 import {
   Button,
@@ -13,12 +13,15 @@ import {
 import { repairModel } from './validation'
 import { useAlert, useRequestManager } from 'hooks'
 import { EndPoint } from 'config/api'
+import { SelectPicker } from 'rsuite'
 
 const FormRepair = ({ repair, type, setReload, ...others }) => {
   const [data, setData] = useState(repair)
   const [loading, setLoading] = useState(false)
-  const { onPostExecute, onPutExecute } = useRequestManager()
-  const { showSuccess } = useAlert()
+  const { onPostExecute, onPutExecute,onGetExecute } = useRequestManager()
+  const { showSuccess,showError } = useAlert()
+  const [equiment, setEquiment] = useState([])
+  const [employee, setEmployee] = useState([])
 
   const _handleChange = useCallback(
     (field, value) => {
@@ -64,6 +67,44 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
     },
     [data]
   )
+  
+
+  useEffect(() => {
+    async function execute() {
+      Promise.all([
+        onGetExecute(EndPoint.GET_LIST_EMP, {
+          params: { per_page: 1000 }
+        }),
+        onGetExecute(EndPoint.GET_LIST_EQU, {
+          params: { per_page: 1000 }
+        })
+      ])
+        .then(data => {
+          let eq = withArray('data', data[1]).map(e => ({
+              ...e,
+              label: `${e.name} (${e.id})`,
+              value: e.id
+            })),
+            em = withArray('data', data[0]).map(e => ({
+              ...e,
+              label: `${e.name} (${e.id})`,
+              value: e.id
+            }))
+
+          setEquiment(eq)
+          setEmployee(em)
+        })
+        .catch(error => {
+          console.log(error)
+          showError('Lỗi khi lấy dữ liệu thiết bì')
+        })
+    }
+    execute()
+
+    return () => {
+      setData({})
+    }
+  }, [])
 
   const _renderLoading = useCallback(() => {
     return <WrapperLoading />
@@ -81,13 +122,33 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
           onCheck={e => console.log(e)}
         >
           <InputGroup
+            data={equiment}
+            value={withEmpty('equipment_id', data)}
+            label={'Mã thiết bị'}
+            onChange={value => _handleChange('equipment_id', value)}
+            placeholder={'Mã thiết bị'}
+            name={'equipment_id'}
+            leftIcon={<Icon name={'feather-align-justify'} />}
+            placement='autoVerticalStart'
+            accepter={SelectPicker}
+            require
+            block
+            size='sm'
+            disabled={type == 'update'}
+          />
+          <InputGroup
+            data={employee}
             value={withEmpty('employee_id', data)}
-            label={'Mã NV'}
+            label={'Nhân viên quản lý'}
             onChange={value => _handleChange('employee_id', value)}
-            placeholder={'Mã NV'}
+            placeholder={'Nhân viên quản lý'}
             name={'employee_id'}
             leftIcon={<Icon name={'feather-user'} />}
+            accepter={SelectPicker }
+            placement='autoVerticalStart'
             require
+            block
+            size='sm'
           />
           <InputGroup
             value={withEmpty('price', data)}
@@ -95,48 +156,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             onChange={value => _handleChange('price', value)}
             placeholder={'Phí'}
             name={'price'}
-            disabled
             leftIcon={<Icon name={'feather-dollar-sign'} />}
-            require
-          />
-          <InputGroup
-            value={withEmpty('details', data)}
-            label={'Chi tiết'}
-            onChange={e => _handleChange('details', e)}
-            placeholder={'Chi tiết'}
-            name={'details'}
-            leftIcon={<Icon name={'feather-framer'} />}
-            require
-            componentClass='textarea'
-            rows={3}
-          />
-          {/* <InputGroup
-            value={withEmpty('notes', data)}
-            label={'Ghi chú'}
-            onChange={e => _handleChange('notes', e)}
-            placeholder={'Ghi chú'}
-            name={'notes'}
-            leftIcon={<Icon name={'feather-framer'} />}
-            require
-            componentClass='textarea'
-            rows={3}
-          /> */}
-          <InputGroup
-            value={withEmpty('place', data)}
-            label={'Địa chỉ'}
-            onChange={value => _handleChange('place', value)}
-            placeholder={'Địa chỉ'}
-            name={'place'}
-            leftIcon={<Icon name={'feather-map-pin'} />}
-            require
-          />
-          <InputGroup
-            value={withEmpty('status', data)}
-            label={'Trạng thái'}
-            onChange={value => _handleChange('status', value)}
-            placeholder={'Trạng thái'}
-            name={'status'}
-            leftIcon={<Icon name={'feather-pie-chart'} />}
             require
           />
           <InputGroup
@@ -157,6 +177,35 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             placeholder={'Ngày hẹn trả'}
             name={'end_date'}
             leftIcon={<Icon name={'feather-calendar'} />}
+            require
+          />
+          <InputGroup
+            value={withEmpty('details', data)}
+            label={'Chi tiết'}
+            onChange={e => _handleChange('details', e)}
+            placeholder={'Chi tiết'}
+            name={'details'}
+            leftIcon={<Icon name={'feather-framer'} />}
+            require
+            componentClass='textarea'
+            rows={3}
+          />
+          <InputGroup
+            value={withEmpty('place', data)}
+            label={'Địa chỉ'}
+            onChange={value => _handleChange('place', value)}
+            placeholder={'Địa chỉ'}
+            name={'place'}
+            leftIcon={<Icon name={'feather-map-pin'} />}
+            require
+          />
+          <InputGroup
+            value={withEmpty('status', data)}
+            label={'Trạng thái'}
+            onChange={value => _handleChange('status', value)}
+            placeholder={'Trạng thái'}
+            name={'status'}
+            leftIcon={<Icon name={'feather-pie-chart'} />}
             require
           />
 

@@ -164,10 +164,10 @@ const TableEmployee = ({
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
           </Column>
-          <Column width={250}>
+          {/* <Column width={250}>
             <Header>Ghi chú</Header>
             <TextCell dataKey='notes' />
-          </Column>
+          </Column> */}
 
           <Column width={120} align='center'>
             <Header>Địa chỉ</Header>

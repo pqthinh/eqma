@@ -44,7 +44,9 @@ const Request = ({ ...others }) => {
       />
     )
   }, [listRequest, page, totalRecord])
-  const submitSearch = () => {getListRequest({ name: searchInput, page: page, ...filter })}
+  const submitSearch = () => {
+    getListRequest({ name: searchInput, page: page, ...filter })
+  }
 
   const getListRequest = useCallback(
     params => {
@@ -74,14 +76,24 @@ const Request = ({ ...others }) => {
   }, [searchInput, page])
 
   return (
-    <WrapperContent top={<TopBody
-      search={search}
-      setSearch={setSearch}
-      filter={filter}
-      handleChangeFilter={handleChangeFilter}
-      submit={submitSearch}
-      se={{type: true, status: true, equipment_code: true, employee_code: true}}
-    />} {...others}>
+    <WrapperContent
+      top={
+        <TopBody
+          search={search}
+          setSearch={setSearch}
+          filter={filter}
+          handleChangeFilter={handleChangeFilter}
+          submit={submitSearch}
+          se={{
+            type: true,
+            status: true,
+            equipment_code: true,
+            employee_code: true
+          }}
+        />
+      }
+      {...others}
+    >
       {_renderTableEmp()}
     </WrapperContent>
   )
