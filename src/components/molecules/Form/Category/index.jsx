@@ -35,6 +35,7 @@ const FormCategory = ({ category, type, setReload, ...others }) => {
         type == 'create'
           ? await onPostExecute(EndPoint.create_cat, {
               ...data,
+              quantity: 0,
               created_at: new Date()
             })
           : await onPutExecute(EndPoint.updel_cat(data.id), {...data, updated_at: new Date()})
@@ -78,7 +79,7 @@ const FormCategory = ({ category, type, setReload, ...others }) => {
             leftIcon={<Icon name={'feather-clipboard'} />}
             require
           />
-          <InputGroup
+          {/* <InputGroup
             value={withEmpty('quantity', data)}
             label={'SL'}
             onChange={value => _handleChange('quantity', value)}
@@ -86,7 +87,7 @@ const FormCategory = ({ category, type, setReload, ...others }) => {
             name={'quantity'}
             leftIcon={<Icon name={'feather-hash'} />}
             require
-          />
+          /> */}
           <InputGroup
             value={withEmpty('notes', data)}
             label={'Ghi chú'}

@@ -48,6 +48,7 @@ const Category = ({ ...others }) => {
         page={page}
         setPage={setPage}
         totalRecord={totalRecord}
+        layout={['total', '-', 'limit', '|', 'pager', 'skip']}
         setReload={setReload}
         limit={10}
       />

@@ -37,6 +37,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
       showSuccess(`Đã xóa bản ghi id=${id}`)
       setReload(true)
     }
+    setShowModalFormEdit(false)
   }
 
   const handleActive = useCallback(id => {
@@ -203,6 +204,10 @@ const TableEmployee = ({
           <Column width={60}>
             <Header>ID</Header>
             <TextCell dataKey='id' />
+          </Column>
+          <Column width={120}>
+            <Header>Mã NV</Header>
+            <TextCell dataKey='code' />
           </Column>
           <Column width={150}>
             <Header>Tên</Header>

@@ -1,4 +1,6 @@
 import { BasePagination, TextCell } from 'atoms'
+import { EndPoint } from 'config/api'
+import { useAlert, useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
@@ -15,8 +17,10 @@ import {
   WrapperIconButton
 } from './styled'
 
-const ActionCell = ({ rowData, setReload, ...props }) => {
+const ActionCell = ({ rowData, setReload, appr, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
+  const { onPutExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
@@ -33,20 +37,51 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     )
   }, [showModalFormEdit])
 
+  const changeStatus = status => {
+    async function execute(data) {
+      const result = await onPutExecute(EndPoint.updel_req(data.id), data)
+      if (result) {
+        showSuccess(status == 2 ? 'Duyệt thành công' : 'Hủy thành công')
+        setReload(true)
+      }
+      setShowModalFormEdit(false)
+    }
+    execute({ ...rowData, status })
+  }
+
   return (
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
-        <WrapperIconButton
-          onClick={() => setShowModalFormEdit(true)}
-          appearance='subtle'
-          icon={<Icon name='feather-eye' />}
-        />
-        <WrapperIconButton
-          onClick={() => setShowModalFormEdit(true)}
-          appearance='subtle'
-          icon={<Icon name='feather-edit' />}
-        />
+        {appr ? (
+          <>
+            <WrapperIconButton
+              onClick={() => changeStatus(2)}
+              appearance='subtle'
+              icon={<Icon name='feather-check-square' />}
+              disable={rowData['status'] != 1}
+            />
+            <WrapperIconButton
+              onClick={() => changeStatus(3)}
+              appearance='subtle'
+              icon={<Icon name='feather-alert-octagon' />}
+              disable={rowData['status'] == 3}
+            />
+          </>
+        ) : (
+          <>
+            <WrapperIconButton
+              onClick={() => setShowModalFormEdit(true)}
+              appearance='subtle'
+              icon={<Icon name='feather-eye' />}
+            />
+            <WrapperIconButton
+              onClick={() => setShowModalFormEdit(true)}
+              appearance='subtle'
+              icon={<Icon name='feather-edit' />}
+            />
+          </>
+        )}
       </WrapperIcon>
     </Cell>
   )
@@ -89,30 +124,30 @@ const TableEmployee = ({
           renderEmpty={() => {}}
           {...others}
         >
-          <Column width={60} >
+          <Column width={60}>
             <Header>ID</Header>
             <TextCell dataKey='id' />
           </Column>
-          <Column width={80} >
+          <Column width={80}>
             <Header>Mã TB</Header>
             <TextCell dataKey='equipment_id' />
           </Column>
-          <Column width={60} >
+          <Column width={60}>
             <Header>Mã NV</Header>
             <TextCell dataKey='employee_id' />
           </Column>
 
-          <Column width={250} align='center'>
+          <Column width={250}>
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
           </Column>
           <Column width={100}>
             <Header>Hình thức</Header>
-            <TextCell dataKey='type' type={true}/>
+            <TextCell dataKey='type' type={true} />
           </Column>
           <Column width={100}>
             <Header>Trạng thái</Header>
-            <TextCell dataKey='status' status={true}/>
+            <TextCell dataKey='status' status={true} />
           </Column>
 
           <Column width={150} sortable>
@@ -124,12 +159,15 @@ const TableEmployee = ({
             <Header>Ngày đáp ứng</Header>
             <TextCell dataKey='end_date' />
           </Column>
-          <Column width={100} align='center'>
+          <Column width={100} >
             <Header>Phí</Header>
             <TextCell dataKey='price' />
           </Column>
-
-          <Column width={120}>
+          <Column width={120} align="center">
+            <Header>Duyệt yêu cầu</Header>
+            <ActionCell dataKey='id' appr={true} {...others} />
+          </Column>
+          <Column width={120} align='center'>
             <Header>Hành động</Header>
             <ActionCell dataKey='id' {...others} />
           </Column>
@@ -160,7 +198,8 @@ ActionCell.propTypes = {
   showModalFormEdit: PropTypes.bool,
   setShowModalFormEdit: PropTypes.func,
   loading: PropTypes.any,
-  setReload: PropTypes.func
+  setReload: PropTypes.func,
+  appr: PropTypes.bool
 }
 TableEmployee.propTypes = {
   expData: PropTypes.array,

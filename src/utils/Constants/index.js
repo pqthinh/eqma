@@ -47,15 +47,15 @@ const Constant = {
   navigators: (role = 'admin') => {
     if (role.toLowerCase() == 'admin')
       return [
-        {
-          key: '1',
-          icon: 'feather-bar-chart-2',
-          label: 'Hệ thống'
+        // {
+          // key: '1',
+          // icon: 'feather-bar-chart-2',
+          // label: 'Hệ thống'
           // child: [
           //   { key: '2', label: 'Người mượn' },
           //   { key: '3', label: 'Nhật ký' }
           // ]
-        },
+        // },
         {
           key: '2',
           icon: 'feather-user',
@@ -80,14 +80,14 @@ const Constant = {
           icon: 'feather-alert-circle',
           label: 'Mượn-trả'
         },
-        { key: '8', icon: 'feather-search', label: 'Tra cứu' }
+        // { key: '8', icon: 'feather-search', label: 'Tra cứu' }
       ]
     return [
-      {
-        key: '1',
-        icon: 'feather-bar-chart-2',
-        label: 'Hệ thống'
-      },
+      // {
+      //   key: '1',
+      //   icon: 'feather-bar-chart-2',
+      //   label: 'Hệ thống'
+      // },
       {
         key: '2',
         icon: 'feather-user',
@@ -95,10 +95,10 @@ const Constant = {
       },
       {
         key: '3',
-        icon: 'feather-briefcase',
+        icon: 'feather-search',
         label: 'Lịch sử'
       },
-      { key: '4', icon: 'feather-search', label: 'Tra cứu' }
+      // { key: '4', icon: 'feather-briefcase', label: 'Tra cứu' }
     ]
   },
   dataBanner: [
@@ -139,6 +139,11 @@ const Constant = {
   ],
   dropdown_status: [
     {value: '', label: 'Tất cả'},
+    {value: 1, label: 'Đang chờ'},
+    {value: 2, label: 'Đã duyệt'},
+    {value: 3, label: 'Từ chối'},
+  ],
+  rstatus: [
     {value: 1, label: 'Đang chờ'},
     {value: 2, label: 'Đã duyệt'},
     {value: 3, label: 'Từ chối'},

@@ -72,7 +72,7 @@ const TopBody = ({
             size='sm'
           />
         ) : null}
-        {se && se.type ? (
+        {se && se.status ? (
           <Input
             data={Constant.dropdown_status}
             value={withEmpty('status', filter) || 0}

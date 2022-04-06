@@ -13,7 +13,7 @@ const LoginPage = lazy(() => import('pages/Login'))
 const ForgotPasswordPage = lazy(() => import('pages/ForgotPassword'))
 const ResetPasswordPage = lazy(() => import('pages/ResetPassword'))
 // private page
-const Dashboard = lazy(() => import('pages/Dashboard'))
+// const Dashboard = lazy(() => import('pages/Dashboard'))
 
 // 2 Profile
 const ProfilePage = lazy(() => import('pages/Profile/ProfilePage'))
@@ -95,14 +95,14 @@ const Routes = ({ isLoggedIn, ...rest }) => {
   const _renderPrivateAdminRoute = useCallback(() => {
     return (
       <PrivateTemplate>
-        <Route
+        {/* <Route
           {...rest}
           exact
           path={'/'}
           render={props => {
             return <Dashboard {...rest} {...props} />
           }}
-        />
+        /> */}
         <Route
           {...rest}
           exact
@@ -172,7 +172,7 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             <Route
               {...rest}
               exact
-              path={'/equipment/list'}
+              path={['/equipment/list', '/']}
               render={props => {
                 return <EquipmentList {...rest} {...props} />
               }}
@@ -224,7 +224,7 @@ const Routes = ({ isLoggedIn, ...rest }) => {
             <Route
               {...rest}
               exact
-              path={'/emp/request'}
+              path={['/emp/request', '/']}
               render={props => {
                 return <RequestEmployee {...rest} {...props} />
               }}

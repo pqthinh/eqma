@@ -34,6 +34,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
       showSuccess(`Đã xóa bản ghi id=${id}`)
       setReload(true)
     }
+    setShowModalFormEdit(false)
   }
 
   const handleActive = useCallback(id => {

@@ -11,9 +11,6 @@ const BasePagination = ({ page, totalRecord, onChangePage, ...rest }) => {
       renderLengthMenu={() => {
         return <Dropdown items={[10]} title={10} placement='topStart' />
       }}
-      renderTotal={() => {
-        return 'Trang'
-      }}
       onChangePage={onChangePage}
       {...rest}
     />
