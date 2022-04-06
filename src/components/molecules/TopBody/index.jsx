@@ -11,6 +11,7 @@ const TopBody = ({
   disableSearch,
   placeholder='Tìm kiếm ...',
   dropdown=null,
+  children,
   ...others
 }) => {
   return (
@@ -41,6 +42,7 @@ const TopBody = ({
         </Button>
       )}
       {dropdown}
+      {children}
     </Wrapper>
   )
 }
@@ -53,7 +55,8 @@ TopBody.propTypes = {
   disableAdd: PropTypes.bool,
   disableSearch: PropTypes.bool,
   placeholder: PropTypes.string,
-  dropdown: PropTypes.any
+  dropdown: PropTypes.any,
+  children: PropTypes.any,
 }
 
 export default React.memo(TopBody)

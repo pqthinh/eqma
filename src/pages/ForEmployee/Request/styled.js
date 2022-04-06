@@ -1,4 +1,4 @@
-import { BaseModal, BaseIcon, BaseButton } from 'atoms'
+import { BaseModal, BaseIcon, BaseButton, BaseForm } from 'atoms'
 import styled from 'styled-components'
 
 export const Modal = styled(BaseModal)`
@@ -10,4 +10,15 @@ export const Modal = styled(BaseModal)`
 
 export const Icon = styled(BaseIcon)``
 
-export const Button = styled(BaseButton)``
+export const Button = styled(BaseButton)`
+  // height: 30px;
+  // align-items: center;
+`
+export const Form = styled(BaseForm)`
+  display: flex;
+  justify-content:flex-end;
+  align-items: center;
+  .rs-form-group {
+    margin: 0 10px !important;
+  }
+`

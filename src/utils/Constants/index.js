@@ -136,6 +136,12 @@ const Constant = {
     {value: 3, label: 'Sửa chữa'},
     {value: 4, label: 'Thanh lý'},
     {value: 5, label: 'Báo mất'}
+  ],
+  dropdown_status: [
+    {value: '', label: 'Tất cả'},
+    {value: 1, label: 'Đang chờ'},
+    {value: 2, label: 'Đã duyệt'},
+    {value: 3, label: 'Từ chối'},
   ]
 }
 

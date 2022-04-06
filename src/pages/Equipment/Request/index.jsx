@@ -36,7 +36,7 @@ const Request = ({ ...others }) => {
   const getListRequest = useCallback(
     params => {
       async function execute(params) {
-        const result = await onGetExecute(EndPoint.GET_LIST_REP, {
+        const result = await onGetExecute(EndPoint.GET_LIST_REQ, {
           params: params
         })
         if (result) {
@@ -67,4 +67,4 @@ const Request = ({ ...others }) => {
   )
 }
 
-export default React.memo(Request)
+export default Request

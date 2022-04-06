@@ -5,6 +5,7 @@ import { ContentBody, Image, Content } from './styled'
 import Repair from '../Repair'
 import Equiment from '../Equiment'
 import Liquidation from '../Liquidation'
+import Request from '../Request'
 
 const EquimentManager = () => {
   const [activeKeyNav, setActiveKeyNav] = useState('1')
@@ -25,6 +26,9 @@ const EquimentManager = () => {
       return <Liquidation />
     }
     if (activeKeyNav == '4') {
+      return <Request />
+    }
+    if (activeKeyNav == '5') {
       return renderTimeline
     }
     return <NotFoundPage />

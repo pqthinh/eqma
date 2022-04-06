@@ -59,8 +59,6 @@ const TableEmployee = ({
   setPage,
   limit,
   sort,
-  // setSort,
-  // setReload,
   ...others
 }) => {
   const history = useHistory()
@@ -111,10 +109,6 @@ const TableEmployee = ({
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
           </Column>
-          {/* <Column width={250}>
-            <Header>Ghi chú</Header>
-            <TextCell dataKey='notes' />
-          </Column> */}
 
           <Column width={120}>
             <Header>Trạng thái</Header>
