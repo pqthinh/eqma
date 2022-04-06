@@ -14,6 +14,7 @@ import { repairModel } from './validation'
 import { useAlert, useRequestManager } from 'hooks'
 import { EndPoint } from 'config/api'
 import { SelectPicker } from 'rsuite'
+import Constant from '../../../../utils/Constants'
 
 const FormRepair = ({ repair, type, setReload, ...others }) => {
   const [data, setData] = useState(repair)
@@ -200,12 +201,15 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
             require
           />
           <InputGroup
+            data={Constant.repstatus}
             value={withEmpty('status', data)}
             label={'Trạng thái'}
             onChange={value => _handleChange('status', value)}
             placeholder={'Trạng thái'}
             name={'status'}
             leftIcon={<Icon name={'feather-pie-chart'} />}
+            accepter={SelectPicker }
+            placement='autoVerticalStart'
             require
           />
 
@@ -217,7 +221,7 @@ const FormRepair = ({ repair, type, setReload, ...others }) => {
         </Form>
       </LayoutWrapper>
     )
-  }, [data])
+  }, [data, employee, equiment])
 
   return loading ? _renderLoading() : _renderForm()
 }

@@ -2,7 +2,7 @@ import { BasePagination, TextCell } from 'atoms'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Table } from 'rsuite'
+import { Table ,Notification} from 'rsuite'
 import {
   Cell,
   Column,
@@ -12,11 +12,18 @@ import {
   Modal,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  TextNotification,
+  Toolbar,
+  ButtonNotification
 } from './styled'
+import { useAlert, useRequestManager } from 'hooks'
+import { EndPoint } from 'config/api'
 
 const ActionCell = ({ rowData, setReload, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
+  const { onDeleteExecute } = useRequestManager()
+  const { showSuccess } = useAlert()
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
@@ -33,6 +40,41 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     )
   }, [showModalFormEdit])
 
+  const remove = async id => {
+    const result = await onDeleteExecute(EndPoint.get_liq(id))
+    if (result) {
+      showSuccess(`Đã xóa bản ghi id=${id}`)
+      setReload(true)
+      setShowModalFormEdit(false)
+    }
+  }
+
+  const handleActive = useCallback(id => {
+    Notification['info']({
+      title: 'Thiết bị',
+      duration: 10000,
+      description: (
+        <Wrapper>
+          <TextNotification>Bạn muốn xóa thiết bị này?</TextNotification>
+          <Toolbar>
+            <ButtonNotification
+              onClick={async () => {
+                Notification.close()
+                await remove(id)
+              }}
+              success
+            >
+              Xác nhận
+            </ButtonNotification>
+            <ButtonNotification onClick={() => Notification.close()}>
+              Hủy bỏ
+            </ButtonNotification>
+          </Toolbar>
+        </Wrapper>
+      )
+    })
+  }, [])
+
   return (
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormProduct()}
@@ -40,12 +82,12 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
-          icon={<Icon name='feather-eye' />}
+          icon={<Icon name='feather-edit' />}
         />
         <WrapperIconButton
-          onClick={() => setShowModalFormEdit(true)}
+          onClick={() => handleActive(rowData.id)}
           appearance='subtle'
-          icon={<Icon name='feather-edit' />}
+          icon={<Icon name='feather-trash' />}
         />
       </WrapperIcon>
     </Cell>

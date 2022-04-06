@@ -2,7 +2,7 @@ import { BasePagination, TextCell } from 'atoms'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Table } from 'rsuite'
+import { Table, Notification } from 'rsuite'
 import {
   Cell,
   Column,
@@ -30,7 +30,7 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
   }, [showModalFormEdit])
 
   const remove = async id => {
-    const result = await onDeleteExecute(EndPoint.get_dep(id))
+    const result = await onDeleteExecute(EndPoint.get_rep(id))
     if (result) {
       showSuccess(`Đã xóa bản ghi id=${id}`)
       setReload(true)
@@ -80,11 +80,11 @@ const ActionCell = ({ rowData, setReload, ...props }) => {
     <Cell {...props}>
       {showModalFormEdit && _renderModalFormProduct()}
       <WrapperIcon>
-        <WrapperIconButton
+        {/* <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'
           icon={<Icon name='feather-eye' />}
-        />
+        /> */}
         <WrapperIconButton
           onClick={() => setShowModalFormEdit(true)}
           appearance='subtle'

@@ -147,6 +147,10 @@ const Constant = {
     {value: 1, label: 'Đang chờ'},
     {value: 2, label: 'Đã duyệt'},
     {value: 3, label: 'Từ chối'},
+  ],
+  repstatus: [
+    {value: 1, label: 'Chưa hoàn thành'},
+    {value: 2, label: 'Hoàn thành'}
   ]
 }
 

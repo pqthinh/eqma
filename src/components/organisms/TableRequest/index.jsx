@@ -4,7 +4,7 @@ import { useAlert, useRequestManager } from 'hooks'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Table } from 'rsuite'
+import { Table,Notification } from 'rsuite'
 import {
   Cell,
   Column,
@@ -14,16 +14,53 @@ import {
   Modal,
   Wrapper,
   WrapperIcon,
-  WrapperIconButton
+  WrapperIconButton,
+  TextNotification,
+  Toolbar,
+  ButtonNotification
 } from './styled'
 
 const ActionCell = ({ rowData, setReload, appr, ...props }) => {
   const [showModalFormEdit, setShowModalFormEdit] = useState(false)
-  const { onPutExecute } = useRequestManager()
+  const { onPutExecute,onDeleteExecute } = useRequestManager()
   const { showSuccess } = useAlert()
   const hideModal = useCallback(() => {
     setShowModalFormEdit(false)
   }, [showModalFormEdit])
+
+  const remove = async id => {
+    const result = await onDeleteExecute(EndPoint.get_req(id))
+    if (result) {
+      showSuccess(`Đã xóa bản ghi id=${id}`)
+      setReload(true)
+    }
+  }
+
+  const handleActive = useCallback(id => {
+    Notification['info']({
+      title: 'Sửa chữa',
+      duration: 10000,
+      description: (
+        <Wrapper>
+          <TextNotification>Bạn muốn xóa bản ghi này?</TextNotification>
+          <Toolbar>
+            <ButtonNotification
+              onClick={async () => {
+                Notification.close()
+                await remove(id)
+              }}
+              success
+            >
+              Xác nhận
+            </ButtonNotification>
+            <ButtonNotification onClick={() => Notification.close()}>
+              Hủy bỏ
+            </ButtonNotification>
+          </Toolbar>
+        </Wrapper>
+      )
+    })
+  }, [])
 
   const _renderModalFormProduct = useCallback(() => {
     return (
@@ -73,12 +110,12 @@ const ActionCell = ({ rowData, setReload, appr, ...props }) => {
             <WrapperIconButton
               onClick={() => setShowModalFormEdit(true)}
               appearance='subtle'
-              icon={<Icon name='feather-eye' />}
+              icon={<Icon name='feather-edit' />}
             />
             <WrapperIconButton
-              onClick={() => setShowModalFormEdit(true)}
+              onClick={() => handleActive(rowData["id"])}
               appearance='subtle'
-              icon={<Icon name='feather-edit' />}
+              icon={<Icon name='feather-trash' />}
             />
           </>
         )}

@@ -2,7 +2,7 @@ import { BasePagination, TextCell } from 'atoms'
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
-import { Table } from 'rsuite'
+import { Table, Notification } from 'rsuite'
 import {
   Cell,
   Column,
