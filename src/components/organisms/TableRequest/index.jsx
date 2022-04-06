@@ -106,7 +106,10 @@ const TableEmployee = ({
             <Header>Chi tiết</Header>
             <TextCell dataKey='details' />
           </Column>
-
+          <Column width={100}>
+            <Header>Hình thức</Header>
+            <TextCell dataKey='type' type={true}/>
+          </Column>
           <Column width={100}>
             <Header>Trạng thái</Header>
             <TextCell dataKey='status' status={true}/>

@@ -15,10 +15,22 @@ const Request = ({ ...others }) => {
   const { onGetExecute } = useRequestManager()
 
   const searchInput = useDebounce(search, 3000)
+  const [filter, setFilter] = useState({
+    equipment_code: '',
+    type: '',
+    status: '',
+    employee_code: ''
+  })
 
-  const TopTab = React.useCallback(() => {
-    return <TopBody search={search} setSearch={setSearch} />
-  }, [search])
+  const handleChangeFilter = useCallback(
+    (field, value) => {
+      setFilter(prev => ({
+        ...prev,
+        [field]: value
+      }))
+    },
+    [filter]
+  )
 
   const _renderTableEmp = useCallback(() => {
     return (
@@ -32,6 +44,7 @@ const Request = ({ ...others }) => {
       />
     )
   }, [listRequest, page, totalRecord])
+  const submitSearch = () => {getListRequest({ name: searchInput, page: page, ...filter })}
 
   const getListRequest = useCallback(
     params => {
@@ -61,7 +74,14 @@ const Request = ({ ...others }) => {
   }, [searchInput, page])
 
   return (
-    <WrapperContent top={TopTab()} {...others}>
+    <WrapperContent top={<TopBody
+      search={search}
+      setSearch={setSearch}
+      filter={filter}
+      handleChangeFilter={handleChangeFilter}
+      submit={submitSearch}
+      se={{type: true, status: true, equipment_code: true, employee_code: true}}
+    />} {...others}>
       {_renderTableEmp()}
     </WrapperContent>
   )

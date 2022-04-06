@@ -20,7 +20,11 @@ export const Wrapper = styled(BaseContainer)`
 export const Button = styled(BaseButton)``
 
 export const Form = styled(BaseForm)`
-  width: 40%;
+  display: flex;
+  align-items: center;
+  .rs-form-group {
+    margin: 0 20px !important;
+  }
   .rs-input-group-addon {
     padding: 5px;
   }
