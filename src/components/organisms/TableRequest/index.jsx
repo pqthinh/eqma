@@ -87,9 +87,6 @@ const TableEmployee = ({
           id='table-req'
           height={window.innerHeight - 200}
           renderEmpty={() => {}}
-          onRowClick={rowData => {
-            console.log(rowData)
-          }}
           {...others}
         >
           <Column width={60} >
@@ -110,18 +107,18 @@ const TableEmployee = ({
             <TextCell dataKey='details' />
           </Column>
 
-          <Column width={120}>
+          <Column width={100}>
             <Header>Trạng thái</Header>
             <TextCell dataKey='status' status={true}/>
           </Column>
 
           <Column width={150} sortable>
-            <Header>Ngày sửa</Header>
+            <Header>Ngày yêu cầu</Header>
             <TextCell dataKey='start_date' />
           </Column>
 
           <Column width={150} sortable>
-            <Header>Ngày trả</Header>
+            <Header>Ngày đáp ứng</Header>
             <TextCell dataKey='end_date' />
           </Column>
           <Column width={100} align='center'>

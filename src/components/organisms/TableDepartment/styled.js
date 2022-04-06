@@ -51,6 +51,7 @@ export const Header = styled(Table.HeaderCell)`
       top: 2px;
     }
   }
+  text-align: left;
   line-height: 100%;
 `
 export const Modal = styled(BaseModal)`

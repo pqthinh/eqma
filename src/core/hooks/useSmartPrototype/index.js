@@ -58,10 +58,11 @@ const useSmartPrototype = () => {
 
     String.prototype.toDateTime = function () {
       try {
-        return dayjs()
-          .utc(this || new Date(), 'YYYY-MM-DD HH:mm:ss UTC')
+        if(dayjs(this).isValid()) return dayjs(this)
+          .utc('YYYY-MM-DD HH:mm:ss UTC')
           .local()
           .format('hh:mm DD/MM/YYYY')
+        return 'Không đúng định dạng date'
       } catch (e) {
         return null
       }

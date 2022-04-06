@@ -174,7 +174,7 @@ const TableEmployee = ({
             <TextCell dataKey='place' />
           </Column>
 
-          <Column width={120}>
+          <Column width={100}>
             <Header>Trạng thái</Header>
             <TextCell dataKey='status' repair={true}/>
           </Column>
@@ -184,7 +184,7 @@ const TableEmployee = ({
             <TextCell dataKey='start_date' />
           </Column>
 
-          <Column width={150} sortable align='center'>
+          <Column width={120} sortable align='center'>
             <Header>Ngày trả</Header>
             <TextCell dataKey='end_date' />
           </Column>

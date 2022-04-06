@@ -17,8 +17,8 @@ const TextCell = ({
   return (
     <WrapperCell {...others}>
       <Text>
-        {['ended_at', 'created_at'].indexOf(dataKey) >= 0
-          ? withEmpty(dataKey, rowData).toDate()
+        {['ended_at', 'created_at', 'start_date', 'end_date', 'updated_at', 'imported_date'].indexOf(dataKey) >= 0
+          ? withEmpty(dataKey, rowData).toDateTime()
           : type
           ? Constant.request_type[withEmpty(dataKey, rowData)]
           : status

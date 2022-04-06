@@ -8,6 +8,7 @@ export const Text = styled.p`
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
+  white-space: pre-line;
 `
 export const WrapperCell = styled(Cell)`
   .rs-table-cell-wrap {
